@@ -1,0 +1,185 @@
+{
+  "project_id": "5745591afec9101a0a63f23d",
+  "updated_at": 1464156693974,
+  "version_no": 0.04,
+  "actions": [
+    {
+      "action": "projects/all_projects",
+      "action_id": "5745591afec9101a0a63f23d",
+      "request_type": "GET",
+      "base_url": "http://172.16.144.218:4000/",
+      "dev_url": "http://172.16.144.218:4000/",
+      "qa_url": "http://172.16.144.218:4000/",
+      "staging_url": "http://172.16.144.218:4000/",
+      "production_url": "http://172.16.144.218:4000/",
+      "body_parameters": [],
+      "query_parameters": [],
+      "headers": []
+    },
+    {
+      "action": "projects/create_project",
+      "action_id": "5746a52e91eac6291f8b15fd",
+      "request_type": "POST",
+      "dev_url": "http://172.16.144.218:4000/",
+      "qa_url": "http://172.16.144.218:4000/",
+      "staging_url": "http://172.16.144.218:4000/",
+      "production_url": "http://172.16.144.218:4000/",
+      "body_parameters": [
+        {
+          "key_name": "user_email",
+          "validation_data_type": 2,
+          "validations": {
+            "format_string": 3,
+            "max": "0",
+            "min": "0",
+            "require": 1
+          }
+        },
+        {
+          "key_name": "name",
+          "validation_data_type": 2,
+          "validations": {
+            "max": "10",
+            "min": "5",
+            "require": 1,
+            "format_string": -1
+          }
+        }
+      ],
+      "query_parameters": [],
+      "headers": []
+    },
+    {
+      "action": "projects/update_project",
+      "action_id": "5742a28c5262ef7a1aae2977",
+      "request_type": "PUT",
+      "base_url": "http://172.16.144.218:4000/",
+      "dev_url": "http://172.16.144.218:4000/",
+      "qa_url": "http://172.16.144.218:4000/",
+      "staging_url": "http://172.16.144.218:4000/",
+      "production_url": "http://172.16.144.218:4000/",
+      "body_parameters": [
+        {
+          "key_name": "project_id",
+          "validation_data_type": 0,
+          "validations": {
+            "max": "0",
+            "min": "0",
+            "require": 1,
+            "format_string": -1
+          }
+        },
+        {
+          "key_name": "name",
+          "validation_data_type": 2,
+          "validations": {
+            "max": "10",
+            "min": "5",
+            "require": 1,
+            "format_string": -1
+          }
+        },
+        {
+          "key_name": "user_email",
+          "validation_data_type": 2,
+          "validations": {
+            "format_string": 3,
+            "max": "0",
+            "min": "0",
+            "require": 1
+          }
+        },
+        {
+          "key_name": "age",
+          "validation_data_type": 0,
+          "validations": {
+            "max": "70",
+            "min": "10",
+            "format_string": -1,
+            "require": 0
+          }
+        }
+      ],
+      "query_parameters": [],
+      "headers": []
+    },
+    {
+      "action": "projects/delete_project",
+      "action_id": "5742a2b95262ef7a1aae297d",
+      "request_type": "DELETE",
+      "base_url": "http://172.16.144.218:4000/",
+      "dev_url": "http://172.16.144.218:4000/",
+      "qa_url": "http://172.16.144.218:4000/",
+      "staging_url": "http://172.16.144.218:4000/",
+      "production_url": "http://172.16.144.218:4000/",
+      "body_parameters": [
+        {
+          "key_name": "project_id",
+          "validation_data_type": 0,
+          "validations": {
+            "max": "0",
+            "min": "0",
+            "require": 1,
+            "format_string": -1
+          }
+        }
+      ],
+      "query_parameters": [],
+      "headers": []
+    },
+    {
+      "action": "projects/image_upload",
+      "action_id": "5742a30b5262ef7a1aae2980",
+      "request_type": "POST",
+      "base_url": "http://172.16.144.218:4000/",
+      "dev_url": "http://172.16.144.218:4000/",
+      "qa_url": "http://172.16.144.218:4000/",
+      "staging_url": "http://172.16.144.218:4000/",
+      "production_url": "http://172.16.144.218:4000/",
+      "body_parameters": [
+        {
+          "key_name": "name",
+          "validation_data_type": 2,
+          "validations": {
+            "max": "10",
+            "min": "5",
+            "require": 1,
+            "format_string": -1
+          }
+        },
+        {
+          "key_name": "user_email",
+          "validation_data_type": 2,
+          "validations": {
+            "format_string": 3,
+            "max": "50",
+            "min": "5",
+            "require": 1
+          }
+        },
+        {
+          "key_name": "age",
+          "validation_data_type": 0,
+          "validations": {
+            "max": "70",
+            "min": "10",
+            "format_string": -1,
+            "require": 0
+          }
+        },
+        {
+          "key_name": "avatar",
+          "validation_data_type": 4,
+          "validations": {
+            "size": -1,
+            "format_file": "png",
+            "format_string": -1,
+            "require": 0
+          }
+        }
+      ],
+      "query_parameters": [],
+      "headers": []
+    }
+  ]
+}

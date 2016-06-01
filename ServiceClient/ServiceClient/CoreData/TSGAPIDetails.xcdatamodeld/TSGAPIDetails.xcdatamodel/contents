@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15F34" minimumToolsVersion="Xcode 7.0">
+    <entity name="API" representedClassName=".API" syncable="YES">
+        <attribute name="actionID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="actionName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="actionType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="baseURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dev_baseURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="prod_baseURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="qa_baseURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stage_baseURL" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="headers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Key" inverseName="headerAPI" inverseEntity="Key" syncable="YES"/>
+        <relationship name="parameters" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Key" inverseName="parameterAPI" inverseEntity="Key" syncable="YES"/>
+        <relationship name="project" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Project" inverseName="requiredAPI" inverseEntity="Project" syncable="YES"/>
+        <relationship name="queryParameters" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Key" inverseName="queriesAPI" inverseEntity="Key" syncable="YES"/>
+    </entity>
+    <entity name="Key" representedClassName=".Key" syncable="YES">
+        <attribute name="dataType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="format" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="keyName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="keyValues" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="maximumLength" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="minimumLength" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="required" optional="YES" attributeType="Boolean" defaultValueString="0" syncable="YES"/>
+        <attribute name="size" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="headerAPI" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="API" inverseName="headers" inverseEntity="API" syncable="YES"/>
+        <relationship name="parameterAPI" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="API" inverseName="parameters" inverseEntity="API" syncable="YES"/>
+        <relationship name="queriesAPI" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="API" inverseName="queryParameters" inverseEntity="API" syncable="YES"/>
+    </entity>
+    <entity name="Project" representedClassName=".Project" syncable="YES">
+        <attribute name="apiVersion" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastmodifiedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="projectID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="versionNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="requiredAPI" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="API" inverseName="project" inverseEntity="API" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="API" positionX="-54" positionY="27" width="128" height="225"/>
+        <element name="Key" positionX="-18" positionY="72" width="128" height="210"/>
+        <element name="Project" positionX="-63" positionY="0" width="128" height="120"/>
+    </elements>
+</model>
