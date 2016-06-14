@@ -39,10 +39,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.setProjecRunningID()
         }
         
+        let hitAnyRequest = UIAlertAction(title: "Any Request", style: .Default) { (alert:UIAlertAction) in
+            self.anyRequest()
+        }
         let getRequest = UIAlertAction(title: "GET Request", style: .Default) { (alert: UIAlertAction) in
             self.getRequest()
         }
         
+        let pathParamRequest = UIAlertAction(title: "PathParam Request", style: .Default) { (alert: UIAlertAction) in
+            self.pathParamRequest()
+        }
         let postRequest = UIAlertAction(title: "POST Request", style: .Default) { (alert: UIAlertAction) in
             self.postRequest()
         }
@@ -68,7 +74,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
         
         optionMenu.addAction(setProjectId)
+        optionMenu.addAction(hitAnyRequest)
         optionMenu.addAction(getRequest)
+        optionMenu.addAction(pathParamRequest)
         optionMenu.addAction(postRequest)
         optionMenu.addAction(putRequest)
         optionMenu.addAction(uploadRequest)
@@ -80,14 +88,38 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
     }
   
-    func downloadRequest() {
+    func pathParamRequest(){
+        let pathParamDict:NSMutableDictionary = NSMutableDictionary()
+        pathParamDict.setValue("4", forKey: "user-id")
         
+        TSGServiceManager.setProjectRuningMode(.DUMMY)
+        TSGServiceManager.performAction("5759249a62c18b953cf00e7f",withPathParams: pathParamDict, onSuccess: { (object) in
+            print(object)
+            }) { (status, error) in
+                print(error)
+        }
+    }
+    
+    func anyRequest(){
+        ServiceManager.setBaseURL("http://172.16.144.218:4000/")
+        ServiceManager.hitRequestForAPI("projects/all_projects", requestType: .GET, responseType: .JSON, success: { (object) in
+            print(object)
+        }) { (error) in
+            print(error)
+        }
+
+    }
+    
+    func downloadRequest() {
+        //http://www.charts.noaa.gov/BookletChart/
         activityIndicatorView.hidden = false
         activityIndicatorView.startAnimating()
         
         self.progressView.hidden = false
+        
+        ServiceManager.setBaseURL("http://jplayer.org/video/m4v/")
 
-        TSGServiceManager.downloadData("Download", param: ["fileName":"pdfFile"], progress: { (percentage) in
+        ServiceManager.downloadData("Big_Buck_Bunny_Trailer.m4v", requestType: .GET, progress: { (percentage) in
 
             dispatch_async(dispatch_get_main_queue()) {
                 print(percentage)
@@ -98,8 +130,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 self.activityIndicatorView.hidden = true
                 self.progressView.hidden = true
 
-            }) { (NSError) in
-                
+            }) { (error) in
+            print(error)
         }
     }
     

@@ -39,4 +39,11 @@ extension String {
         }
         
     }
+    
+    func findRangeIn(find: String) -> (Range<Index>?){
+        print(self.rangeOfString(find) != nil)
+        print(self.rangeOfString(find))
+
+        return (self.rangeOfString(find))
+    }
 }

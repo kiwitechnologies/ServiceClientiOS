@@ -98,7 +98,7 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 @import ObjectiveC;
 #endif
 
-#import "/Users/kiwitech/TSG-iOS/ServiceClient/ServiceClient/TSGServiceClient-Bridging-Header.h"
+#import "/Users/kiwitech/TSG-Master/ServiceClient/ServiceClient/TSGServiceClient-Bridging-Header.h"
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
@@ -121,10 +121,11 @@ SWIFT_CLASS("_TtC16TSGServiceClient3API")
 @property (nonatomic, copy) NSString * _Nullable prod_baseURL;
 @property (nonatomic, copy) NSString * _Nullable qa_baseURL;
 @property (nonatomic, copy) NSString * _Nullable stage_baseURL;
-@property (nonatomic, copy) NSString * _Nullable baseURL;
+@property (nonatomic, copy) NSString * _Nullable dummy_server_URL;
 @property (nonatomic, strong) NSNumber * _Nullable actionType;
 @property (nonatomic, copy) NSString * _Nullable actionName;
 @property (nonatomic, copy) NSString * _Nullable actionID;
+@property (nonatomic, strong) NSNumber * _Nullable params_parameters;
 @property (nonatomic, strong) Project * _Nullable project;
 @property (nonatomic, strong) NSSet * _Nullable parameters;
 @property (nonatomic, strong) NSSet * _Nullable headers;
@@ -559,7 +560,9 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 - (void)setDefaultHeader;
 + (void)setCustomHeader:(NSDictionary * _Nonnull)dict;
 + (void)removeCustomHeader;
-+ (void)requestedApi:(NSString * _Nonnull)actionID withQueryParam:(NSDictionary<NSString *, NSString *> * _Nullable)queryParamDict withParam:(NSDictionary<NSString *, NSString *> * _Nullable)params withTag:(NSString * _Nullable)apiTag onSuccess:(void (^ _Nonnull)(id _Nonnull))success onFailure:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))failed;
++ (void)requestedApi:(NSString * _Nonnull)actionID withQueryParam:(NSDictionary<NSString *, NSString *> * _Nullable)queryParamDict withParam:(NSDictionary<NSString *, NSString *> * _Nullable)params withPathParams:(NSMutableDictionary * _Nullable)pathParamDict withTag:(NSString * _Nullable)apiTag onSuccess:(void (^ _Nonnull)(id _Nonnull))success onFailure:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))failed;
+- (NSString * _Nonnull)createPathParamURL:(NSString * _Nonnull)tempURL pathParamDict:(NSMutableDictionary * _Nonnull)pathParamDict;
+- (void)checkPathParam:(NSString * _Nonnull)pathParamURLString;
 - (void)setBaseURL:(NSString * _Nonnull)url;
 + (void)downloadFile:(NSString * _Nonnull)actionName param:(NSDictionary * _Nonnull)param progressValue:(void (^ _Nonnull)(float percentage))progressValue success:(void (^ _Nonnull)(NSDictionary * _Nonnull response))success failure:(void (^ _Nonnull)(NSError * _Nonnull))failure;
 

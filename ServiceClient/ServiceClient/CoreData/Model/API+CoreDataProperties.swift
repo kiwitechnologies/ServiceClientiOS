@@ -18,10 +18,11 @@ extension API {
     @NSManaged var prod_baseURL: String?
     @NSManaged var qa_baseURL: String?
     @NSManaged var stage_baseURL: String?
-    @NSManaged var baseURL: String?
+    @NSManaged var dummy_server_URL: String?
     @NSManaged var actionType: NSNumber?
     @NSManaged var actionName: String?
     @NSManaged var actionID: String?
+    @NSManaged var params_parameters: NSNumber?
     @NSManaged var project: Project?
     @NSManaged var parameters: NSSet?
     @NSManaged var headers: NSSet?

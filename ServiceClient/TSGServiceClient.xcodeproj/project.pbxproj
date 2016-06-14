@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		2AB6FCA11D0EDD2500C289B5 /* TSGUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB6FCA01D0EDD2500C289B5 /* TSGUtility.swift */; };
 		D6030E4D1CC8EA1900101E68 /* TSGServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6030E4C1CC8EA1900101E68 /* TSGServiceManager.swift */; };
 		D611A7331CFC0721007BE409 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = D611A6FD1CFC0721007BE409 /* Alamofire.swift */; };
 		D611A7341CFC0721007BE409 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = D611A6FE1CFC0721007BE409 /* Download.swift */; };
@@ -72,10 +73,14 @@
 		D61DDA401CFCAA1C00FFA18F /* TSGAPIDetails.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D61DDA3E1CFCAA1C00FFA18F /* TSGAPIDetails.xcdatamodeld */; };
 		D61DDA521CFCB58300FFA18F /* TSGServiceManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = D6030E4C1CC8EA1900101E68 /* TSGServiceManager.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		D61DDA541CFCB9AC00FFA18F /* TSGServiceClient-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = D61DDA531CFCB9AC00FFA18F /* TSGServiceClient-Bridging-Header.h */; };
+		D67508681D0FCA1B00F179B3 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67508671D0FCA1B00F179B3 /* ServiceManager.swift */; };
+		D67508691D0FD6E900F179B3 /* ServiceManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = D67508671D0FCA1B00F179B3 /* ServiceManager.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		D675086A1D0FD6F400F179B3 /* TSGEnum.swift in Headers */ = {isa = PBXBuildFile; fileRef = D611A72E1CFC0721007BE409 /* TSGEnum.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		D687D89F1CFDB44700F985E2 /* String+Validations.swift in Headers */ = {isa = PBXBuildFile; fileRef = D611A72C1CFC0721007BE409 /* String+Validations.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2AB6FCA01D0EDD2500C289B5 /* TSGUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGUtility.swift; sourceTree = "<group>"; };
 		D6030E4C1CC8EA1900101E68 /* TSGServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGServiceManager.swift; sourceTree = "<group>"; };
 		D611A6FD1CFC0721007BE409 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
 		D611A6FE1CFC0721007BE409 /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
@@ -127,6 +132,7 @@
 		D618B63C1CB7B88F0044D96D /* TSGHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGHelper.swift; sourceTree = "<group>"; };
 		D61DDA3F1CFCAA1C00FFA18F /* TSGAPIDetails.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TSGAPIDetails.xcdatamodel; sourceTree = "<group>"; };
 		D61DDA531CFCB9AC00FFA18F /* TSGServiceClient-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TSGServiceClient-Bridging-Header.h"; sourceTree = "<group>"; };
+		D67508671D0FCA1B00F179B3 /* ServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +146,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2AB6FC9F1D0EDD0400C289B5 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				D611A72C1CFC0721007BE409 /* String+Validations.swift */,
+				D611A72D1CFC0721007BE409 /* StringConstants.swift */,
+				D611A72E1CFC0721007BE409 /* TSGEnum.swift */,
+				D611A72F1CFC0721007BE409 /* TSGErrorManager.swift */,
+				D611A7301CFC0721007BE409 /* TSGErrorValuesHolder.swift */,
+				D611A7311CFC0721007BE409 /* TSGValidationHelper.swift */,
+				D611A7321CFC0721007BE409 /* TSGValidationManager.swift */,
+				2AB6FCA01D0EDD2500C289B5 /* TSGUtility.swift */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
 		D611A6FC1CFC0721007BE409 /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -251,19 +272,14 @@
 		D618B6331CB7B87E0044D96D /* ServiceClient */ = {
 			isa = PBXGroup;
 			children = (
+				D6030E4C1CC8EA1900101E68 /* TSGServiceManager.swift */,
+				D67508671D0FCA1B00F179B3 /* ServiceManager.swift */,
+				D618B63C1CB7B88F0044D96D /* TSGHelper.swift */,
+				D618B6341CB7B87E0044D96D /* ServiceClient.h */,
+				2AB6FC9F1D0EDD0400C289B5 /* Utility */,
 				D611A77B1CFC08B3007BE409 /* JSONModel */,
 				D611A6FC1CFC0721007BE409 /* AFNetworking */,
 				D611A70E1CFC0721007BE409 /* CoreData */,
-				D611A72C1CFC0721007BE409 /* String+Validations.swift */,
-				D611A72D1CFC0721007BE409 /* StringConstants.swift */,
-				D611A72E1CFC0721007BE409 /* TSGEnum.swift */,
-				D611A72F1CFC0721007BE409 /* TSGErrorManager.swift */,
-				D611A7301CFC0721007BE409 /* TSGErrorValuesHolder.swift */,
-				D611A7311CFC0721007BE409 /* TSGValidationHelper.swift */,
-				D611A7321CFC0721007BE409 /* TSGValidationManager.swift */,
-				D618B63C1CB7B88F0044D96D /* TSGHelper.swift */,
-				D6030E4C1CC8EA1900101E68 /* TSGServiceManager.swift */,
-				D618B6341CB7B87E0044D96D /* ServiceClient.h */,
 				D618B6361CB7B87E0044D96D /* Info.plist */,
 			);
 			path = ServiceClient;
@@ -277,6 +293,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D611A78D1CFC08B3007BE409 /* JSONModelError.h in Headers */,
+				D675086A1D0FD6F400F179B3 /* TSGEnum.swift in Headers */,
+				D67508691D0FD6E900F179B3 /* ServiceManager.swift in Headers */,
 				D611A7451CFC0721007BE409 /* CoreDataHelper.h in Headers */,
 				D687D89F1CFDB44700F985E2 /* String+Validations.swift in Headers */,
 				D61DDA541CFCB9AC00FFA18F /* TSGServiceClient-Bridging-Header.h in Headers */,
@@ -384,6 +402,7 @@
 				D611A7371CFC0721007BE409 /* MultipartFormData.swift in Sources */,
 				D6030E4D1CC8EA1900101E68 /* TSGServiceManager.swift in Sources */,
 				D611A74A1CFC0721007BE409 /* Key.swift in Sources */,
+				D67508681D0FCA1B00F179B3 /* ServiceManager.swift in Sources */,
 				D611A75B1CFC0721007BE409 /* String+Validations.swift in Sources */,
 				D611A78E1CFC08B3007BE409 /* JSONModelError.m in Sources */,
 				D611A7461CFC0721007BE409 /* CoreDataHelper.m in Sources */,
@@ -391,6 +410,7 @@
 				D611A7931CFC08B3007BE409 /* JSONValueTransformer.m in Sources */,
 				D611A73B1CFC0721007BE409 /* Request.swift in Sources */,
 				D611A78A1CFC08B3007BE409 /* JSONModel.m in Sources */,
+				2AB6FCA11D0EDD2500C289B5 /* TSGUtility.swift in Sources */,
 				D611A73D1CFC0721007BE409 /* ResponseSerialization.swift in Sources */,
 				D611A7431CFC0721007BE409 /* Validation.swift in Sources */,
 				D611A7391CFC0721007BE409 /* Notifications.swift in Sources */,

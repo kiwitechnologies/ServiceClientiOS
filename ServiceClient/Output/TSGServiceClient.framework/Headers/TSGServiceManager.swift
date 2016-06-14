@@ -58,9 +58,9 @@ public class TSGServiceManager {
      */
     
 
-    public class func performAction(actionID:String,withQueryParam queryParamDict:[String:String]?=nil, withParams dict:[String:String]?=nil, withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(), onFailure failed:(Bool, NSError)->()){
+    public class func performAction(actionID:String,withQueryParam queryParamDict:[String:String]?=nil, withParams dict:[String:String]?=nil,withPathParams pathParamDict:NSMutableDictionary?=nil ,withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(), onFailure failed:(Bool, NSError)->()){
 
-        TSGHelper.requestedApi(actionID,withQueryParam: queryParamDict, withParam: dict, withTag:apiTag,  onSuccess: { (dictionary) in
+        TSGHelper.requestedApi(actionID,withQueryParam: queryParamDict, withParam: dict,withPathParams: pathParamDict, withTag:apiTag,  onSuccess: { (dictionary) in
             success(dictionary)
             }) { (bool, error) in
             failed(bool,error)

@@ -35,7 +35,7 @@ public class API: NSManagedObject {
             
             apiObj.actionName = actionName as? String
             apiObj.actionID = actionID as? String
-            apiObj.baseURL = api.valueForKey("base_url") as? String
+            apiObj.dummy_server_URL = api.valueForKey("dummy_server_url") as? String
             apiObj.dev_baseURL = api.valueForKey("dev_url") as? String
             apiObj.qa_baseURL = api.valueForKey("qa_url") as? String
             apiObj.stage_baseURL = api.valueForKey("staging_url") as? String
@@ -44,7 +44,10 @@ public class API: NSManagedObject {
             let headerDictionary = api.valueForKey("headers")
             let bodyDicitionary = api.valueForKey("body_parameters")
             let queryDictionary = api.valueForKey("query_parameters")
+            let requiredKey:Int = api.valueForKey("params_parameters") as! Int
             
+            apiObj.params_parameters = NSNumber(integer: requiredKey)
+
             apiObj.headers = Key.allHeaders(headerDictionary, context: context)
             apiObj.parameters = Key.allParameters(bodyDicitionary, context: context)
             

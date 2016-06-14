@@ -56,7 +56,7 @@
                                 <rect key="frame" x="177" y="329" width="20" height="20"/>
                                 <color key="color" red="0.40018926669999999" green="0.17220850360000001" blue="0.94199391590000003" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <progressView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WO9-ow-8O1">
+                            <progressView hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WO9-ow-8O1">
                                 <rect key="frame" x="25" y="353" width="330" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="FOq-PE-JHC"/>

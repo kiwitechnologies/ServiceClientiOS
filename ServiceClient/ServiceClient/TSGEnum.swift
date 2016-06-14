@@ -65,6 +65,7 @@ public enum AppRuningModeType:Int {
     case STAGING
     case TESTING
     case DEVELOPMENT
+    case DUMMY
 }
 
 public enum MimeType:Int {

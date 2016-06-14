@@ -14,22 +14,104 @@ public class TSGHelper: NSObject
     var appVersion:String?
     var projectOBJ:Project?
     var req:Request?
-    var setContentType:String?
+    //var setContentType:String?
     var apiHeaderDict:NSMutableDictionary!
     let mutRequestDict:NSMutableDictionary = NSMutableDictionary ()
     
-    var appRuningMode:AppRuningModeType {
+    //Alamofire Manager
+    var manager:Manager!
+    /*
+     *Singleton method
+     */
+    public class var sharedInstance: TSGHelper
+    {
+        struct Static {
+            static var onceToken: dispatch_once_t = 0
+            static var instance: TSGHelper? = nil
+        }
+        dispatch_once(&Static.onceToken) {
+            Static.instance = TSGHelper()
+        }
+        return Static.instance!
+    }
+    
+    var serviceCount:Int
+        {
+        didSet
+        {
+            if(self.serviceCount == 0)
+            {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                
+            }
+            else
+            {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            }
+        }
+    }
+    
+    override init()
+    {
+        self.serviceCount = 0
+        self.appRuningMode = .DEVELOPMENT
+        super.init()
+        setDefaultHeader()
+        setAppRuningMode()
+    }
+    
+    public func setDefaultHeader()
+    {
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.timeoutIntervalForRequest = 60
+        configuration.timeoutIntervalForResource = 60
+        configuration.HTTPAdditionalHeaders = Manager.defaultHTTPHeaders
+        self.manager = Manager(configuration: configuration)
+    }
+    
+    public class func setBaseURL(url:String)
+    {
+        TSGHelper.sharedInstance.baseUrl = url
+    }
+    
+    internal class func setCustomHeader(dict:[NSObject:AnyObject])
+    {
+        
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.timeoutIntervalForRequest = 60
+        configuration.timeoutIntervalForResource = 60
+        configuration.HTTPAdditionalHeaders = dict
+        TSGHelper.sharedInstance.manager = Manager(configuration: configuration)
+        
+        if (TSGHelper.sharedInstance.apiHeaderDict != nil) {
+            TSGHelper.sharedInstance.apiHeaderDict.removeAllObjects() }
+        
+        TSGHelper.sharedInstance.apiHeaderDict = NSMutableDictionary(dictionary: configuration.HTTPAdditionalHeaders!)
+    }
+    
+    public class func removeCustomHeader()
+    {
+        TSGHelper.sharedInstance.setDefaultHeader()
+    }
+    
+    
+    /*************************************************************************************************************************************      ALL WEB-TOOL METHODS
+     
+    *************************************************************************************************************************************/
+    
+    //MARK: WEB tool methods
+    var appRuningMode:AppRuningModeType
+    {
         didSet
         {
             let path = NSBundle.mainBundle().pathForResource("api_validation", ofType: "json")
             let data : NSData = try! NSData(contentsOfFile: path! as String, options: NSDataReadingOptions.DataReadingMapped)
             let dict: NSDictionary!=(try! NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
             let mutDict:NSMutableDictionary = NSMutableDictionary (dictionary: dict)
-            
-            
-            switch appRuningMode {
+            switch appRuningMode
+            {
                 
-            case .STAGING,.TESTING,.DEVELOPMENT:
+            case .STAGING,.TESTING,.DEVELOPMENT, .DUMMY:
                 saveProjectID(mutDict)
                 break
                 
@@ -64,86 +146,44 @@ public class TSGHelper: NSObject
     var action:String!
     var apiName:String!
     
-    //Alamofire Manager
-    var manager:Manager!
-    
-    /*
-     *Singleton method
-     */
-    public class var sharedInstance: TSGHelper {
-        
-        struct Static {
-            static var onceToken: dispatch_once_t = 0
-            static var instance: TSGHelper? = nil
-        }
-        dispatch_once(&Static.onceToken) {
-            Static.instance = TSGHelper()
-        }
-        return Static.instance!
+    internal func saveProjectID(dict:NSMutableDictionary) {
+        Project.saveProjectInfo(dict)
     }
     
-    var serviceCount:Int{
+    internal func getAPIVersion( sucess:(dic:NSDictionary)->(), failure:(error:NSError)-> ()){
         
-        didSet
-        {
-            if(self.serviceCount == 0)
-            {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                
-            }
-            else
-            {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        let obj = TSGHelper.sharedInstance
+        projectOBJ = Project.getProjectDetail(pid) as? Project
+        var dict:NSDictionary!
+        
+        let string = projectOBJ?.projectID
+        
+        let urlString:String! = "http://kiwitechopensource.com/tsg/projects/\((string!))/version"
+        
+        
+        obj.getDataFromUrl(urlString,withActionID:"Default", params: [:], typeOfRequest: .GET, typeOfResponse: .JSON, success: { (obj) in
+            
+            var result:String!
+            
+            if obj.valueForKey("version_no")! as! NSNumber == (self.projectOBJ?.apiVersion!)!{
+                result = "Success! Version numbers are matching"
+            } else {
+                result = "Failed! Version numbers are not matching"
                 
             }
             
+            dict = ["server_api_version_no":obj.valueForKey("version_no")!, "local_api_version_no":(self.projectOBJ?.apiVersion)!,
+                "Result":result]
+            
+            
+            sucess(dic: dict)
+        }) { (error) in
+            print("Faliure \(error)")
+            failure(error: error)
         }
     }
     
-    override init()
-    {
-        self.serviceCount = 0
-        self.appRuningMode = .DEVELOPMENT
-        super.init()
-        setDefaultHeader()
-        setAppRuningMode()
-        
-    }
-    
-    internal func setAppRuningMode(){
-        self.appRuningMode = .DEVELOPMENT
-    }
-    
-    public func setDefaultHeader()
-    {
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.timeoutIntervalForRequest = 60
-        configuration.timeoutIntervalForResource = 60
-        configuration.HTTPAdditionalHeaders = Manager.defaultHTTPHeaders
-        self.manager = Manager(configuration: configuration)
-    }
-    
-    internal class func setCustomHeader(dict:[NSObject:AnyObject]){
-        
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.timeoutIntervalForRequest = 60
-        configuration.timeoutIntervalForResource = 60
-        configuration.HTTPAdditionalHeaders = dict
-        TSGHelper.sharedInstance.manager = Manager(configuration: configuration)
-        
-        if (TSGHelper.sharedInstance.apiHeaderDict != nil) {
-            TSGHelper.sharedInstance.apiHeaderDict.removeAllObjects() }
-        
-        TSGHelper.sharedInstance.apiHeaderDict = NSMutableDictionary(dictionary: configuration.HTTPAdditionalHeaders!)
-        
-    }
-    
-    public class func removeCustomHeader() {
-        TSGHelper.sharedInstance.setDefaultHeader()
-        
-    }
-    
-    public class func requestedApi(actionID:String,withQueryParam queryParamDict:[String:String]?=nil, withParam params:[String:String]?=nil ,withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(),
+    public class func requestedApi(actionID:String,withQueryParam queryParamDict:[String:String]?=nil, withParam params:[String:String]?=nil ,withPathParams pathParamDict:NSMutableDictionary?=nil, withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(),
                                    onFailure failed:(Bool,NSError)->()){
         let obj = TSGHelper.sharedInstance
         
@@ -165,14 +205,22 @@ public class TSGHelper: NSObject
                 completeURL = apiObj.dev_baseURL! + apiObj.actionName!
             } else if TSGHelper.sharedInstance.appRuningMode == .TESTING {
                 completeURL = apiObj.qa_baseURL! + apiObj.actionName!
-
+                
             } else if TSGHelper.sharedInstance.appRuningMode == .STAGING {
                 completeURL = apiObj.stage_baseURL! + apiObj.actionName!
-
+                
             } else if TSGHelper.sharedInstance.appRuningMode == .PRODUCTION {
                 completeURL = apiObj.prod_baseURL! + apiObj.actionName!
-            }
+            } else if TSGHelper.sharedInstance.appRuningMode == .DUMMY {
+                completeURL = apiObj.dummy_server_URL! + apiObj.actionName!
 
+            }
+            
+            if apiObj.params_parameters == 1 {
+                
+                completeURL = TSGUtility.createPathParamURL(completeURL, pathParamDict: pathParamDict!)
+            }
+            
             obj.getDataFromUrl(completeURL,withActionID:actionID, withQueryParam:queryParamDict, params: params, typeOfRequest:requestType, typeOfResponse: .JSON, success: { (dict) in
                 
                 success(dict)
@@ -185,20 +233,111 @@ public class TSGHelper: NSObject
             failed(true,error)
         }
     }
-    
- public class func setProjectRuningMode(releaseMode:AppRuningModeType) {
-        
+
+    public class func setProjectRuningMode(releaseMode:AppRuningModeType)
+    {
         let obj = TSGHelper.sharedInstance
         obj.pid = NSUserDefaults().valueForKey("ProjectID") as? String
-        
         obj.appRuningMode = releaseMode
+    }
+    
+    internal func setAppRuningMode()
+    {
+        self.appRuningMode = .DEVELOPMENT
+    }
+    
+    //Mutlipart upload file method
+    /**
+     Upload any file in the form of NSData
+     - parameter url: upload url
+     - parameter imageData:  File data to upload.
+     - parameter success: Block to handle response
+     - parameter failure: Block to handle error
+     */
+
+    public class func uploadFileWith(actionName: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void)
+    {
+        
+        
+        let imageData = TSGUtility.changeImageResolution(bodyParams.valueForKey(dataKeyName) as! NSData, withImageQuality: imageQuality!)
+        
+        let dictParams = NSMutableDictionary(dictionary:bodyParams)
+        dictParams.removeObjectForKey(dataKeyName)
+        
+        TSGValidationManager.validateActionData(actionName, withDic: bodyParams,withHeaderDic: TSGHelper.sharedInstance.apiHeaderDict, withOptionalData:imageData , onSuccess: { (object, str) in
+            
+            var completeURL:String!
+            
+            if TSGHelper.sharedInstance.appRuningMode == .DEVELOPMENT  {
+                completeURL = (object as! API).dev_baseURL! + (object as! API).actionName!
+            } else if TSGHelper.sharedInstance.appRuningMode == .TESTING {
+                completeURL = (object as! API).qa_baseURL! + (object as! API).actionName!
+                
+            } else if TSGHelper.sharedInstance.appRuningMode == .STAGING {
+                completeURL = (object as! API).stage_baseURL! + (object as! API).actionName!
+                
+            } else if TSGHelper.sharedInstance.appRuningMode == .PRODUCTION {
+                completeURL = (object as! API).prod_baseURL! + (object as! API).actionName!
+            }
+            
+            TSGHelper.sharedInstance.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType, progress: { (percent) in
+                progress(percent: percent)
+                }, success: { (response) in
+                    success(response: response)
+                }, failure: { (error) in
+                    failure(error)
+            })
+            
+        }) { (error) in
+            print(error)
+        }
         
     }
-    
-    internal func setBaseURL(url:String) {
-        self.baseUrl = url
+
+    /*************************************************************************************************************************************      NON WEB-TOOL METHODS
+     
+     *************************************************************************************************************************************/
+    //MARK:  NON-WebTool Methods
+
+    class func hitRequestForAPI(path:String, withQueryParam queryParam:[String:String]?=nil, bodyParam:NSDictionary?=nil,typeOfRequest:RequestType, typeOFResponse:ResponseMethod, withApiTag apiTag:String?=nil, success:AnyObject->Void, failure:NSError -> Void){
+        
+        let completeURL = TSGHelper.sharedInstance.baseUrl + path
+        
+        var actionID:String!
+        
+        if apiTag != nil {
+            actionID = apiTag
+        } else {
+            actionID = "0"
+        }
+       
+        TSGHelper.sharedInstance.getDataFromUrl(completeURL,withActionID: actionID, withQueryParam: queryParam, params: bodyParam, typeOfRequest: typeOfRequest, typeOfResponse: typeOFResponse, success: { (object) in
+            success(object)
+            
+        }) { (error) in
+            failure(error)
+        }
+
     }
     
+    public class func uploadWith(path: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void)
+    {
+        
+        let dictParams = NSMutableDictionary(dictionary:bodyParams)
+        dictParams.removeObjectForKey(dataKeyName)
+        
+        let completeURL = TSGHelper.sharedInstance.baseUrl + path
+        
+        TSGHelper.sharedInstance.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType, progress: { (percent) in
+            progress(percent: percent)
+            }, success: { (response) in
+                success(response: response)
+        }) { (error) in
+            failure(error)
+        }
+        
+    }
+
     /**
      - Http request using GET,POST,PUT,DELETE
      - parameter url:   The URL string.
@@ -207,11 +346,12 @@ public class TSGHelper: NSObject
      - parameter returnResponse: block handles the response
      */
     
-    internal func getDataFromUrl( url:String,withActionID actionID:String, withQueryParam queryParamDict:[String:String]?=nil, params:NSDictionary?=nil,typeOfRequest:RequestType, typeOfResponse:ResponseMethod, withApiTag apiTag:String?=nil, success: AnyObject -> Void,failure: NSError -> Void)
+    //MARK: Common Methods
+
+    internal func getDataFromUrl( url:String,withActionID  actionID:String, withQueryParam queryParamDict:[String:String]?=nil, params:NSDictionary?=nil,typeOfRequest:RequestType, typeOfResponse:ResponseMethod, withApiTag apiTag:String?=nil, success: AnyObject -> Void,failure: NSError -> Void)
     {
         
         self.serviceCount = self.serviceCount + 1
-      //  url = "\(url)"
         
         switch(typeOfRequest)
         {
@@ -235,6 +375,7 @@ public class TSGHelper: NSObject
         
         
         var requestArray:NSMutableArray!
+        
         
         if self.mutRequestDict.objectForKey(actionID) != nil {
             requestArray = self.mutRequestDict.objectForKey(actionID) as! NSMutableArray
@@ -320,175 +461,110 @@ public class TSGHelper: NSObject
         }
     }
     
-    //Mutlipart upload file method
-    /**
-     Upload any file in the form of NSData
-     - parameter url: upload url
-     - parameter imageData:  File data to upload.
-     - parameter success: Block to handle response
-     - parameter failure: Block to handle error
-     */
-    
-    public class func uploadFile(actionName: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void)
-    {
+    internal func uploadFile(completeURL:String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void){
+        
         let obj = TSGHelper.sharedInstance
-        
-        //let imageData = bodyParams.valueForKey(dataKeyName) as! NSData
-        
-        let imageData = TSGHelper.sharedInstance.changeImageResolution(bodyParams.valueForKey(dataKeyName) as! NSData, withImageQuality: imageQuality!)
-        
+        let imageData = TSGUtility.changeImageResolution(bodyParams.valueForKey(dataKeyName) as! NSData, withImageQuality: imageQuality!)
         let dictParams = NSMutableDictionary(dictionary:bodyParams)
         dictParams.removeObjectForKey(dataKeyName)
-        
-        let mimeType:String = obj.returnMimeType(mimeType)
-        
-        TSGValidationManager.validateActionData(actionName, withDic: bodyParams,withHeaderDic: TSGHelper.sharedInstance.apiHeaderDict, withOptionalData:imageData , onSuccess: { (object, str) in
-            
-            var completeURL:String!
-            
-            if TSGHelper.sharedInstance.appRuningMode == .DEVELOPMENT  {
-                completeURL = (object as! API).dev_baseURL! + (object as! API).actionName!
-            } else if TSGHelper.sharedInstance.appRuningMode == .TESTING {
-                completeURL = (object as! API).qa_baseURL! + (object as! API).actionName!
-                
-            } else if TSGHelper.sharedInstance.appRuningMode == .STAGING {
-                completeURL = (object as! API).stage_baseURL! + (object as! API).actionName!
-                
-            } else if TSGHelper.sharedInstance.appRuningMode == .PRODUCTION {
-                completeURL = (object as! API).prod_baseURL! + (object as! API).actionName!
-            }
 
-            print("*************************\(completeURL)")
-            obj.manager.upload(
-                .POST,
-                completeURL,
-                multipartFormData: { multipartFormData in
-                    multipartFormData.appendBodyPart(data: imageData, name: dataKeyName,
-                        fileName: "\(dataKeyName).\(mimeType.componentsSeparatedByString("/").last!)", mimeType: mimeType)
-                    
-                    for (key, value) in dictParams {
-                        multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key as! String)
-                    }
-                    
-                },
-                encodingCompletion: { encodingResult in
-                    
-                    switch encodingResult {
-                        
-                    case .Success(let upload, _, _):
-                        
-                        upload.progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
-                            dispatch_async(dispatch_get_main_queue()) {
-                                let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
-                                progress(percent: percent)
-                                
-                            }
-                        }
-                        //  upload.validate()
-                        upload.responseJSON(completionHandler: { (response) in
-                            print("i M IN \(response.response?.statusCode)")
+        let mimeType:String = TSGUtility.returnMimeType(mimeType)
 
-                            dispatch_async(dispatch_get_main_queue(),
-                                {
-                                    obj.serviceCount = obj.serviceCount - 1
-                                    
-                                    if response.response?.statusCode <= 200 {
-                                        
-                                        if response.result.value != nil {
-                                            success(response: response.result.value!)
-                                        } else {
-                                            failure(response.result.error!)
-                                        }
-                                        
-                                    } else {
-                                        if response.result.error != nil {
-                                            failure(response.result.error!)
-                                        }
-                                    }
-                            })
-                            
-                            //    success(response:response.result.value!)
-                            
-                        })
-                        
-                        
-                    case .Failure(let encodingError):
-                        print("Encoding error------------------------\(encodingError)")
-                    }
+        obj.manager.upload(
+            .POST,
+            completeURL,
+            multipartFormData: { multipartFormData in
+                multipartFormData.appendBodyPart(data: imageData, name: dataKeyName,
+                    fileName: "\(dataKeyName).\(mimeType.componentsSeparatedByString("/").last!)", mimeType: mimeType)
+                
+                for (key, value) in dictParams {
+                    multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key as! String)
                 }
-            )
-            
-        }) { (error) in
-            print(error)
-        }
-        
+                
+            },
+            encodingCompletion: { encodingResult in
+                
+                switch encodingResult {
+                    
+                case .Success(let upload, _, _):
+                    
+                    upload.progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
+                            progress(percent: percent)
+                            print(percent)
+                            
+                        }
+                    }
+                    upload.responseJSON(completionHandler: { (response) in
+                        
+                        dispatch_async(dispatch_get_main_queue(),
+                            {
+                                obj.serviceCount = obj.serviceCount - 1
+                                
+                                if response.response?.statusCode <= 200 {
+                                    
+                                    if response.result.value != nil {
+                                        success(response: response.result.value!)
+                                    } else {
+                                        failure(response.result.error!)
+                                    }
+                                    
+                                } else {
+                                    if response.result.error != nil {
+                                        failure(response.result.error!)
+                                    }
+                                }
+                        })
+                    })
+                    
+                    
+                case .Failure(let encodingError):
+                    print("Encoding error------------------------\(encodingError)")
+                }
+            }
+        )
     }
     
-    internal func changeImageResolution(imageData:NSData, withImageQuality imageQuality:ImageQuality)-> NSData {
-        
-        let imageSize:Int = imageData.length
-        let imageKBSize:Int = imageSize/1024
-        var imgData: NSData!
-        
-        let image = UIImage(data: imageData)
-        
-        switch imageQuality {
-        case .HIGH:
-            if imageKBSize > 3000 {
-                imgData =  UIImageJPEGRepresentation(image!, 0.7)!
-                
-            }
-            break
-        case .LOW:
-            if imageKBSize > 1500 {
-                imgData =  UIImageJPEGRepresentation(image!, 0.3)!
-                
-            }
-            break
-        case .MEDIUM:
-            if imageKBSize < 3000 && imageKBSize > 1500 {
-                imgData =  UIImageJPEGRepresentation(image!, 0.5)!
-                
-            }
-            break
-            
-        }
-        return imgData
-    }
-    
-    /*
+      /*
      Download any file
      - paramter url: Download url
      - parameter success: Block to handle response
      - parameter failure: Block to handle error
      */
     
-    public class func downloadFile(actionName:String, param:NSDictionary,progressValue:(percentage:Float)->Void, success:(response:NSDictionary) -> Void, failure:NSError->Void)
+    public class func downloadFile(path:String, param:NSDictionary?=nil,requestType:RequestType,progressValue:(percentage:Float)->Void, success:(response:AnyObject) -> Void, failure:NSError->Void)
     {
+        let completeURL = TSGHelper.sharedInstance.baseUrl + path
         let obj = TSGHelper.sharedInstance
-//        
-//        let destination: (NSURL, NSHTTPURLResponse) -> (NSURL) = {
-//            (temporaryURL, response) in
-//            
-//            if let directoryURL:NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0] {
-//                
-//                let localImageURL = directoryURL.URLByAppendingPathComponent("\(response.suggestedFilename!)")
-//                return localImageURL
-//            }
-//            return temporaryURL
-//        }
-//        
-//        print(destination)
         let destination = Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
 
-        obj.req =  obj.manager.download(.GET, "http://www.charts.noaa.gov/BookletChart/11441_BookletChart.pdf",parameters:nil,
+        var requestMethod:Method = .GET
+    
+        switch requestType {
+        case .GET:
+            requestMethod = .GET
+            
+        case .POST:
+            requestMethod = .POST
+        case .DELETE:
+            requestMethod = .DELETE
+        case .PUT:
+            requestMethod = .PUT
+        }
+        obj.req =  obj.manager.download(requestMethod, completeURL,parameters:param as? [String : AnyObject],
             destination: destination)
             .progress { bytesRead, totalBytesRead, totalBytesExpectedToRead in
                 let percentage = (Float(totalBytesRead) / Float(totalBytesExpectedToRead))
                 progressValue(percentage: percentage)
             }
             .response { _,response, _, error in
-                print(error)
+
+                if response != nil {
+                    success(response: response!)}
+                if error != nil {
+                    failure(error!)
+                }
         }
 
     }
@@ -498,7 +574,7 @@ public class TSGHelper: NSObject
      - paramter url: Resume download url
      - parameter success: Block to handle response
      */
-    internal func resumeDownloads(url:String,success:(Int64,totalBytes:Int64)-> Void)
+    public class func resumeDownloads(url:String,success:(Int64,totalBytes:Int64)-> Void)
     {
         let obj = TSGHelper.sharedInstance
         
@@ -520,47 +596,11 @@ public class TSGHelper: NSObject
         }
     }
     
-    internal func saveProjectID(dict:NSMutableDictionary) {
-        Project.saveProjectInfo(dict)
-    }
-    
-    internal func getAPIVersion( sucess:(dic:NSDictionary)->(), failure:(error:NSError)-> ()){
-        
-        let obj = TSGHelper.sharedInstance
-        projectOBJ = Project.getProjectDetail(pid) as? Project
-        var dict:NSDictionary!
-        
-        let string = projectOBJ?.projectID
-        
-        let urlString:String! = "http://kiwitechopensource.com/tsg/projects/\((string!))/version"
-        
-        
-        obj.getDataFromUrl(urlString,withActionID:"Default", params: [:], typeOfRequest: .GET, typeOfResponse: .JSON, success: { (obj) in
-            
-            var result:String!
-            
-            if obj.valueForKey("version_no")! as! NSNumber == (self.projectOBJ?.apiVersion!)!{
-                result = "Success! Version numbers are matching"
-            } else {
-                result = "Failed! Version numbers are not matching"
-                
-            }
-            
-            dict = ["server_api_version_no":obj.valueForKey("version_no")!, "local_api_version_no":(self.projectOBJ?.apiVersion)!,
-                "Result":result]
-            
-            
-            sucess(dic: dict)
-        }) { (error) in
-            print("Faliure \(error)")
-            failure(error: error)
-        }
-    }
-    
     /**
      Cancel any ongoing alamofire operation
      */
-    public class func cancelAllRequests() {
+    public class func cancelAllRequests()
+    {
         let obj = TSGHelper.sharedInstance
         
         let allKeys = obj.mutRequestDict.allKeys
@@ -578,36 +618,19 @@ public class TSGHelper: NSObject
         
     }
     
-    public class func cancelRequestWithTag(actionID:String) {
+    public class func cancelRequestWithTag(actionID:String)
+    {
         
         let obj = TSGHelper.sharedInstance
         
         if let req = (obj.mutRequestDict.valueForKey(actionID )) {
-            for key in req as! NSMutableArray {
+            for key in req as! NSMutableArray
+            {
                 (key as! Request).cancel()
                 print("CancelRequest with \((key as! Request))")
                 
             }
         }
     }
-    
-    internal func returnMimeType(mimeType:MimeType) -> String {
-        
-        switch mimeType {
-        case .TEXT_FILE:
-            return "text/plain"
-            
-        case .JPEG_IMAGE:
-            return "image/jpeg"
-            
-        case .PNG_IMAGE:
-            return "image/png"
-            
-        case .VIDEO:
-            return "video/mp4"
-            
-        case .PDF:
-            return "application/pdf"
-        }
-    }
+  
 }

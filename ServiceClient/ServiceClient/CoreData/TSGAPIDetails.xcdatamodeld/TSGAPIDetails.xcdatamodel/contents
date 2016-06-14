@@ -4,8 +4,9 @@
         <attribute name="actionID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="actionName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="actionType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="baseURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dev_baseURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dummy_server_URL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="params_parameters" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="prod_baseURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="qa_baseURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="stage_baseURL" optional="YES" attributeType="String" syncable="YES"/>
@@ -35,7 +36,7 @@
         <relationship name="requiredAPI" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="API" inverseName="project" inverseEntity="API" syncable="YES"/>
     </entity>
     <elements>
-        <element name="API" positionX="-54" positionY="27" width="128" height="225"/>
+        <element name="API" positionX="-54" positionY="27" width="128" height="240"/>
         <element name="Key" positionX="-18" positionY="72" width="128" height="210"/>
         <element name="Project" positionX="-63" positionY="0" width="128" height="120"/>
     </elements>
