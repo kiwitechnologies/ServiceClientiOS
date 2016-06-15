@@ -12,9 +12,18 @@ public class ServiceManager {
     
     /*********************************************************************************************************************
      
-     These methods would only work when we Don't use TSG WEB CLIENT
+     These methods would be used when We are not using WebTool
      ********************************************************************************************************************/
 
+    /**
+     *	@functionName	: setBaseURL
+     *	@parameters		: url : It would be the baseURL of app
+     */
+    
+    public class func setBaseURL(url:String)->() {
+        TSGHelper.setBaseURL(url)
+    }
+    
     
     
     /**
@@ -68,13 +77,13 @@ public class ServiceManager {
     /**
      *	@functionName	: downloadData
      *	@parameters		: url : It would be a unique identifier of device
-     :  completion block : It would be a unique identifier of device
+                        :  completion block : It would be a unique identifier of device
      *	@description	: It would be used to download any Data
      */
     
-    public class func downloadData(endPoint:String, param:NSDictionary?=nil,requestType:RequestType,progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
+    public class func downloadWith(path:String, param:NSDictionary?=nil,requestType:RequestType, withApiTag apiTag:String?=nil, progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
         
-        TSGHelper.downloadFile(endPoint, param: param,requestType: requestType, progressValue: { (percentage) in
+        TSGHelper.downloadFile(path, param: param,requestType: requestType,withApiTag: apiTag, progressValue: { (percentage) in
             progress(percentage: percentage)
             }, success: { (response) in
                 success(response: response)
@@ -83,30 +92,35 @@ public class ServiceManager {
         }
     }
     
-    /**
-     *	@functionName	: setBaseURL
-     *	@parameters		: url : It would be the baseURL of app
-     */
-    
-    public class func setBaseURL(url:String)->() {
-        TSGHelper.setBaseURL(url)
-    }
-    
+ 
     /**
      *	@functionName	: hitRequestForAPI
      *	@parameters		: name : It would the name of API to hit for getting response
-     : requestType  : It would be HTTP action i.e GET,POST,DELTE,PUT
-     : responseType : It would be responseType i.e JSON,XML, RAW
+                        : requestType  : It would be HTTP action i.e GET,POST,DELTE,PUT
+                        : responseType : It would be responseType i.e JSON,XML, RAW
      
      *	@description	: It would be used to download any Data
      */
     
-    public class func hitRequestForAPI(name:String, requestType:RequestType, responseType:ResponseMethod, success:(AnyObject) ->(), failure:(AnyObject)->()){
+    public class func hitRequestForAPI(path:String, withQueryParam queryParam:[String:String]?=nil, bodyParam:NSDictionary?=nil,typeOfRequest:RequestType, typeOFResponse:ResponseMethod, withApiTag apiTag:String?=nil, success:AnyObject->Void, failure:NSError -> Void){
         
-        TSGHelper.hitRequestForAPI(name, typeOfRequest: requestType, typeOFResponse: responseType, success: { (object) in
+        TSGHelper.hitRequestForAPI(path, withQueryParam: queryParam, bodyParam: bodyParam, typeOfRequest: typeOfRequest, typeOFResponse: typeOFResponse, withApiTag: apiTag, success: { (object) in
             success(object)
+            }) { (error) in
+                failure(error)
+        }
+    }
+    
+    public class func uploadWithPath(path: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, progress: (percent: Float) -> Void, Success:(response:AnyObject) -> Void, Failure:ErrorType->Void){
+        
+        TSGHelper.uploadWith(path, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality: imageQuality, progress: { (percent) in
+            progress(percent: percent)
+            
+            }, success: { (response) in
+                Success(response: response)
+                
         }) { (error) in
-            failure(error)
+            Failure(error)
         }
     }
     
@@ -114,15 +128,13 @@ public class ServiceManager {
      *	@functionName	: resumeDownLoad
      *	@parameters		: url : It would be resume URL of Download
      */
+    
     public class func resumeDownLoad(url:String, success:(Int64, totalBytes:Int64)->()){
         TSGHelper.resumeDownloads(url) { (bytes, totalBytes) in
             success(bytes,totalBytes: totalBytes)
         }
     }
-    //Dowload can be anything get, post
-    //Upload Data can be anything
-    //Cancel AnyRequest
-    //HitAnyRequest
+
     
 }
 

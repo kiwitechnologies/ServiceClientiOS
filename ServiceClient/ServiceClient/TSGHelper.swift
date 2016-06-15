@@ -186,8 +186,13 @@ public class TSGHelper: NSObject
     public class func requestedApi(actionID:String,withQueryParam queryParamDict:[String:String]?=nil, withParam params:[String:String]?=nil ,withPathParams pathParamDict:NSMutableDictionary?=nil, withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(),
                                    onFailure failed:(Bool,NSError)->()){
         let obj = TSGHelper.sharedInstance
+        var completeURL:String!
+
         
         TSGValidationManager.validateActionData(actionID,withQueryParma: queryParamDict, withDic: params,withHeaderDic:TSGHelper.sharedInstance.apiHeaderDict,withOptionalData: nil, onSuccess: { (apiName, string) in
+            
+            print("ActionID \(actionID)")
+
             let apiObj:API = apiName as! API
             
             var requestType:RequestType!
@@ -198,8 +203,6 @@ public class TSGHelper: NSObject
                     break
                 }
             }
-            
-            var completeURL:String!
             
             if TSGHelper.sharedInstance.appRuningMode == .DEVELOPMENT  {
                 completeURL = apiObj.dev_baseURL! + apiObj.actionName!
@@ -217,14 +220,16 @@ public class TSGHelper: NSObject
             }
             
             if apiObj.params_parameters == 1 {
-                
                 completeURL = TSGUtility.createPathParamURL(completeURL, pathParamDict: pathParamDict!)
             }
             
-            obj.getDataFromUrl(completeURL,withActionID:actionID, withQueryParam:queryParamDict, params: params, typeOfRequest:requestType, typeOfResponse: .JSON, success: { (dict) in
+            print(" CompleteURL = \(completeURL)")
+
+            obj.getDataFromUrl(completeURL,withActionID:actionID, withQueryParam:queryParamDict, params: params, typeOfRequest:requestType, typeOfResponse: .JSON,withApiTag: apiTag, success: { (dict) in
                 
                 success(dict)
                 }, failure: { (dict) in
+
                     let error:NSError = NSError(domain: "", code: -10004, userInfo: ["Response Error":dict])
                     failed(true, error)
             })
@@ -255,9 +260,8 @@ public class TSGHelper: NSObject
      - parameter failure: Block to handle error
      */
 
-    public class func uploadFileWith(actionName: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void)
+    public class func uploadFileWith(actionName: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, withApiTag apiTag:String?=nil, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void)
     {
-        
         
         let imageData = TSGUtility.changeImageResolution(bodyParams.valueForKey(dataKeyName) as! NSData, withImageQuality: imageQuality!)
         
@@ -280,7 +284,15 @@ public class TSGHelper: NSObject
                 completeURL = (object as! API).prod_baseURL! + (object as! API).actionName!
             }
             
-            TSGHelper.sharedInstance.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType, progress: { (percent) in
+            var actionID:String!
+            
+            if apiTag == nil {
+                actionID = "Upload"
+            } else {
+                actionID = apiTag
+            }
+            
+            TSGHelper.sharedInstance.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality: imageQuality, withApiTag:actionID,  progress: { (percent) in
                 progress(percent: percent)
                 }, success: { (response) in
                     success(response: response)
@@ -311,7 +323,7 @@ public class TSGHelper: NSObject
             actionID = "0"
         }
        
-        TSGHelper.sharedInstance.getDataFromUrl(completeURL,withActionID: actionID, withQueryParam: queryParam, params: bodyParam, typeOfRequest: typeOfRequest, typeOfResponse: typeOFResponse, success: { (object) in
+        TSGHelper.sharedInstance.getDataFromUrl(completeURL,withActionID: actionID, withQueryParam: queryParam, params: bodyParam, typeOfRequest: typeOfRequest, typeOfResponse: typeOFResponse, withApiTag: apiTag, success: { (object) in
             success(object)
             
         }) { (error) in
@@ -320,7 +332,7 @@ public class TSGHelper: NSObject
 
     }
     
-    public class func uploadWith(path: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void)
+    public class func uploadWith(path: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, withApiTag apiTag:String?=nil, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void)
     {
         
         let dictParams = NSMutableDictionary(dictionary:bodyParams)
@@ -328,7 +340,16 @@ public class TSGHelper: NSObject
         
         let completeURL = TSGHelper.sharedInstance.baseUrl + path
         
-        TSGHelper.sharedInstance.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType, progress: { (percent) in
+        var actionID:String!
+        
+        if apiTag == nil {
+            actionID = "Upload"
+        } else {
+            actionID = apiTag
+        }
+
+        
+        TSGHelper.sharedInstance.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality:imageQuality, withApiTag: actionID, progress: { (percent) in
             progress(percent: percent)
             }, success: { (response) in
                 success(response: response)
@@ -376,10 +397,8 @@ public class TSGHelper: NSObject
         
         var requestArray:NSMutableArray!
         
-        
         if self.mutRequestDict.objectForKey(actionID) != nil {
             requestArray = self.mutRequestDict.objectForKey(actionID) as! NSMutableArray
-            
         }
         
         if(requestArray == nil || requestArray.count == 0)
@@ -400,9 +419,8 @@ public class TSGHelper: NSObject
         self.mutRequestDict.setObject(requestArray, forKey: actionID)
         
         let requestTag =  self.req?.requestTAG
-        
-        
         let actionID = actionID
+        
         switch(typeOfResponse)
         {
             
@@ -461,7 +479,7 @@ public class TSGHelper: NSObject
         }
     }
     
-    internal func uploadFile(completeURL:String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void){
+    internal func uploadFile(completeURL:String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, withApiTag apiTag:String, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void){
         
         let obj = TSGHelper.sharedInstance
         let imageData = TSGUtility.changeImageResolution(bodyParams.valueForKey(dataKeyName) as! NSData, withImageQuality: imageQuality!)
@@ -469,8 +487,8 @@ public class TSGHelper: NSObject
         dictParams.removeObjectForKey(dataKeyName)
 
         let mimeType:String = TSGUtility.returnMimeType(mimeType)
-
-        obj.manager.upload(
+        
+    obj.manager.upload(
             .POST,
             completeURL,
             multipartFormData: { multipartFormData in
@@ -518,7 +536,6 @@ public class TSGHelper: NSObject
                         })
                     })
                     
-                    
                 case .Failure(let encodingError):
                     print("Encoding error------------------------\(encodingError)")
                 }
@@ -533,15 +550,17 @@ public class TSGHelper: NSObject
      - parameter failure: Block to handle error
      */
     
-    public class func downloadFile(path:String, param:NSDictionary?=nil,requestType:RequestType,progressValue:(percentage:Float)->Void, success:(response:AnyObject) -> Void, failure:NSError->Void)
+    public class func downloadFile(path:String, param:NSDictionary?=nil,requestType:RequestType , withApiTag apiTag:String?=nil,progressValue:(percentage:Float)->Void, success:(response:AnyObject) -> Void, failure:NSError->Void)
     {
         let completeURL = TSGHelper.sharedInstance.baseUrl + path
+        
         let obj = TSGHelper.sharedInstance
         let destination = Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
 
         var requestMethod:Method = .GET
     
         switch requestType {
+            
         case .GET:
             requestMethod = .GET
             
@@ -552,39 +571,136 @@ public class TSGHelper: NSObject
         case .PUT:
             requestMethod = .PUT
         }
+        
+        var actionID:String!
+        
+        if apiTag != nil {
+            actionID = apiTag
+        } else {
+            actionID = "Download"
+        }
+        
+        let requestTag =  TSGHelper.sharedInstance.req?.requestTAG
+
+        
         obj.req =  obj.manager.download(requestMethod, completeURL,parameters:param as? [String : AnyObject],
             destination: destination)
-            .progress { bytesRead, totalBytesRead, totalBytesExpectedToRead in
+                        .progress { bytesRead, totalBytesRead, totalBytesExpectedToRead in
                 let percentage = (Float(totalBytesRead) / Float(totalBytesExpectedToRead))
                 progressValue(percentage: percentage)
-            }
-            .response { _,response, _, error in
-
-                if response != nil {
-                    success(response: response!)}
-                if error != nil {
-                    failure(error!)
-                }
         }
+        
+        var requestArray:NSMutableArray!
+        
+        if TSGHelper.sharedInstance.mutRequestDict.objectForKey(actionID) != nil {
+            requestArray = TSGHelper.sharedInstance.mutRequestDict.objectForKey(actionID) as! NSMutableArray
+        }
+        
+        if(requestArray == nil || requestArray.count == 0)
+        {
+            requestArray = NSMutableArray()
+            TSGHelper.sharedInstance.req?.requestTAG = 0
+            requestArray.addObject(TSGHelper.sharedInstance.req!)
+            print(requestArray.count)
+        }
+        else
+        {
+            let lastRequest = requestArray.lastObject as! Request
+            TSGHelper.sharedInstance.req?.requestTAG = lastRequest.requestTAG + 1
+            requestArray.addObject(TSGHelper.sharedInstance.req!)
+            
+        }
+        
+        TSGHelper.sharedInstance.mutRequestDict.setObject(requestArray, forKey: actionID)
 
+        
+        TSGHelper.sharedInstance.req?.response(completionHandler: {  _,response, _, error in
+            let arr:NSMutableArray! = TSGHelper.sharedInstance.mutRequestDict.objectForKey(actionID!)  as! NSMutableArray
+            
+            if(arr != nil || arr.count != 0)
+            {
+                if(arr.count == 1)
+                {
+                    arr.removeAllObjects()
+                    TSGHelper.sharedInstance.mutRequestDict.removeObjectForKey(actionID!)
+                }
+                else
+                {
+                    let lRequestArray = NSArray(array: arr)
+                    for req in lRequestArray
+                    {
+                        let runningReq =  req as! Request
+                        if(runningReq.requestTAG == requestTag)
+                        {
+                            arr.removeObject(req)
+                            break;
+                        }
+                    }
+                    
+                }
+            }
+            if response != nil {
+                success(response: response!)}
+            if error != nil {
+                failure(error!)
+            }
+
+        })
     }
+    
     
     /**
      Resume any pending downloads
      - paramter url: Resume download url
      - parameter success: Block to handle response
      */
-    public class func resumeDownloads(url:String,success:(Int64,totalBytes:Int64)-> Void)
+    public class func resumeDownloads(path:String, withApiTag apiTag:String?=nil,success:(Int64,totalBytes:Int64)-> Void)
     {
         let obj = TSGHelper.sharedInstance
         
         obj.serviceCount = obj.serviceCount + 1
-       let url = "\(obj.baseUrl)\(url)"
+        
+        var actionID:String!
+        
+        if apiTag != nil {
+            actionID = apiTag
+        } else {
+            actionID = "ResumeDownload"
+        }
+        let requestTag =  TSGHelper.sharedInstance.req?.requestTAG
+
+        
+        let completeURL = TSGHelper.sharedInstance.baseUrl + path
+
         let destination = Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
-        obj.req =  obj.manager.download(.GET, url, destination: destination)
+        obj.req =  obj.manager.download(.GET, completeURL, destination: destination)
             .progress { bytesRead, totalBytesRead, totalBytesExpectedToRead in
                 success(totalBytesRead,totalBytes:totalBytesExpectedToRead)
-            }.response { _, _, _, _ in
+            }
+        
+        var requestArray:NSMutableArray!
+        
+        if TSGHelper.sharedInstance.mutRequestDict.objectForKey(actionID) != nil {
+            requestArray = TSGHelper.sharedInstance.mutRequestDict.objectForKey(actionID) as! NSMutableArray
+        }
+        
+        if(requestArray == nil || requestArray.count == 0)
+        {
+            requestArray = NSMutableArray()
+            TSGHelper.sharedInstance.req?.requestTAG = 0
+            requestArray.addObject(TSGHelper.sharedInstance.req!)
+        }
+        else
+        {
+            let lastRequest = requestArray.lastObject as! Request
+            TSGHelper.sharedInstance.req?.requestTAG = lastRequest.requestTAG + 1
+            requestArray.addObject(TSGHelper.sharedInstance.req!)
+            
+        }
+        
+        TSGHelper.sharedInstance.mutRequestDict.setObject(requestArray, forKey: actionID)
+        
+            obj.req!.response { _, _, _, _ in
                 if let
                     resumeData = obj.req!.resumeData,
                     _ = NSString(data: resumeData, encoding: NSUTF8StringEncoding)
@@ -592,6 +708,31 @@ public class TSGHelper: NSObject
                     obj.serviceCount = obj.serviceCount - 1
                 } else {
                     obj.serviceCount = obj.serviceCount - 1
+                }
+                
+                let arr:NSMutableArray! = TSGHelper.sharedInstance.mutRequestDict.objectForKey(actionID!)  as! NSMutableArray
+                
+                if(arr != nil || arr.count != 0)
+                {
+                    if(arr.count == 1)
+                    {
+                        arr.removeAllObjects()
+                        TSGHelper.sharedInstance.mutRequestDict.removeObjectForKey(actionID!)
+                    }
+                    else
+                    {
+                        let lRequestArray = NSArray(array: arr)
+                        for req in lRequestArray
+                        {
+                            let runningReq =  req as! Request
+                            if(runningReq.requestTAG == requestTag)
+                            {
+                                arr.removeObject(req)
+                                break;
+                            }
+                        }
+                        
+                    }
                 }
         }
     }
@@ -615,12 +756,10 @@ public class TSGHelper: NSObject
                 }
             }
         }
-        
     }
     
     public class func cancelRequestWithTag(actionID:String)
     {
-        
         let obj = TSGHelper.sharedInstance
         
         if let req = (obj.mutRequestDict.valueForKey(actionID )) {

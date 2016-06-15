@@ -96,7 +96,7 @@
                         <outlet property="apiResult" destination="E2q-QL-LQS" id="fDj-9i-muP"/>
                         <outlet property="httpActionBtn" destination="eYf-fD-jt2" id="9hB-t9-Rdz"/>
                         <outlet property="imageView" destination="m0o-vd-lYm" id="2NZ-HI-Ru0"/>
-                        <outlet property="progressView" destination="WO9-ow-8O1" id="nUG-4W-1Nl"/>
+                        <outlet property="progressIndicator" destination="WO9-ow-8O1" id="7ps-Am-dxp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5bv-Fx-Xzm" userLabel="First Responder" sceneMemberID="firstResponder"/>

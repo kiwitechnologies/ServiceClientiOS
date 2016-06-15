@@ -12,11 +12,11 @@ import TSGServiceClient
 class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var apiResult: UITextView!
+    @IBOutlet weak var progressIndicator: UIProgressView!
     @IBOutlet weak var plaintText: UITextField!
     @IBOutlet weak var cipherText: UILabel!
     @IBOutlet weak var decryptedText: UILabel!
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var httpActionBtn: UIButton!
     
@@ -92,7 +92,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let pathParamDict:NSMutableDictionary = NSMutableDictionary()
         pathParamDict.setValue("4", forKey: "user-id")
         
-        TSGServiceManager.setProjectRuningMode(.DUMMY)
+        //TSGServiceManager.setProjectRuningMode(.DUMMY)
         TSGServiceManager.performAction("5759249a62c18b953cf00e7f",withPathParams: pathParamDict, onSuccess: { (object) in
             print(object)
             }) { (status, error) in
@@ -102,12 +102,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func anyRequest(){
         ServiceManager.setBaseURL("http://172.16.144.218:4000/")
-        ServiceManager.hitRequestForAPI("projects/all_projects", requestType: .GET, responseType: .JSON, success: { (object) in
+        ServiceManager.hitRequestForAPI("projects/all_projects",typeOfRequest: .GET, typeOFResponse: .JSON, withApiTag: "Hit", success: { (object) in
             print(object)
-        }) { (error) in
-            print(error)
-        }
+            self.apiResult.text = "SUCCESS: Any-request executed successfully"
 
+            }) { (error) in
+                print(error)
+        }
     }
     
     func downloadRequest() {
@@ -115,24 +116,25 @@ class ViewController: UIViewController, UITextFieldDelegate {
         activityIndicatorView.hidden = false
         activityIndicatorView.startAnimating()
         
-        self.progressView.hidden = false
-        
+        progressIndicator.hidden = false
+
         ServiceManager.setBaseURL("http://jplayer.org/video/m4v/")
 
-        ServiceManager.downloadData("Big_Buck_Bunny_Trailer.m4v", requestType: .GET, progress: { (percentage) in
-
+        ServiceManager.downloadWith("Big_Buck_Bunny_Trailer.m4v", requestType: .GET, progress: { (percentage) in
+            
             dispatch_async(dispatch_get_main_queue()) {
-                print(percentage)
-                self.progressView.setProgress(Float(percentage), animated: true)
+                self.progressIndicator.setProgress(percentage, animated: true)
             }
-            self.activityIndicatorView.startAnimating()
+
             }, success: { (response) in
                 self.activityIndicatorView.hidden = true
-                self.progressView.hidden = true
-
+               // self.progressView.hidden = true
+                self.apiResult.hidden = false
+                self.apiResult.text = "SUCCESS: Image Downloaded"
             }) { (error) in
-            print(error)
+                print(error)
         }
+        
     }
     
     func uploadRequest() {
@@ -257,16 +259,17 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
           let imageData = UIImageJPEGRepresentation(image, 1.0)
         
         activityIndicatorView.startAnimating()
-        progressView.hidden = false
-        
+        progressIndicator.hidden = false
+        progressIndicator.setProgress(0, animated: true)
         let bodyDict = ["name":"Ashish","user_email":"Ashish@kiwitech.com","age":"23","avatar":imageData! as NSData]
         
         TSGServiceManager.uploadData("5742a30b5262ef7a1aae2980", mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW, progress: { (percentage) in
-        self.progressView.setProgress(percentage, animated: true)
-
+            dispatch_async(dispatch_get_main_queue()) {
+                self.progressIndicator.setProgress(percentage, animated: true)
+            }
         }, success: { (response) in
             self.activityIndicatorView.hidden = true
-            self.progressView.hidden = true
+           self.progressIndicator.hidden = true
             self.apiResult.hidden = false
             self.apiResult.text = "SUCCESS: Image Uploaded"
         }) { (error) in

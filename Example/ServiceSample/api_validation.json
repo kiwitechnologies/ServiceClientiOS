@@ -12,7 +12,7 @@
                 "qa_url": "http://172.16.144.218:4000/",
                 "staging_url": "http://172.16.144.218:4000/",
                 "production_url": "http://172.16.144.218:4000/",
-                "dummy_server_url": "http://www.kiwitechopensource.com/tsg/dummy_server/5759249a62c18b953cf00e7f/response/",
+                "dummy_server_url": "http://www.kiwitechopensource.com/tsg/dummy_server/5745591afec9101a0a63f23d/response/",
                 "body_parameters": [],
                 "query_parameters": [],
                 "headers": [],
@@ -51,7 +51,7 @@
                 "qa_url": "http://172.16.144.218:4000/",
                 "staging_url": "http://172.16.144.218:4000/",
                 "production_url": "http://172.16.144.218:4000/",
-                "dummy_server_url": "http://www.kiwitechopensource.com/tsg/dummy_server/5759249a62c18b953cf00e7f/response",
+                "dummy_server_url": "http://www.kiwitechopensource.com/tsg/dummy_server/5746a52e91eac6291f8b15fd/response",
                 "body_parameters": [
                                     {
                                     "key_name": "user_email",
@@ -87,7 +87,7 @@
                 "qa_url": "http://172.16.144.218:4000/",
                 "staging_url": "http://172.16.144.218:4000/",
                 "production_url": "http://172.16.144.218:4000/",
-                "dummy_server_url": "http://www.kiwitechopensource.com/tsg/dummy_server/5759249a62c18b953cf00e7f/response",
+                "dummy_server_url": "http://www.kiwitechopensource.com/tsg/dummy_server/5742a28c5262ef7a1aae2977/response",
                 "body_parameters": [
                                     {
                                     "key_name": "project_id",
@@ -143,7 +143,7 @@
                 "qa_url": "http://172.16.144.218:4000/",
                 "staging_url": "http://172.16.144.218:4000/",
                 "production_url": "http://172.16.144.218:4000/",
-                "dummy_server_url": "http://www.kiwitechopensource.com/tsg/dummy_server/5759249a62c18b953cf00e7f/response",
+                "dummy_server_url": "http://www.kiwitechopensource.com/tsg/dummy_server/5742a2b95262ef7a1aae297d/response",
                 "body_parameters": [
                                     {
                                     "key_name": "project_id",
@@ -169,7 +169,7 @@
                 "qa_url": "http://172.16.144.218:4000/",
                 "staging_url": "http://172.16.144.218:4000/",
                 "production_url": "http://172.16.144.218:4000/",
-                "dummy_server_url": "http://www.kiwitechopensource.com/tsg/dummy_server/5759249a62c18b953cf00e7f/response",
+                "dummy_server_url": "http://www.kiwitechopensource.com/tsg/dummy_server/5742a30b5262ef7a1aae2980/response",
                 "body_parameters": [
                                     {
                                     "key_name": "name",

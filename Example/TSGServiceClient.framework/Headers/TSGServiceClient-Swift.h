@@ -568,7 +568,7 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 ///
 /// <ul><li>paramter url: Resume download url</li></ul>
 /// \param success Block to handle response
-+ (void)resumeDownloads:(NSString * _Nonnull)url success:(void (^ _Nonnull)(int64_t, int64_t totalBytes))success;
++ (void)resumeDownloads:(NSString * _Nonnull)path withApiTag:(NSString * _Nullable)apiTag success:(void (^ _Nonnull)(int64_t, int64_t totalBytes))success;
 
 /// Cancel any ongoing alamofire operation
 + (void)cancelAllRequests;
