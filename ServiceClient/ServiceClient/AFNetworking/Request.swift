@@ -52,6 +52,7 @@ public class Request {
 
     var startTime: CFAbsoluteTime?
     var requestTAG: Int = 0
+    var serializeTAG: Int = 0
 
     var endTime: CFAbsoluteTime?
 

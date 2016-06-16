@@ -10,6 +10,14 @@ import Foundation
 import CoreData
 
 public class TSGServiceManager {
+ 
+    
+/*********************************************************************************************************************
+ 
+ These methods would only work when we use TSG WEB CLIENT
+********************************************************************************************************************/
+
+    
     
     /**
      *	@functionName	: setProjectRuningMode
@@ -28,26 +36,34 @@ public class TSGServiceManager {
      *	@description	: Call services for device reg and google analytics
      */
     
-    public class func setHeader(someDict:[NSObject:AnyObject]) {
+    public class func setHeader(someDict:[NSObject:AnyObject])
+    {
         
-       TSGHelper.setCustomHeader(someDict)
+        TSGHelper.setCustomHeader(someDict)
     }
     
-    public class func setContentType(contentType:String) {
-        
-       // print(contentType)
-        TSGHelper.sharedInstance.setContentType = contentType
-    }
     /**
      *	@functionName           : removeHeader
      *	@completion Block		: deviceTokeString : It would be a unique identifier of device
      *	@description            : It would be used to remove Headers
      */
     
-    public class func removeHeader() {
+    public class func removeHeader()
+    {
         TSGHelper.removeCustomHeader()
-
+        
     }
+    
+    /**
+     *	@functionName	: cancelAllRequest
+     *	@description	: It would be used to cancel request
+     */
+    
+    public class func cancelAllRequest(completion:(Bool)->())
+    {
+        TSGHelper.cancelAllRequests()
+    }
+    
     
     /**
      *	@functionName	: performAction
@@ -58,52 +74,53 @@ public class TSGServiceManager {
      */
     
 
-    public class func performAction(actionID:String,withQueryParam queryParamDict:[String:String]?=nil, withParams dict:[String:String]?=nil,withPathParams pathParamDict:NSMutableDictionary?=nil ,withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(), onFailure failed:(Bool, NSError)->()){
+    public class func performAction(actionID:String?=nil,withQueryParam queryParamDict:[String:String]?=nil, withParams dict:[String:String]?=nil,withPathParams pathParamDict:NSMutableDictionary?=nil ,withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(), onFailure failed:(Bool, NSError)->()){
 
-        TSGHelper.requestedApi(actionID,withQueryParam: queryParamDict, withParam: dict,withPathParams: pathParamDict, withTag:apiTag,  onSuccess: { (dictionary) in
+        TSGHelper.requestedApi(actionID!,withQueryParam: queryParamDict, withParam: dict,withPathParams: pathParamDict, withTag:apiTag,  onSuccess: { (dictionary) in
             success(dictionary)
             }) { (bool, error) in
             failed(bool,error)
         }
     }
-
-    /**
-     *	@functionName	: request
-     *	@description	: It would be used to make request
-     */
-    
-    public class func request(requestType:HttpRequestType){
-        
-    }
-    
-    /**
-     *	@functionName	: cancelAllRequest
-     *	@description	: It would be used to cancel request
-     */
-    
-    public class func cancelAllRequest(completion:(Bool)->()) {
-        TSGHelper.cancelAllRequests()
-    }
-    
     
     /**
      *	@functionName	: cancelRequestWithActionID
      *	@description	: It would be used to cancel request
      */
     
-    public class func cancelRequestWithTagId(tagID:String)->() {
+    public class func cancelRequestWithTagId(tagID:String)->()
+    {
         TSGHelper.cancelRequestWithTag(tagID)
     }
+    
+    /**
+     *	@functionName	: downloadData
+     *	@parameters		: url : It would be a unique identifier of device
+     :  completion block : It would be a unique identifier of device
+     *	@description	: It would be used to download any Data
+     */
+    
+    public class func downloadData(endPoint:String, param:NSDictionary?=nil,requestType:RequestType, downloadType:DownloadType = DownloadType.PARALLEL,withTag apiTag:String?=nil,progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
+        
+        TSGHelper.downloadFile(endPoint, param: param,requestType: requestType, progressValue: { (percentage) in
+            progress(percentage: percentage)
+            }, success: { (response) in
+                success(response: response)
+        }) { (NSError) in
+            failure(NSError)
+        }
+    }
+    
+    
     /**
      *	@functionName	: uploadData
      *	@parameters		: imageData : It would be a unique identifier of device
      *	@description	: It would be used to upload the data
      */
     
-    public class func uploadData(actionName:String, mimeType:MimeType,queryParam:NSDictionary?=nil,bodyParams:NSDictionary,dataKeyName:String,imageQuality:ImageQuality, progress: (percentage: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void) {
-        
+    public class func uploadData(actionID:String, mimeType:MimeType,queryParam:NSDictionary?=nil,bodyParams:NSDictionary,dataKeyName:String,imageQuality:ImageQuality,withTag apiTag:String?=nil, progress: (percentage: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void) {
       
-        TSGHelper.uploadFile(actionName, bodyParams: bodyParams,dataKeyName:dataKeyName,mimeType:mimeType,imageQuality:imageQuality, progress: { (percent) in
+        TSGHelper.uploadFileWith(actionID, bodyParams: bodyParams,dataKeyName:dataKeyName,mimeType:mimeType,imageQuality:imageQuality, progress: { (percent) in
 
             progress(percentage: percent)
             }, success: { (response) in
@@ -115,28 +132,25 @@ public class TSGServiceManager {
     }
     
     /**
-     *	@functionName	: downloadData
-     *	@parameters		: url : It would be a unique identifier of device
-                        :  completion block : It would be a unique identifier of device
-     *	@description	: It would be used to download any Data
+     *	@functionName	: getAPIVersion
+     *	@parameters		: onSuccess : It would give the version no.
      */
-
-    public class func downloadData(actionName:String, param:NSDictionary,progress:(percentage: Float)->Void, success:(response:NSDictionary)->Void, failure:NSError-> Void){
-        
-        TSGHelper.downloadFile(actionName, param: param, progressValue: { (percentage) in
-            progress(percentage: percentage)
-            }, success: { (response) in
-                success(response: response)
-            }) { (NSError) in
-              failure(NSError)
-        }
-    }
     
     public class func getAPIVersion(onSuccess:(dic:NSDictionary)->()){
         
         TSGHelper.sharedInstance.getAPIVersion({ (dic) in
                     onSuccess(dic: dic)
             }) { (_) in
-                
-        }    }
+        }
+    }
+    
+    /**
+     *	@functionName	: resumeDownLoad
+     *	@parameters		: url : It would be resume URL of Download
+     */
+    public class func resumeDownLoad(url:String, success:(Int64, totalBytes:Int64)->()){
+        TSGHelper.resumeDownloads(url) { (bytes, totalBytes) in
+            success(bytes,totalBytes: totalBytes)
+        }
+    }
 }

@@ -17,7 +17,8 @@ public class TSGHelper: NSObject
     //var setContentType:String?
     var apiHeaderDict:NSMutableDictionary!
     let mutRequestDict:NSMutableDictionary = NSMutableDictionary ()
-    
+    var serialDownloadRequest:NSMutableArray = NSMutableArray()
+
     //Alamofire Manager
     var manager:Manager!
     /*
@@ -191,10 +192,9 @@ public class TSGHelper: NSObject
         
         TSGValidationManager.validateActionData(actionID,withQueryParma: queryParamDict, withDic: params,withHeaderDic:TSGHelper.sharedInstance.apiHeaderDict,withOptionalData: nil, onSuccess: { (apiName, string) in
             
-            print("ActionID \(actionID)")
 
             let apiObj:API = apiName as! API
-            
+            print("\(apiObj.actionName)")
             var requestType:RequestType!
             
             for category in RequestType.allValues{
@@ -203,9 +203,10 @@ public class TSGHelper: NSObject
                     break
                 }
             }
-            
+
             if TSGHelper.sharedInstance.appRuningMode == .DEVELOPMENT  {
                 completeURL = apiObj.dev_baseURL! + apiObj.actionName!
+                
             } else if TSGHelper.sharedInstance.appRuningMode == .TESTING {
                 completeURL = apiObj.qa_baseURL! + apiObj.actionName!
                 
@@ -218,13 +219,12 @@ public class TSGHelper: NSObject
                 completeURL = apiObj.dummy_server_URL! + apiObj.actionName!
 
             }
-            
+
             if apiObj.params_parameters == 1 {
                 completeURL = TSGUtility.createPathParamURL(completeURL, pathParamDict: pathParamDict!)
             }
             
-            print(" CompleteURL = \(completeURL)")
-
+            print(completeURL)
             obj.getDataFromUrl(completeURL,withActionID:actionID, withQueryParam:queryParamDict, params: params, typeOfRequest:requestType, typeOfResponse: .JSON,withApiTag: apiTag, success: { (dict) in
                 
                 success(dict)
@@ -457,12 +457,16 @@ public class TSGHelper: NSObject
                         {
                             self.serviceCount = self.serviceCount - 1
                             
+                            print(response)
                             if response.response?.statusCode <= 200 {
-                                
                                 if response.result.value != nil {
                                     success(response.result.value!)
                                 } else {
-                                    failure(response.result.error!)
+                                    if response.result.error != nil {
+                                        print(response.result.error)
+
+                                        failure(response.result.error!)
+                                    }
                                 }
                                 
                             } else {
@@ -550,15 +554,74 @@ public class TSGHelper: NSObject
      - parameter failure: Block to handle error
      */
     
-    public class func downloadFile(path:String, param:NSDictionary?=nil,requestType:RequestType , withApiTag apiTag:String?=nil,progressValue:(percentage:Float)->Void, success:(response:AnyObject) -> Void, failure:NSError->Void)
+    public class func downloadFile(path:String, param:NSDictionary?=nil,requestType:RequestType ,downloadType:DownloadType = DownloadType.PARALLEL, withApiTag apiTag:String?=nil,progressValue:(percentage:Float)->Void, success:(response:AnyObject) -> Void, failure:NSError->Void)
     {
-        let completeURL = TSGHelper.sharedInstance.baseUrl + path
         
         let obj = TSGHelper.sharedInstance
-        let destination = Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
-
-        var requestMethod:Method = .GET
+        let completeURL = TSGHelper.sharedInstance.baseUrl + path
+        
+        var objTag:String!
+        
+        if apiTag != nil {
+            objTag = apiTag
+        } else {
+            
+            let lastObj:RequestModel = obj.serialDownloadRequest.lastObject as! RequestModel
+            
+            //TODO:WORK need to do
+            //objTag = "\( lastObj.apiTag + 1)"
+        }
+        
+        if downloadType == .SERIAL
+        {
+            let requestObj = RequestModel(url: completeURL, param: param, type: requestType, state: true, apiTag: objTag)
+            obj.serialDownloadRequest.addObject(requestObj)
+            
+            if obj.serialDownloadRequest.count == 0 {
+                
+                obj.download(path, param: param, requestType: requestType, withApiTag: apiTag, progressValue: { (percentage) in
+                    progressValue(percentage: percentage)
+                    }, success: { (response) in
+                        success(response: response)
+                    }, failure: { (error) in
+                        failure(error)
+                })
+            } else {
+                
+                let firstArrayObject:RequestModel = obj.serialDownloadRequest[0] as! RequestModel
+                if firstArrayObject.isRunning == false{
+                    
+                    obj.download(path, param: param, requestType: requestType, withApiTag: apiTag, progressValue: { (percentage) in
+                        progressValue(percentage: percentage)
+                        }, success: { (response) in
+                            success(response: response)
+                        }, failure: { (error) in
+                            failure(error)
+                    })
+                }
+            }
+        }
+        else
+        {
+            obj.download(path, param: param, requestType: requestType, withApiTag: apiTag, progressValue: { (percentage) in
+                progressValue(percentage: percentage)
+                }, success: { (response) in
+                    success(response: response)
+                }, failure: { (error) in
+                    failure(error)
+            })
+        }
+    }
     
+    func download(path:String, param:NSDictionary?=nil,requestType:RequestType, withApiTag apiTag:String?=nil,progressValue:(percentage:Float)->Void, success:(response:AnyObject) -> Void, failure:NSError->Void){
+        
+        let obj = TSGHelper.sharedInstance
+        let completeURL = TSGHelper.sharedInstance.baseUrl + path
+        
+        let destination = Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
+        
+        var requestMethod:Method = .GET
+        
         switch requestType {
             
         case .GET:
@@ -566,8 +629,10 @@ public class TSGHelper: NSObject
             
         case .POST:
             requestMethod = .POST
+            
         case .DELETE:
             requestMethod = .DELETE
+            
         case .PUT:
             requestMethod = .PUT
         }
@@ -581,11 +646,10 @@ public class TSGHelper: NSObject
         }
         
         let requestTag =  TSGHelper.sharedInstance.req?.requestTAG
-
         
         obj.req =  obj.manager.download(requestMethod, completeURL,parameters:param as? [String : AnyObject],
             destination: destination)
-                        .progress { bytesRead, totalBytesRead, totalBytesExpectedToRead in
+            .progress { bytesRead, totalBytesRead, totalBytesExpectedToRead in
                 let percentage = (Float(totalBytesRead) / Float(totalBytesExpectedToRead))
                 progressValue(percentage: percentage)
         }
@@ -601,7 +665,6 @@ public class TSGHelper: NSObject
             requestArray = NSMutableArray()
             TSGHelper.sharedInstance.req?.requestTAG = 0
             requestArray.addObject(TSGHelper.sharedInstance.req!)
-            print(requestArray.count)
         }
         else
         {
@@ -612,7 +675,7 @@ public class TSGHelper: NSObject
         }
         
         TSGHelper.sharedInstance.mutRequestDict.setObject(requestArray, forKey: actionID)
-
+        
         
         TSGHelper.sharedInstance.req?.response(completionHandler: {  _,response, _, error in
             let arr:NSMutableArray! = TSGHelper.sharedInstance.mutRequestDict.objectForKey(actionID!)  as! NSMutableArray
@@ -636,7 +699,6 @@ public class TSGHelper: NSObject
                             break;
                         }
                     }
-                    
                 }
             }
             if response != nil {
@@ -644,11 +706,11 @@ public class TSGHelper: NSObject
             if error != nil {
                 failure(error!)
             }
-
+            
         })
+        
     }
-    
-    
+
     /**
      Resume any pending downloads
      - paramter url: Resume download url

@@ -81,8 +81,8 @@ public class ServiceManager {
      *	@description	: It would be used to download any Data
      */
     
-    public class func downloadWith(path:String, param:NSDictionary?=nil,requestType:RequestType, withApiTag apiTag:String?=nil, progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
-        
+    public class func downloadWith(path:String, param:NSDictionary?=nil,requestType:RequestType, downloadType:DownloadType = DownloadType.PARALLEL, withApiTag apiTag:String?=nil, progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
+
         TSGHelper.downloadFile(path, param: param,requestType: requestType,withApiTag: apiTag, progressValue: { (percentage) in
             progress(percentage: percentage)
             }, success: { (response) in

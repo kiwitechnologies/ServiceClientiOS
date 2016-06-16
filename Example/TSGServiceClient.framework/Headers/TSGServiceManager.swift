@@ -100,7 +100,7 @@ public class TSGServiceManager {
      *	@description	: It would be used to download any Data
      */
     
-    public class func downloadData(endPoint:String, param:NSDictionary?=nil,requestType:RequestType,withTag apiTag:String?=nil,progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
+    public class func downloadData(endPoint:String, param:NSDictionary?=nil,requestType:RequestType, downloadType:DownloadType = DownloadType.PARALLEL,withTag apiTag:String?=nil,progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
         
         TSGHelper.downloadFile(endPoint, param: param,requestType: requestType, progressValue: { (percentage) in
             progress(percentage: percentage)

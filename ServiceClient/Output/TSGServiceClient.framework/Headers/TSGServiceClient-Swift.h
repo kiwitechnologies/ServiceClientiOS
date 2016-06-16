@@ -202,6 +202,16 @@ SWIFT_CLASS("_TtC16TSGServiceClient7Project")
 @property (nonatomic, copy) NSString * _Nullable apiVersion;
 @end
 
+@class NSDictionary;
+
+SWIFT_CLASS("_TtC16TSGServiceClient12RequestModel")
+@interface RequestModel : NSObject
+@property (nonatomic, copy) NSString * _Null_unspecified url;
+@property (nonatomic, strong) NSDictionary * _Nullable param;
+@property (nonatomic) BOOL isRunning;
+@property (nonatomic, copy) NSString * _Null_unspecified apiTag;
+@end
+
 @class NSURLSessionTask;
 @class TaskDelegate;
 @class NSError;
@@ -540,43 +550,47 @@ SWIFT_CLASS("_TtC16TSGServiceClient20TSGErrorValuesHolder")
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class NSDictionary;
+@class NSMutableArray;
 
 SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 @interface TSGHelper : NSObject
 @property (nonatomic, copy) NSString * _Nullable appVersion;
 @property (nonatomic, strong) Project * _Nullable projectOBJ;
-@property (nonatomic, copy) NSString * _Nullable setContentType;
 @property (nonatomic, strong) NSMutableDictionary * _Null_unspecified apiHeaderDict;
 @property (nonatomic, readonly, strong) NSMutableDictionary * _Nonnull mutRequestDict;
+@property (nonatomic, strong) NSMutableArray * _Nonnull serialDownloadRequest;
++ (TSGHelper * _Nonnull)sharedInstance;
+@property (nonatomic) NSInteger serviceCount;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (void)setDefaultHeader;
++ (void)setBaseURL:(NSString * _Nonnull)url;
++ (void)setCustomHeader:(NSDictionary * _Nonnull)dict;
++ (void)removeCustomHeader;
 @property (nonatomic, copy) NSString * _Null_unspecified pid;
 @property (nonatomic, copy) NSString * _Null_unspecified baseUrl;
 @property (nonatomic, copy) NSString * _Null_unspecified action;
 @property (nonatomic, copy) NSString * _Null_unspecified apiName;
-+ (TSGHelper * _Nonnull)sharedInstance;
-@property (nonatomic) NSInteger serviceCount;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-- (void)setAppRuningMode;
-- (void)setDefaultHeader;
-+ (void)setCustomHeader:(NSDictionary * _Nonnull)dict;
-+ (void)removeCustomHeader;
+- (void)saveProjectID:(NSMutableDictionary * _Nonnull)dict;
+- (void)getAPIVersion:(void (^ _Nonnull)(NSDictionary * _Nonnull dic))sucess failure:(void (^ _Nonnull)(NSError * _Nonnull error))failure;
 + (void)requestedApi:(NSString * _Nonnull)actionID withQueryParam:(NSDictionary<NSString *, NSString *> * _Nullable)queryParamDict withParam:(NSDictionary<NSString *, NSString *> * _Nullable)params withPathParams:(NSMutableDictionary * _Nullable)pathParamDict withTag:(NSString * _Nullable)apiTag onSuccess:(void (^ _Nonnull)(id _Nonnull))success onFailure:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))failed;
-- (NSString * _Nonnull)createPathParamURL:(NSString * _Nonnull)tempURL pathParamDict:(NSMutableDictionary * _Nonnull)pathParamDict;
-- (void)checkPathParam:(NSString * _Nonnull)pathParamURLString;
-- (void)setBaseURL:(NSString * _Nonnull)url;
-+ (void)downloadFile:(NSString * _Nonnull)actionName param:(NSDictionary * _Nonnull)param progressValue:(void (^ _Nonnull)(float percentage))progressValue success:(void (^ _Nonnull)(NSDictionary * _Nonnull response))success failure:(void (^ _Nonnull)(NSError * _Nonnull))failure;
+- (void)setAppRuningMode;
 
 /// Resume any pending downloads
 ///
 /// <ul><li>paramter url: Resume download url</li></ul>
 /// \param success Block to handle response
-- (void)resumeDownloads:(NSString * _Nonnull)url success:(void (^ _Nonnull)(int64_t, int64_t totalBytes))success;
-- (void)saveProjectID:(NSMutableDictionary * _Nonnull)dict;
-- (void)getAPIVersion:(void (^ _Nonnull)(NSDictionary * _Nonnull dic))sucess failure:(void (^ _Nonnull)(NSError * _Nonnull error))failure;
++ (void)resumeDownloads:(NSString * _Nonnull)path withApiTag:(NSString * _Nullable)apiTag success:(void (^ _Nonnull)(int64_t, int64_t totalBytes))success;
 
 /// Cancel any ongoing alamofire operation
 + (void)cancelAllRequests;
 + (void)cancelRequestWithTag:(NSString * _Nonnull)actionID;
+@end
+
+
+SWIFT_CLASS("_TtC16TSGServiceClient10TSGUtility")
+@interface TSGUtility : NSObject
++ (NSString * _Nonnull)createPathParamURL:(NSString * _Nonnull)tempURL pathParamDict:(NSMutableDictionary * _Null_unspecified)pathParamDict;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 

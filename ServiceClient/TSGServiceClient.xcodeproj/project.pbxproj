@@ -67,6 +67,7 @@
 		D611A7911CFC08B3007BE409 /* JSONKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = D611A7861CFC08B3007BE409 /* JSONKeyMapper.m */; };
 		D611A7921CFC08B3007BE409 /* JSONValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = D611A7871CFC08B3007BE409 /* JSONValueTransformer.h */; };
 		D611A7931CFC08B3007BE409 /* JSONValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D611A7881CFC08B3007BE409 /* JSONValueTransformer.m */; };
+		D613554B1D1143FE0030E747 /* RequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D613554A1D1143FE0030E747 /* RequestModel.swift */; };
 		D618B6351CB7B87E0044D96D /* ServiceClient.h in Headers */ = {isa = PBXBuildFile; fileRef = D618B6341CB7B87E0044D96D /* ServiceClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D618B63D1CB7B88F0044D96D /* TSGHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D618B63C1CB7B88F0044D96D /* TSGHelper.swift */; };
 		D618B6611CB7BAB90044D96D /* TSGHelper.swift in Headers */ = {isa = PBXBuildFile; fileRef = D618B63C1CB7B88F0044D96D /* TSGHelper.swift */; };
@@ -126,6 +127,7 @@
 		D611A7861CFC08B3007BE409 /* JSONKeyMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKeyMapper.m; sourceTree = "<group>"; };
 		D611A7871CFC08B3007BE409 /* JSONValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONValueTransformer.h; sourceTree = "<group>"; };
 		D611A7881CFC08B3007BE409 /* JSONValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONValueTransformer.m; sourceTree = "<group>"; };
+		D613554A1D1143FE0030E747 /* RequestModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestModel.swift; sourceTree = "<group>"; };
 		D618B6311CB7B87E0044D96D /* TSGServiceClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TSGServiceClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D618B6341CB7B87E0044D96D /* ServiceClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServiceClient.h; sourceTree = "<group>"; };
 		D618B6361CB7B87E0044D96D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 				D6030E4C1CC8EA1900101E68 /* TSGServiceManager.swift */,
 				D67508671D0FCA1B00F179B3 /* ServiceManager.swift */,
 				D618B63C1CB7B88F0044D96D /* TSGHelper.swift */,
+				D613554A1D1143FE0030E747 /* RequestModel.swift */,
 				D618B6341CB7B87E0044D96D /* ServiceClient.h */,
 				2AB6FC9F1D0EDD0400C289B5 /* Utility */,
 				D611A77B1CFC08B3007BE409 /* JSONModel */,
@@ -411,6 +414,7 @@
 				D611A73B1CFC0721007BE409 /* Request.swift in Sources */,
 				D611A78A1CFC08B3007BE409 /* JSONModel.m in Sources */,
 				2AB6FCA11D0EDD2500C289B5 /* TSGUtility.swift in Sources */,
+				D613554B1D1143FE0030E747 /* RequestModel.swift in Sources */,
 				D611A73D1CFC0721007BE409 /* ResponseSerialization.swift in Sources */,
 				D611A7431CFC0721007BE409 /* Validation.swift in Sources */,
 				D611A7391CFC0721007BE409 /* Notifications.swift in Sources */,
@@ -483,7 +487,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -528,7 +532,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/TSGServiceClient-Bridging-Header.h";

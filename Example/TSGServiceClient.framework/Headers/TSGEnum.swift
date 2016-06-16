@@ -81,7 +81,13 @@ public enum ImageQuality:Int {
     case MEDIUM
     case LOW
 }
+
 public enum ParameterType:Int {
     case QUERY_PARAMETER
     case BODY_PARAMETER
+}
+
+public enum DownloadType:Int {
+    case PARALLEL
+    case SERIAL
 }

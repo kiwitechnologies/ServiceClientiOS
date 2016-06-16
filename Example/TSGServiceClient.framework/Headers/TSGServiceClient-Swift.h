@@ -202,6 +202,16 @@ SWIFT_CLASS("_TtC16TSGServiceClient7Project")
 @property (nonatomic, copy) NSString * _Nullable apiVersion;
 @end
 
+@class NSDictionary;
+
+SWIFT_CLASS("_TtC16TSGServiceClient12RequestModel")
+@interface RequestModel : NSObject
+@property (nonatomic, copy) NSString * _Null_unspecified url;
+@property (nonatomic, strong) NSDictionary * _Nullable param;
+@property (nonatomic) BOOL isRunning;
+@property (nonatomic, copy) NSString * _Null_unspecified apiTag;
+@end
+
 @class NSURLSessionTask;
 @class TaskDelegate;
 @class NSError;
@@ -540,7 +550,7 @@ SWIFT_CLASS("_TtC16TSGServiceClient20TSGErrorValuesHolder")
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class NSDictionary;
+@class NSMutableArray;
 
 SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 @interface TSGHelper : NSObject
@@ -548,6 +558,7 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 @property (nonatomic, strong) Project * _Nullable projectOBJ;
 @property (nonatomic, strong) NSMutableDictionary * _Null_unspecified apiHeaderDict;
 @property (nonatomic, readonly, strong) NSMutableDictionary * _Nonnull mutRequestDict;
+@property (nonatomic, strong) NSMutableArray * _Nonnull serialDownloadRequest;
 + (TSGHelper * _Nonnull)sharedInstance;
 @property (nonatomic) NSInteger serviceCount;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
