@@ -14,10 +14,14 @@ public class TSGHelper: NSObject
     var appVersion:String?
     var projectOBJ:Project?
     var req:Request?
-    //var setContentType:String?
     var apiHeaderDict:NSMutableDictionary!
-    let mutRequestDict:NSMutableDictionary = NSMutableDictionary ()
-    var serialDownloadRequest:NSMutableArray = NSMutableArray()
+    
+    var normalActionRequest:NSMutableArray = NSMutableArray()
+    var sequentialDownloadRequest:NSMutableArray = NSMutableArray()
+    var parallelDownloadRequest:NSMutableArray = NSMutableArray()
+
+    var sequentialUploadRequest:NSMutableArray = NSMutableArray()
+    var parallelUploadRequest:NSMutableArray = NSMutableArray()
 
     //Alamofire Manager
     var manager:Manager!
@@ -162,7 +166,7 @@ public class TSGHelper: NSObject
         let urlString:String! = "http://kiwitechopensource.com/tsg/projects/\((string!))/version"
         
         
-        obj.getDataFromUrl(urlString,withActionID:"Default", params: [:], typeOfRequest: .GET, typeOfResponse: .JSON, success: { (obj) in
+        obj.getDataFromUrl(urlString,withApiTag: "0", params: [:], typeOfRequest: .GET, typeOfResponse: .JSON, success: { (obj) in
             
             var result:String!
             
@@ -194,7 +198,6 @@ public class TSGHelper: NSObject
             
 
             let apiObj:API = apiName as! API
-            print("\(apiObj.actionName)")
             var requestType:RequestType!
             
             for category in RequestType.allValues{
@@ -224,8 +227,15 @@ public class TSGHelper: NSObject
                 completeURL = TSGUtility.createPathParamURL(completeURL, pathParamDict: pathParamDict!)
             }
             
-            print(completeURL)
-            obj.getDataFromUrl(completeURL,withActionID:actionID, withQueryParam:queryParamDict, params: params, typeOfRequest:requestType, typeOfResponse: .JSON,withApiTag: apiTag, success: { (dict) in
+            var tag:String!
+            
+            if apiTag == nil {
+                tag = "0"
+            }else {
+                tag = apiTag
+            }
+            
+            obj.getDataFromUrl(completeURL, withApiTag:tag!, withQueryParam:queryParamDict, params: params, typeOfRequest:requestType, typeOfResponse: .JSON, success: { (dict) in
                 
                 success(dict)
                 }, failure: { (dict) in
@@ -250,61 +260,6 @@ public class TSGHelper: NSObject
     {
         self.appRuningMode = .DEVELOPMENT
     }
-    
-    //Mutlipart upload file method
-    /**
-     Upload any file in the form of NSData
-     - parameter url: upload url
-     - parameter imageData:  File data to upload.
-     - parameter success: Block to handle response
-     - parameter failure: Block to handle error
-     */
-
-    public class func uploadFileWith(actionName: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, withApiTag apiTag:String?=nil, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void)
-    {
-        
-        let imageData = TSGUtility.changeImageResolution(bodyParams.valueForKey(dataKeyName) as! NSData, withImageQuality: imageQuality!)
-        
-        let dictParams = NSMutableDictionary(dictionary:bodyParams)
-        dictParams.removeObjectForKey(dataKeyName)
-        
-        TSGValidationManager.validateActionData(actionName, withDic: bodyParams,withHeaderDic: TSGHelper.sharedInstance.apiHeaderDict, withOptionalData:imageData , onSuccess: { (object, str) in
-            
-            var completeURL:String!
-            
-            if TSGHelper.sharedInstance.appRuningMode == .DEVELOPMENT  {
-                completeURL = (object as! API).dev_baseURL! + (object as! API).actionName!
-            } else if TSGHelper.sharedInstance.appRuningMode == .TESTING {
-                completeURL = (object as! API).qa_baseURL! + (object as! API).actionName!
-                
-            } else if TSGHelper.sharedInstance.appRuningMode == .STAGING {
-                completeURL = (object as! API).stage_baseURL! + (object as! API).actionName!
-                
-            } else if TSGHelper.sharedInstance.appRuningMode == .PRODUCTION {
-                completeURL = (object as! API).prod_baseURL! + (object as! API).actionName!
-            }
-            
-            var actionID:String!
-            
-            if apiTag == nil {
-                actionID = "Upload"
-            } else {
-                actionID = apiTag
-            }
-            
-            TSGHelper.sharedInstance.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality: imageQuality, withApiTag:actionID,  progress: { (percent) in
-                progress(percent: percent)
-                }, success: { (response) in
-                    success(response: response)
-                }, failure: { (error) in
-                    failure(error)
-            })
-            
-        }) { (error) in
-            print(error)
-        }
-        
-    }
 
     /*************************************************************************************************************************************      NON WEB-TOOL METHODS
      
@@ -323,7 +278,7 @@ public class TSGHelper: NSObject
             actionID = "0"
         }
        
-        TSGHelper.sharedInstance.getDataFromUrl(completeURL,withActionID: actionID, withQueryParam: queryParam, params: bodyParam, typeOfRequest: typeOfRequest, typeOfResponse: typeOFResponse, withApiTag: apiTag, success: { (object) in
+        TSGHelper.sharedInstance.getDataFromUrl(completeURL,withApiTag: apiTag!, withQueryParam: queryParam, params: bodyParam, typeOfRequest: typeOfRequest, typeOfResponse: typeOFResponse, success: { (object) in
             success(object)
             
         }) { (error) in
@@ -332,32 +287,6 @@ public class TSGHelper: NSObject
 
     }
     
-    public class func uploadWith(path: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, withApiTag apiTag:String?=nil, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void)
-    {
-        
-        let dictParams = NSMutableDictionary(dictionary:bodyParams)
-        dictParams.removeObjectForKey(dataKeyName)
-        
-        let completeURL = TSGHelper.sharedInstance.baseUrl + path
-        
-        var actionID:String!
-        
-        if apiTag == nil {
-            actionID = "Upload"
-        } else {
-            actionID = apiTag
-        }
-
-        
-        TSGHelper.sharedInstance.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality:imageQuality, withApiTag: actionID, progress: { (percent) in
-            progress(percent: percent)
-            }, success: { (response) in
-                success(response: response)
-        }) { (error) in
-            failure(error)
-        }
-        
-    }
 
     /**
      - Http request using GET,POST,PUT,DELETE
@@ -369,10 +298,12 @@ public class TSGHelper: NSObject
     
     //MARK: Common Methods
 
-    internal func getDataFromUrl( url:String,withActionID  actionID:String, withQueryParam queryParamDict:[String:String]?=nil, params:NSDictionary?=nil,typeOfRequest:RequestType, typeOfResponse:ResponseMethod, withApiTag apiTag:String?=nil, success: AnyObject -> Void,failure: NSError -> Void)
+    internal func getDataFromUrl( url:String, withApiTag apiTag:String, withQueryParam queryParamDict:[String:String]?=nil, params:NSDictionary?=nil,typeOfRequest:RequestType, typeOfResponse:ResponseMethod, success: AnyObject -> Void,failure: NSError -> Void)
     {
         
         self.serviceCount = self.serviceCount + 1
+        
+        let obj = TSGHelper.sharedInstance
         
         switch(typeOfRequest)
         {
@@ -394,33 +325,14 @@ public class TSGHelper: NSObject
             self.req =  self.manager.request(.DELETE, url, parameters: params as? [String : AnyObject], encoding: .JSON)
         }
         
+        let currentTime = NSDate.timeIntervalSinceReferenceDate()
+
+        let progressValue:(percentage:Float)->()? = { percent in return}
+        progressValue(percentage: 1.0)
         
-        var requestArray:NSMutableArray!
-        
-        if self.mutRequestDict.objectForKey(actionID) != nil {
-            requestArray = self.mutRequestDict.objectForKey(actionID) as! NSMutableArray
-        }
-        
-        if(requestArray == nil || requestArray.count == 0)
-        {
-            requestArray = NSMutableArray()
-            req?.requestTAG = 0
-            requestArray.addObject(self.req!)
-            
-        }
-        else
-        {
-            let lastRequest = requestArray.lastObject as! Request
-            self.req?.requestTAG = lastRequest.requestTAG + 1
-            requestArray.addObject(self.req!)
-            
-        }
-        
-        self.mutRequestDict.setObject(requestArray, forKey: actionID)
-        
+        obj.normalActionRequest.addObject(RequestModel(url: url, bodyParam: params, queryParam: queryParamDict, type: typeOfRequest, state: true, apiTag: apiTag, priority: true, actionType: .NORMAL,apiTime:"\(currentTime)",requestObj: self.req,progressBlock: progressValue, successBlock: success,  failureBlock: failure))
         let requestTag =  self.req?.requestTAG
-        let actionID = actionID
-        
+
         switch(typeOfResponse)
         {
             
@@ -428,35 +340,21 @@ public class TSGHelper: NSObject
             self.req?.responseJSON
                 { response in
                     
-                    let arr:NSMutableArray! = self.mutRequestDict.objectForKey(actionID)  as! NSMutableArray
+                    let matchingObjects = self.sequentialDownloadRequest.filter({return ($0 as! RequestModel).apiTag == requestTag})
                     
-                    if(arr != nil || arr.count != 0)
-                    {
-                        if(arr.count == 1)
-                        {
-                            arr.removeAllObjects()
-                            self.mutRequestDict.removeObjectForKey(actionID)
-                        }
-                        else
-                        {
-                            let lRequestArray = NSArray(array: arr)
-                            for req in lRequestArray
-                            {
-                                let runningReq =  req as! Request
-                                if(runningReq.requestTAG == requestTag)
-                                {
-                                    arr.removeObject(req)
-                                    break;
-                                }
+                    for object in matchingObjects {
+                        
+                        for serialObj in self.sequentialDownloadRequest {
+                            if (object as! RequestModel).apiTag == (serialObj as! RequestModel).apiTag{
+                                self.normalActionRequest.removeObject(object)
                             }
-                            
                         }
+
                     }
                     
                     dispatch_async(dispatch_get_main_queue(),
                         {
                             self.serviceCount = self.serviceCount - 1
-                            
                             print(response)
                             if response.response?.statusCode <= 200 {
                                 if response.result.value != nil {
@@ -475,363 +373,11 @@ public class TSGHelper: NSObject
                                 }
                             }
                     })
-                    
             }
             
         case ResponseMethod.RAW: break
         case ResponseMethod.DATA: break
+            
         }
     }
-    
-    internal func uploadFile(completeURL:String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, withApiTag apiTag:String, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void){
-        
-        let obj = TSGHelper.sharedInstance
-        let imageData = TSGUtility.changeImageResolution(bodyParams.valueForKey(dataKeyName) as! NSData, withImageQuality: imageQuality!)
-        let dictParams = NSMutableDictionary(dictionary:bodyParams)
-        dictParams.removeObjectForKey(dataKeyName)
-
-        let mimeType:String = TSGUtility.returnMimeType(mimeType)
-        
-    obj.manager.upload(
-            .POST,
-            completeURL,
-            multipartFormData: { multipartFormData in
-                multipartFormData.appendBodyPart(data: imageData, name: dataKeyName,
-                    fileName: "\(dataKeyName).\(mimeType.componentsSeparatedByString("/").last!)", mimeType: mimeType)
-                
-                for (key, value) in dictParams {
-                    multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key as! String)
-                }
-                
-            },
-            encodingCompletion: { encodingResult in
-                
-                switch encodingResult {
-                    
-                case .Success(let upload, _, _):
-                    
-                    upload.progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
-                            progress(percent: percent)
-                            print(percent)
-                            
-                        }
-                    }
-                    upload.responseJSON(completionHandler: { (response) in
-                        
-                        dispatch_async(dispatch_get_main_queue(),
-                            {
-                                obj.serviceCount = obj.serviceCount - 1
-                                
-                                if response.response?.statusCode <= 200 {
-                                    
-                                    if response.result.value != nil {
-                                        success(response: response.result.value!)
-                                    } else {
-                                        failure(response.result.error!)
-                                    }
-                                    
-                                } else {
-                                    if response.result.error != nil {
-                                        failure(response.result.error!)
-                                    }
-                                }
-                        })
-                    })
-                    
-                case .Failure(let encodingError):
-                    print("Encoding error------------------------\(encodingError)")
-                }
-            }
-        )
-    }
-    
-      /*
-     Download any file
-     - paramter url: Download url
-     - parameter success: Block to handle response
-     - parameter failure: Block to handle error
-     */
-    
-    public class func downloadFile(path:String, param:NSDictionary?=nil,requestType:RequestType ,downloadType:DownloadType = DownloadType.PARALLEL, withApiTag apiTag:String?=nil,progressValue:(percentage:Float)->Void, success:(response:AnyObject) -> Void, failure:NSError->Void)
-    {
-        
-        let obj = TSGHelper.sharedInstance
-        let completeURL = TSGHelper.sharedInstance.baseUrl + path
-        
-        var objTag:String!
-        
-        if apiTag != nil {
-            objTag = apiTag
-        } else {
-            
-            let lastObj:RequestModel = obj.serialDownloadRequest.lastObject as! RequestModel
-            
-            //TODO:WORK need to do
-            //objTag = "\( lastObj.apiTag + 1)"
-        }
-        
-        if downloadType == .SERIAL
-        {
-            let requestObj = RequestModel(url: completeURL, param: param, type: requestType, state: true, apiTag: objTag)
-            obj.serialDownloadRequest.addObject(requestObj)
-            
-            if obj.serialDownloadRequest.count == 0 {
-                
-                obj.download(path, param: param, requestType: requestType, withApiTag: apiTag, progressValue: { (percentage) in
-                    progressValue(percentage: percentage)
-                    }, success: { (response) in
-                        success(response: response)
-                    }, failure: { (error) in
-                        failure(error)
-                })
-            } else {
-                
-                let firstArrayObject:RequestModel = obj.serialDownloadRequest[0] as! RequestModel
-                if firstArrayObject.isRunning == false{
-                    
-                    obj.download(path, param: param, requestType: requestType, withApiTag: apiTag, progressValue: { (percentage) in
-                        progressValue(percentage: percentage)
-                        }, success: { (response) in
-                            success(response: response)
-                        }, failure: { (error) in
-                            failure(error)
-                    })
-                }
-            }
-        }
-        else
-        {
-            obj.download(path, param: param, requestType: requestType, withApiTag: apiTag, progressValue: { (percentage) in
-                progressValue(percentage: percentage)
-                }, success: { (response) in
-                    success(response: response)
-                }, failure: { (error) in
-                    failure(error)
-            })
-        }
-    }
-    
-    func download(path:String, param:NSDictionary?=nil,requestType:RequestType, withApiTag apiTag:String?=nil,progressValue:(percentage:Float)->Void, success:(response:AnyObject) -> Void, failure:NSError->Void){
-        
-        let obj = TSGHelper.sharedInstance
-        let completeURL = TSGHelper.sharedInstance.baseUrl + path
-        
-        let destination = Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
-        
-        var requestMethod:Method = .GET
-        
-        switch requestType {
-            
-        case .GET:
-            requestMethod = .GET
-            
-        case .POST:
-            requestMethod = .POST
-            
-        case .DELETE:
-            requestMethod = .DELETE
-            
-        case .PUT:
-            requestMethod = .PUT
-        }
-        
-        var actionID:String!
-        
-        if apiTag != nil {
-            actionID = apiTag
-        } else {
-            actionID = "Download"
-        }
-        
-        let requestTag =  TSGHelper.sharedInstance.req?.requestTAG
-        
-        obj.req =  obj.manager.download(requestMethod, completeURL,parameters:param as? [String : AnyObject],
-            destination: destination)
-            .progress { bytesRead, totalBytesRead, totalBytesExpectedToRead in
-                let percentage = (Float(totalBytesRead) / Float(totalBytesExpectedToRead))
-                progressValue(percentage: percentage)
-        }
-        
-        var requestArray:NSMutableArray!
-        
-        if TSGHelper.sharedInstance.mutRequestDict.objectForKey(actionID) != nil {
-            requestArray = TSGHelper.sharedInstance.mutRequestDict.objectForKey(actionID) as! NSMutableArray
-        }
-        
-        if(requestArray == nil || requestArray.count == 0)
-        {
-            requestArray = NSMutableArray()
-            TSGHelper.sharedInstance.req?.requestTAG = 0
-            requestArray.addObject(TSGHelper.sharedInstance.req!)
-        }
-        else
-        {
-            let lastRequest = requestArray.lastObject as! Request
-            TSGHelper.sharedInstance.req?.requestTAG = lastRequest.requestTAG + 1
-            requestArray.addObject(TSGHelper.sharedInstance.req!)
-            
-        }
-        
-        TSGHelper.sharedInstance.mutRequestDict.setObject(requestArray, forKey: actionID)
-        
-        
-        TSGHelper.sharedInstance.req?.response(completionHandler: {  _,response, _, error in
-            let arr:NSMutableArray! = TSGHelper.sharedInstance.mutRequestDict.objectForKey(actionID!)  as! NSMutableArray
-            
-            if(arr != nil || arr.count != 0)
-            {
-                if(arr.count == 1)
-                {
-                    arr.removeAllObjects()
-                    TSGHelper.sharedInstance.mutRequestDict.removeObjectForKey(actionID!)
-                }
-                else
-                {
-                    let lRequestArray = NSArray(array: arr)
-                    for req in lRequestArray
-                    {
-                        let runningReq =  req as! Request
-                        if(runningReq.requestTAG == requestTag)
-                        {
-                            arr.removeObject(req)
-                            break;
-                        }
-                    }
-                }
-            }
-            if response != nil {
-                success(response: response!)}
-            if error != nil {
-                failure(error!)
-            }
-            
-        })
-        
-    }
-
-    /**
-     Resume any pending downloads
-     - paramter url: Resume download url
-     - parameter success: Block to handle response
-     */
-    public class func resumeDownloads(path:String, withApiTag apiTag:String?=nil,success:(Int64,totalBytes:Int64)-> Void)
-    {
-        let obj = TSGHelper.sharedInstance
-        
-        obj.serviceCount = obj.serviceCount + 1
-        
-        var actionID:String!
-        
-        if apiTag != nil {
-            actionID = apiTag
-        } else {
-            actionID = "ResumeDownload"
-        }
-        let requestTag =  TSGHelper.sharedInstance.req?.requestTAG
-
-        
-        let completeURL = TSGHelper.sharedInstance.baseUrl + path
-
-        let destination = Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
-        obj.req =  obj.manager.download(.GET, completeURL, destination: destination)
-            .progress { bytesRead, totalBytesRead, totalBytesExpectedToRead in
-                success(totalBytesRead,totalBytes:totalBytesExpectedToRead)
-            }
-        
-        var requestArray:NSMutableArray!
-        
-        if TSGHelper.sharedInstance.mutRequestDict.objectForKey(actionID) != nil {
-            requestArray = TSGHelper.sharedInstance.mutRequestDict.objectForKey(actionID) as! NSMutableArray
-        }
-        
-        if(requestArray == nil || requestArray.count == 0)
-        {
-            requestArray = NSMutableArray()
-            TSGHelper.sharedInstance.req?.requestTAG = 0
-            requestArray.addObject(TSGHelper.sharedInstance.req!)
-        }
-        else
-        {
-            let lastRequest = requestArray.lastObject as! Request
-            TSGHelper.sharedInstance.req?.requestTAG = lastRequest.requestTAG + 1
-            requestArray.addObject(TSGHelper.sharedInstance.req!)
-            
-        }
-        
-        TSGHelper.sharedInstance.mutRequestDict.setObject(requestArray, forKey: actionID)
-        
-            obj.req!.response { _, _, _, _ in
-                if let
-                    resumeData = obj.req!.resumeData,
-                    _ = NSString(data: resumeData, encoding: NSUTF8StringEncoding)
-                {
-                    obj.serviceCount = obj.serviceCount - 1
-                } else {
-                    obj.serviceCount = obj.serviceCount - 1
-                }
-                
-                let arr:NSMutableArray! = TSGHelper.sharedInstance.mutRequestDict.objectForKey(actionID!)  as! NSMutableArray
-                
-                if(arr != nil || arr.count != 0)
-                {
-                    if(arr.count == 1)
-                    {
-                        arr.removeAllObjects()
-                        TSGHelper.sharedInstance.mutRequestDict.removeObjectForKey(actionID!)
-                    }
-                    else
-                    {
-                        let lRequestArray = NSArray(array: arr)
-                        for req in lRequestArray
-                        {
-                            let runningReq =  req as! Request
-                            if(runningReq.requestTAG == requestTag)
-                            {
-                                arr.removeObject(req)
-                                break;
-                            }
-                        }
-                        
-                    }
-                }
-        }
-    }
-    
-    /**
-     Cancel any ongoing alamofire operation
-     */
-    public class func cancelAllRequests()
-    {
-        let obj = TSGHelper.sharedInstance
-        
-        let allKeys = obj.mutRequestDict.allKeys
-        
-        for key in allKeys {
-            
-            if let req:NSMutableArray = (obj.mutRequestDict.valueForKey(key as! String) as? NSMutableArray)! {
-                for key in req {
-                (key as! Request).cancel()
-                    print("CancelRequest with \((key as! Request))")
-
-                }
-            }
-        }
-    }
-    
-    public class func cancelRequestWithTag(actionID:String)
-    {
-        let obj = TSGHelper.sharedInstance
-        
-        if let req = (obj.mutRequestDict.valueForKey(actionID )) {
-            for key in req as! NSMutableArray
-            {
-                (key as! Request).cancel()
-                print("CancelRequest with \((key as! Request))")
-                
-            }
-        }
-    }
-  
 }

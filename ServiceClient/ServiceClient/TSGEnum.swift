@@ -89,5 +89,17 @@ public enum ParameterType:Int {
 
 public enum DownloadType:Int {
     case PARALLEL
-    case SERIAL
+    case SEQUENTIAL
+    case NONE
+}
+
+public enum UploadType:Int {
+    case PARALLEL
+    case SEQUENTIAL
+}
+
+public enum ActionType:Int {
+    case NORMAL
+    case DOWNLOAD
+    case UPLOAD
 }

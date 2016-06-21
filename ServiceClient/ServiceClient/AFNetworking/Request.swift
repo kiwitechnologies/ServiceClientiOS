@@ -51,8 +51,8 @@ public class Request {
     public var progress: NSProgress { return delegate.progress }
 
     var startTime: CFAbsoluteTime?
-    var requestTAG: Int = 0
-    var serializeTAG: Int = 0
+    var requestTAG: String = "0"
+    var requestTime:String!
 
     var endTime: CFAbsoluteTime?
 

@@ -120,20 +120,57 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         ServiceManager.setBaseURL("http://jplayer.org/video/m4v/")
 
-        ServiceManager.downloadWith("Big_Buck_Bunny_Trailer.m4v", requestType: .GET, progress: { (percentage) in
-            
+        ServiceManager.downloadWith("Finding_Nemo_Teaser.m4v",requestType: .GET, downloadType: .PARALLEL, withApiTag: "BBBBB", prority: false, progress: { (percentage) in
+            print("BBBBB\(percentage)")
             dispatch_async(dispatch_get_main_queue()) {
                 self.progressIndicator.setProgress(percentage, animated: true)
             }
-
             }, success: { (response) in
-                self.activityIndicatorView.hidden = true
-               // self.progressView.hidden = true
-                self.apiResult.hidden = false
-                self.apiResult.text = "SUCCESS: Image Downloaded"
-            }) { (error) in
-                print(error)
+                print("BBBBB\(response)")
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.activityIndicatorView.hidden = true
+                    self.progressIndicator.hidden = true
+                    self.apiResult.hidden = false
+                    self.apiResult.text = "SUCCESS: Image Uploaded"                }
+
+        }) { (error) in
+            print(error)
         }
+
+//        ServiceManager.downloadWith("Incredibles_Teaser.m4v",requestType: .GET, downloadType: .SEQUENTIAL, withApiTag: "CCCCCC", prority: false, progress: { (percentage) in
+//            print("CCCCCC\(percentage)")
+//            dispatch_async(dispatch_get_main_queue()) {
+//                self.progressIndicator.setProgress(percentage, animated: true)
+//            }
+//            }, success: { (response) in
+//                print("CCCCCC\(response)")
+//        }) { (error) in
+//            print(error)
+//        }
+//
+//        ServiceManager.downloadWith("Incredibles_Teaser_320x144_h264aac.m4v",requestType: .GET, downloadType: .PARALLEL, withApiTag: "DDDDDD", prority: false, progress: { (percentage) in
+//            print("DDDDDD\(percentage)")
+//            dispatch_async(dispatch_get_main_queue()) {
+//                self.progressIndicator.setProgress(percentage, animated: true)
+//            }
+//            }, success: { (response) in
+//                print("DDDDDD\(response)")
+//        }) { (error) in
+//            print(error)
+//        }
+//
+//        ServiceManager.downloadWith("Incredibles_Teaser_640x272_h264aac.m4v",requestType: .GET, downloadType: .SEQUENTIAL, withApiTag: "EEEEEE", prority: true, progress: { (percentage) in
+//            print("EEEEEE\(percentage)")
+//            dispatch_async(dispatch_get_main_queue()) {
+//                self.progressIndicator.setProgress(percentage, animated: true)
+//            }
+//            }, success: { (response) in
+//                print("EEEEEE\(response)")
+//        }) { (error) in
+//            print(error)
+//        }
+
         
     }
     
@@ -162,6 +199,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func setProjecRunningID()
     {
         TSGServiceManager.setProjectRuningMode(.DEVELOPMENT)
+         let currentTime = NSDate.timeIntervalSinceReferenceDate()
+         print(currentTime)
     }
     
     //MARK : function for Get Request
@@ -202,7 +241,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         TSGServiceManager.performAction("5742a28c5262ef7a1aae2977", withParams:bodyDict, onSuccess: { (dictionary) in
           //  print("\(dictionary)")
             self.apiResult.text = "SUCCESS: PUT request executed successfully"
-
             
         }) { (bool, errors) in
             let temp = self.convertDictToJSONString(errors.userInfo)
@@ -263,7 +301,9 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         progressIndicator.setProgress(0, animated: true)
         let bodyDict = ["name":"Ashish","user_email":"Ashish@kiwitech.com","age":"23","avatar":imageData! as NSData]
         
-        TSGServiceManager.uploadData("5742a30b5262ef7a1aae2980", mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW, progress: { (percentage) in
+        TSGServiceManager.uploadData("5742a30b5262ef7a1aae2980", mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:true, progress: { (percentage) in
+            print("aaaa \(percentage)")
+
             dispatch_async(dispatch_get_main_queue()) {
                 self.progressIndicator.setProgress(percentage, animated: true)
             }
@@ -277,6 +317,67 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
 
         }
         
+        let bodyDict1 = ["name":"Ashish","user_email":"Ashish@kiwitech.com","age":"23","avatar":imageData! as NSData]
+
+        TSGServiceManager.uploadData("5742a30b5262ef7a1aae2980", mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict1,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
+            print("bbbb \(percentage)")
+
+            dispatch_async(dispatch_get_main_queue()) {
+                self.progressIndicator.setProgress(percentage, animated: true)
+            }
+            }, success: { (response) in
+                self.activityIndicatorView.hidden = true
+                self.progressIndicator.hidden = true
+                self.apiResult.hidden = false
+                self.apiResult.text = "SUCCESS: Image Uploaded"
+        }) { (error) in
+            print("Some error")
+            
+        }
+//        TSGServiceManager.uploadData("5742a30b5262ef7a1aae2980", mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
+//            print("ccccc \(percentage)")
+//            dispatch_async(dispatch_get_main_queue()) {
+//                self.progressIndicator.setProgress(percentage, animated: true)
+//            }
+//            }, success: { (response) in
+//                self.activityIndicatorView.hidden = true
+//                self.progressIndicator.hidden = true
+//                self.apiResult.hidden = false
+//                self.apiResult.text = "SUCCESS: Image Uploaded"
+//        }) { (error) in
+//            print("Some error")
+//            
+//        }
+//        TSGServiceManager.uploadData("5742a30b5262ef7a1aae2980", mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
+//            print("dddd \(percentage)")
+//            dispatch_async(dispatch_get_main_queue()) {
+//                self.progressIndicator.setProgress(percentage, animated: true)
+//            }
+//            }, success: { (response) in
+//                self.activityIndicatorView.hidden = true
+//                self.progressIndicator.hidden = true
+//                self.apiResult.hidden = false
+//                self.apiResult.text = "SUCCESS: Image Uploaded"
+//        }) { (error) in
+//            print("Some error")
+//            
+//        }
+//
+//        TSGServiceManager.uploadData("5742a30b5262ef7a1aae2980", mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
+//            print("eeeee \(percentage)")
+//            dispatch_async(dispatch_get_main_queue()) {
+//                self.progressIndicator.setProgress(percentage, animated: true)
+//            }
+//            }, success: { (response) in
+//                self.activityIndicatorView.hidden = true
+//                self.progressIndicator.hidden = true
+//                self.apiResult.hidden = false
+//                self.apiResult.text = "SUCCESS: Image Uploaded"
+//        }) { (error) in
+//            print("Some error")
+//            
+//        }
+
         dismissViewControllerAnimated(true, completion: nil)
     }
 }

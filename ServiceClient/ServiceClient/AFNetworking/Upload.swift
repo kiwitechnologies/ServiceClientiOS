@@ -25,6 +25,7 @@
 import Foundation
 
 extension Manager {
+    
     private enum Uploadable {
         case Data(NSURLRequest, NSData)
         case File(NSURLRequest, NSURL)
@@ -237,6 +238,8 @@ extension Manager {
         method: Method,
         _ URLString: URLStringConvertible,
         headers: [String: String]? = nil,
+        requestTAG:String?=nil,
+        apiTime:String?=nil,
         multipartFormData: MultipartFormData -> Void,
         encodingMemoryThreshold: UInt64 = Manager.MultipartFormDataEncodingMemoryThreshold,
         encodingCompletion: (MultipartFormDataEncodingResult -> Void)?)
@@ -245,6 +248,8 @@ extension Manager {
 
         return upload(
             mutableURLRequest,
+            requestTAG: requestTAG,
+            apiTime: apiTime,
             multipartFormData: multipartFormData,
             encodingMemoryThreshold: encodingMemoryThreshold,
             encodingCompletion: encodingCompletion
@@ -277,6 +282,8 @@ extension Manager {
     */
     public func upload(
         URLRequest: URLRequestConvertible,
+        requestTAG:String?=nil,
+        apiTime:String?=nil,
         multipartFormData: MultipartFormData -> Void,
         encodingMemoryThreshold: UInt64 = Manager.MultipartFormDataEncodingMemoryThreshold,
         encodingCompletion: (MultipartFormDataEncodingResult -> Void)?)
@@ -293,8 +300,11 @@ extension Manager {
             if formData.contentLength < encodingMemoryThreshold && !isBackgroundSession {
                 do {
                     let data = try formData.encode()
+                    let requestOBJ:Request = self.upload(URLRequestWithContentType, data: data)
+                    requestOBJ.requestTAG = requestTAG!
+                    requestOBJ.requestTime = apiTime
                     let encodingResult = MultipartFormDataEncodingResult.Success(
-                        request: self.upload(URLRequestWithContentType, data: data),
+                        request: requestOBJ,
                         streamingFromDisk: false,
                         streamFileURL: nil
                     )
@@ -317,14 +327,17 @@ extension Manager {
                 do {
                     try fileManager.createDirectoryAtURL(directoryURL, withIntermediateDirectories: true, attributes: nil)
                     try formData.writeEncodedDataToDisk(fileURL)
-
+                    let requestOBJ = self.upload(URLRequestWithContentType, file: fileURL)
+                    requestOBJ.requestTAG = requestTAG!
+                    requestOBJ.requestTime = apiTime
                     dispatch_async(dispatch_get_main_queue()) {
                         let encodingResult = MultipartFormDataEncodingResult.Success(
-                            request: self.upload(URLRequestWithContentType, file: fileURL),
+                            request: requestOBJ,
                             streamingFromDisk: true,
                             streamFileURL: fileURL
                         )
                         encodingCompletion?(encodingResult)
+                    
                     }
                 } catch {
                     dispatch_async(dispatch_get_main_queue()) {

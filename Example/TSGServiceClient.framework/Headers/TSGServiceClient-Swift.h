@@ -207,9 +207,13 @@ SWIFT_CLASS("_TtC16TSGServiceClient7Project")
 SWIFT_CLASS("_TtC16TSGServiceClient12RequestModel")
 @interface RequestModel : NSObject
 @property (nonatomic, copy) NSString * _Null_unspecified url;
-@property (nonatomic, strong) NSDictionary * _Nullable param;
+@property (nonatomic, strong) NSDictionary * _Nullable bodyParam;
+@property (nonatomic, strong) NSDictionary * _Nullable queryParam;
 @property (nonatomic) BOOL isRunning;
 @property (nonatomic, copy) NSString * _Null_unspecified apiTag;
+@property (nonatomic) BOOL priority;
+@property (nonatomic, copy) NSString * _Nonnull apiTime;
+@property (nonatomic, copy) NSString * _Nullable dataKeyName;
 @end
 
 @class NSURLSessionTask;
@@ -557,8 +561,11 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 @property (nonatomic, copy) NSString * _Nullable appVersion;
 @property (nonatomic, strong) Project * _Nullable projectOBJ;
 @property (nonatomic, strong) NSMutableDictionary * _Null_unspecified apiHeaderDict;
-@property (nonatomic, readonly, strong) NSMutableDictionary * _Nonnull mutRequestDict;
-@property (nonatomic, strong) NSMutableArray * _Nonnull serialDownloadRequest;
+@property (nonatomic, strong) NSMutableArray * _Nonnull normalActionRequest;
+@property (nonatomic, strong) NSMutableArray * _Nonnull sequentialDownloadRequest;
+@property (nonatomic, strong) NSMutableArray * _Nonnull parallelDownloadRequest;
+@property (nonatomic, strong) NSMutableArray * _Nonnull sequentialUploadRequest;
+@property (nonatomic, strong) NSMutableArray * _Nonnull parallelUploadRequest;
 + (TSGHelper * _Nonnull)sharedInstance;
 @property (nonatomic) NSInteger serviceCount;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
@@ -574,16 +581,32 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 - (void)getAPIVersion:(void (^ _Nonnull)(NSDictionary * _Nonnull dic))sucess failure:(void (^ _Nonnull)(NSError * _Nonnull error))failure;
 + (void)requestedApi:(NSString * _Nonnull)actionID withQueryParam:(NSDictionary<NSString *, NSString *> * _Nullable)queryParamDict withParam:(NSDictionary<NSString *, NSString *> * _Nullable)params withPathParams:(NSMutableDictionary * _Nullable)pathParamDict withTag:(NSString * _Nullable)apiTag onSuccess:(void (^ _Nonnull)(id _Nonnull))success onFailure:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))failed;
 - (void)setAppRuningMode;
+@end
+
+
+@interface TSGHelper (SWIFT_EXTENSION(TSGServiceClient))
+
+/// Cancel any ongoing alamofire operation
++ (void)cancelAllRequests;
+
+/// Cancel request With TagID
++ (void)cancelRequestWithTag:(NSString * _Nonnull)apiTag;
+@end
+
+
+@interface TSGHelper (SWIFT_EXTENSION(TSGServiceClient))
 
 /// Resume any pending downloads
 ///
 /// <ul><li>paramter url: Resume download url</li></ul>
 /// \param success Block to handle response
 + (void)resumeDownloads:(NSString * _Nonnull)path withApiTag:(NSString * _Nullable)apiTag success:(void (^ _Nonnull)(int64_t, int64_t totalBytes))success;
+- (void)hitAnotherDownloadRequest:(void (^ _Nonnull)(float percentage))progressValue success:(void (^ _Nonnull)(id _Nonnull response))success failure:(void (^ _Nonnull)(NSError * _Nonnull))failure;
+@end
 
-/// Cancel any ongoing alamofire operation
-+ (void)cancelAllRequests;
-+ (void)cancelRequestWithTag:(NSString * _Nonnull)actionID;
+
+@interface TSGHelper (SWIFT_EXTENSION(TSGServiceClient))
+- (void)hitAnotherSequentialUploadRequest:(void (^ _Nonnull)(float percentage))progressValue success:(void (^ _Nonnull)(id _Nonnull response))success failure:(void (^ _Nonnull)(NSError * _Nonnull))failure;
 @end
 
 

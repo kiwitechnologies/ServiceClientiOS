@@ -74,6 +74,9 @@
 		D61DDA401CFCAA1C00FFA18F /* TSGAPIDetails.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D61DDA3E1CFCAA1C00FFA18F /* TSGAPIDetails.xcdatamodeld */; };
 		D61DDA521CFCB58300FFA18F /* TSGServiceManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = D6030E4C1CC8EA1900101E68 /* TSGServiceManager.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		D61DDA541CFCB9AC00FFA18F /* TSGServiceClient-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = D61DDA531CFCB9AC00FFA18F /* TSGServiceClient-Bridging-Header.h */; };
+		D62848221D17CBCB00E31A7B /* TSGHelper+Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62848211D17CBCB00E31A7B /* TSGHelper+Download.swift */; };
+		D62848261D17CC7C00E31A7B /* TSGHelper+Cancel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62848251D17CC7C00E31A7B /* TSGHelper+Cancel.swift */; };
+		D62848281D190A8700E31A7B /* TSGHelper+Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62848271D190A8700E31A7B /* TSGHelper+Upload.swift */; };
 		D67508681D0FCA1B00F179B3 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67508671D0FCA1B00F179B3 /* ServiceManager.swift */; };
 		D67508691D0FD6E900F179B3 /* ServiceManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = D67508671D0FCA1B00F179B3 /* ServiceManager.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		D675086A1D0FD6F400F179B3 /* TSGEnum.swift in Headers */ = {isa = PBXBuildFile; fileRef = D611A72E1CFC0721007BE409 /* TSGEnum.swift */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -134,6 +137,9 @@
 		D618B63C1CB7B88F0044D96D /* TSGHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGHelper.swift; sourceTree = "<group>"; };
 		D61DDA3F1CFCAA1C00FFA18F /* TSGAPIDetails.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TSGAPIDetails.xcdatamodel; sourceTree = "<group>"; };
 		D61DDA531CFCB9AC00FFA18F /* TSGServiceClient-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TSGServiceClient-Bridging-Header.h"; sourceTree = "<group>"; };
+		D62848211D17CBCB00E31A7B /* TSGHelper+Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TSGHelper+Download.swift"; sourceTree = "<group>"; };
+		D62848251D17CC7C00E31A7B /* TSGHelper+Cancel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TSGHelper+Cancel.swift"; sourceTree = "<group>"; };
+		D62848271D190A8700E31A7B /* TSGHelper+Upload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TSGHelper+Upload.swift"; sourceTree = "<group>"; };
 		D67508671D0FCA1B00F179B3 /* ServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -277,6 +283,9 @@
 				D6030E4C1CC8EA1900101E68 /* TSGServiceManager.swift */,
 				D67508671D0FCA1B00F179B3 /* ServiceManager.swift */,
 				D618B63C1CB7B88F0044D96D /* TSGHelper.swift */,
+				D62848211D17CBCB00E31A7B /* TSGHelper+Download.swift */,
+				D62848271D190A8700E31A7B /* TSGHelper+Upload.swift */,
+				D62848251D17CC7C00E31A7B /* TSGHelper+Cancel.swift */,
 				D613554A1D1143FE0030E747 /* RequestModel.swift */,
 				D618B6341CB7B87E0044D96D /* ServiceClient.h */,
 				2AB6FC9F1D0EDD0400C289B5 /* Utility */,
@@ -414,6 +423,7 @@
 				D611A73B1CFC0721007BE409 /* Request.swift in Sources */,
 				D611A78A1CFC08B3007BE409 /* JSONModel.m in Sources */,
 				2AB6FCA11D0EDD2500C289B5 /* TSGUtility.swift in Sources */,
+				D62848221D17CBCB00E31A7B /* TSGHelper+Download.swift in Sources */,
 				D613554B1D1143FE0030E747 /* RequestModel.swift in Sources */,
 				D611A73D1CFC0721007BE409 /* ResponseSerialization.swift in Sources */,
 				D611A7431CFC0721007BE409 /* Validation.swift in Sources */,
@@ -442,7 +452,9 @@
 				D611A7601CFC0721007BE409 /* TSGValidationHelper.swift in Sources */,
 				D611A7441CFC0721007BE409 /* Constants.swift in Sources */,
 				D611A74B1CFC0721007BE409 /* Project+CoreDataProperties.swift in Sources */,
+				D62848261D17CC7C00E31A7B /* TSGHelper+Cancel.swift in Sources */,
 				D611A73E1CFC0721007BE409 /* Result.swift in Sources */,
+				D62848281D190A8700E31A7B /* TSGHelper+Upload.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

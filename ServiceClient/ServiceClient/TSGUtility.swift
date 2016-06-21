@@ -60,6 +60,9 @@ class TSGUtility: NSObject {
             break
             
         }
+        if imgData == nil {
+            return imageData
+        }
         return imgData
     }
     
@@ -91,5 +94,5 @@ class TSGUtility: NSObject {
         return pathParamString
     }
 
-    
 }
+

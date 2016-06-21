@@ -100,9 +100,9 @@ public class TSGServiceManager {
      *	@description	: It would be used to download any Data
      */
     
-    public class func downloadData(endPoint:String, param:NSDictionary?=nil,requestType:RequestType, downloadType:DownloadType = DownloadType.PARALLEL,withTag apiTag:String?=nil,progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
+    public class func downloadData(endPoint:String, param:NSDictionary?=nil,requestType:RequestType, downloadType:DownloadType = DownloadType.PARALLEL,withTag apiTag:String?=nil,priority:Bool,progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
         
-        TSGHelper.downloadFile(endPoint, param: param,requestType: requestType, progressValue: { (percentage) in
+        TSGHelper.downloadFile(endPoint, param: param,requestType: requestType,downloadType:downloadType,priority: priority, progressValue: { (percentage) in
             progress(percentage: percentage)
             }, success: { (response) in
                 success(response: response)
@@ -118,9 +118,9 @@ public class TSGServiceManager {
      *	@description	: It would be used to upload the data
      */
     
-    public class func uploadData(actionID:String, mimeType:MimeType,queryParam:NSDictionary?=nil,bodyParams:NSDictionary,dataKeyName:String,imageQuality:ImageQuality,withTag apiTag:String?=nil, progress: (percentage: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void) {
+    public class func uploadData(actionID:String, mimeType:MimeType,queryParam:NSDictionary?=nil,bodyParams:NSDictionary,dataKeyName:String,imageQuality:ImageQuality,withTag apiTag:String?=nil,uploadType:UploadType = UploadType.PARALLEL,prority:Bool, progress: (percentage: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void) {
       
-        TSGHelper.uploadFileWith(actionID, bodyParams: bodyParams,dataKeyName:dataKeyName,mimeType:mimeType,imageQuality:imageQuality, progress: { (percent) in
+        TSGHelper.uploadFileWith(actionID, bodyParams: bodyParams,dataKeyName:dataKeyName,mimeType:mimeType,imageQuality:imageQuality,withApiTag:apiTag,uploadType: uploadType,priority: prority,  progress: { (percent) in
 
             progress(percentage: percent)
             }, success: { (response) in
@@ -141,16 +141,6 @@ public class TSGServiceManager {
         TSGHelper.sharedInstance.getAPIVersion({ (dic) in
                     onSuccess(dic: dic)
             }) { (_) in
-        }
-    }
-    
-    /**
-     *	@functionName	: resumeDownLoad
-     *	@parameters		: url : It would be resume URL of Download
-     */
-    public class func resumeDownLoad(url:String, success:(Int64, totalBytes:Int64)->()){
-        TSGHelper.resumeDownloads(url) { (bytes, totalBytes) in
-            success(bytes,totalBytes: totalBytes)
         }
     }
 }

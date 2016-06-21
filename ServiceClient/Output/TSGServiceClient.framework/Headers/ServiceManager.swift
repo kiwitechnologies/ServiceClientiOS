@@ -43,6 +43,7 @@ public class ServiceManager {
         // print(contentType)
        // TSGHelper.sharedInstance.setContentType = contentType
     }
+    
     /**
      *	@functionName           : removeHeader
      *	@completion Block		: deviceTokeString : It would be a unique identifier of device
@@ -81,9 +82,9 @@ public class ServiceManager {
      *	@description	: It would be used to download any Data
      */
     
-    public class func downloadWith(path:String, param:NSDictionary?=nil,requestType:RequestType, downloadType:DownloadType = DownloadType.PARALLEL, withApiTag apiTag:String?=nil, progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
+    public class func downloadWith(path:String, param:NSDictionary?=nil,requestType:RequestType, downloadType:DownloadType = DownloadType.PARALLEL, withApiTag apiTag:String?=nil,prority:Bool, progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
 
-        TSGHelper.downloadFile(path, param: param,requestType: requestType,withApiTag: apiTag, progressValue: { (percentage) in
+        TSGHelper.downloadFile(path, param: param,requestType: requestType,downloadType: downloadType,withApiTag: apiTag, priority:prority,  progressValue: { (percentage) in
             progress(percentage: percentage)
             }, success: { (response) in
                 success(response: response)
@@ -111,9 +112,9 @@ public class ServiceManager {
         }
     }
     
-    public class func uploadWithPath(path: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, progress: (percent: Float) -> Void, Success:(response:AnyObject) -> Void, Failure:ErrorType->Void){
+    public class func uploadWithPath(path: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH,uploadType:UploadType = UploadType.PARALLEL,prority:Bool, progress: (percent: Float) -> Void, Success:(response:AnyObject) -> Void, Failure:ErrorType->Void){
         
-        TSGHelper.uploadWith(path, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality: imageQuality, progress: { (percent) in
+        TSGHelper.uploadWith(path, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality: imageQuality,uploadType:uploadType,priority:true, progress: { (percent) in
             progress(percent: percent)
             
             }, success: { (response) in
@@ -124,17 +125,5 @@ public class ServiceManager {
         }
     }
     
-    /**
-     *	@functionName	: resumeDownLoad
-     *	@parameters		: url : It would be resume URL of Download
-     */
-    
-    public class func resumeDownLoad(url:String, success:(Int64, totalBytes:Int64)->()){
-        TSGHelper.resumeDownloads(url) { (bytes, totalBytes) in
-            success(bytes,totalBytes: totalBytes)
-        }
-    }
-
-    
-}
+ }
 
