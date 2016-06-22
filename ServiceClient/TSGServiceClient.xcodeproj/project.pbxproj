@@ -576,7 +576,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Framework.ServiceClient;
 				PRODUCT_NAME = TSGServiceClient;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/TSGServiceClient-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "TSGServiceClient-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -602,7 +602,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Framework.ServiceClient;
 				PRODUCT_NAME = TSGServiceClient;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/TSGServiceClient-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "TSGServiceClient-Bridging-Header.h";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;

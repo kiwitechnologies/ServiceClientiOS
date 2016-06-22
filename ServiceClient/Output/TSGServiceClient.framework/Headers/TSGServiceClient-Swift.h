@@ -98,7 +98,7 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 @import ObjectiveC;
 #endif
 
-#import "/Users/kiwitech/TSG-Master/ServiceClient/ServiceClient/TSGServiceClient-Bridging-Header.h"
+#import "/Users/Ayush/Desktop/TSG/TSG-iOS/ServiceClient/ServiceClient/TSGServiceClient-Bridging-Header.h"
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
