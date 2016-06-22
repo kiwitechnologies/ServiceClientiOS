@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2AA4511C1D1AADDC00056BD8 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4511B1D1AADDC00056BD8 /* APIConstants.swift */; };
 		D613563D1D1179820030E747 /* TSGServiceClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D613563C1D1179820030E747 /* TSGServiceClient.framework */; };
 		D613563E1D1179820030E747 /* TSGServiceClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D613563C1D1179820030E747 /* TSGServiceClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D6225DC31CFDAE3F00119145 /* api_validation.json in Resources */ = {isa = PBXBuildFile; fileRef = D6225DB91CFDAE3F00119145 /* api_validation.json */; };
@@ -33,6 +34,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2AA4511B1D1AADDC00056BD8 /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = SOURCE_ROOT; };
 		D61354C71D113C1A0030E747 /* ServiceSample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ServiceSample-Bridging-Header.h"; sourceTree = "<group>"; };
 		D613563C1D1179820030E747 /* TSGServiceClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TSGServiceClient.framework; sourceTree = "<group>"; };
 		D6225DB91CFDAE3F00119145 /* api_validation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = api_validation.json; path = ServiceSample/api_validation.json; sourceTree = SOURCE_ROOT; };
@@ -97,6 +99,7 @@
 		D6988C661CB6787E00CE0526 /* ServiceSample */ = {
 			isa = PBXGroup;
 			children = (
+				2AA4511B1D1AADDC00056BD8 /* APIConstants.swift */,
 				D6225DBA1CFDAE3F00119145 /* AppDelegate.swift */,
 				D6225DC21CFDAE3F00119145 /* ViewController.swift */,
 				D687D8A01CFDB66500F985E2 /* Resources */,
@@ -183,6 +186,7 @@
 			files = (
 				D6225DC41CFDAE3F00119145 /* AppDelegate.swift in Sources */,
 				D6225DC91CFDAE3F00119145 /* ViewController.swift in Sources */,
+				2AA4511C1D1AADDC00056BD8 /* APIConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

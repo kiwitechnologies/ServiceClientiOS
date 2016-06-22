@@ -93,7 +93,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         pathParamDict.setValue("4", forKey: "user-id")
         
         //TSGServiceManager.setProjectRuningMode(.DUMMY)
-        TSGServiceManager.performAction("5759249a62c18b953cf00e7f",withPathParams: pathParamDict, onSuccess: { (object) in
+        TSGServiceManager.performAction(RECENTMEDIA,withPathParams: pathParamDict, onSuccess: { (object) in
             print(object)
             }) { (status, error) in
                 print(error)
@@ -111,7 +111,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func downloadRequest() {
+    func downloadRequest()
+    {
         //http://www.charts.noaa.gov/BookletChart/
         activityIndicatorView.hidden = false
         activityIndicatorView.startAnimating()
@@ -137,6 +138,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }) { (error) in
             print(error)
         }
+        
+        /***** SEQUENTIAL ********/
 
 //        ServiceManager.downloadWith("Incredibles_Teaser.m4v",requestType: .GET, downloadType: .SEQUENTIAL, withApiTag: "CCCCCC", prority: false, progress: { (percentage) in
 //            print("CCCCCC\(percentage)")
@@ -206,7 +209,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     //MARK : function for Get Request
     func getRequest() {
     
-        TSGServiceManager.performAction("5745591afec9101a0a63f23d", onSuccess: { ( dictionary) in
+        TSGServiceManager.performAction(ALLPROJECTS, onSuccess: { ( dictionary) in
             print("\(dictionary)")
             self.apiResult.text = "Success: GET request executed successfully"
             
@@ -221,7 +224,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let bodyDict = ["user_email":"yogesh@gmail.com", "name":"yogesh"]
 
         
-        TSGServiceManager.performAction("5746a52e91eac6291f8b15fd", withParams: bodyDict, onSuccess: { ( dictionary) in
+        TSGServiceManager.performAction(CREATEPROJECT, withParams: bodyDict, onSuccess: { ( dictionary) in
             print("\(dictionary)")
 
             self.apiResult.text = "SUCCESS: POST request executed successfully"
@@ -238,7 +241,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let bodyDict = ["project_id":"55", "name":"yogesh","user_email":"yogesh@gmail.com","age":"32"]
         
         
-        TSGServiceManager.performAction("5742a28c5262ef7a1aae2977", withParams:bodyDict, onSuccess: { (dictionary) in
+        TSGServiceManager.performAction(UPDATEPROJECT, withParams:bodyDict, onSuccess: { (dictionary) in
           //  print("\(dictionary)")
             self.apiResult.text = "SUCCESS: PUT request executed successfully"
             
@@ -256,7 +259,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let keydict = ["project_id":"56"]
         
         
-        TSGServiceManager.performAction("5742a2b95262ef7a1aae297d", withParams: keydict, onSuccess: { (dictionary) in
+        TSGServiceManager.performAction(DELETEPROJECT, withParams: keydict, onSuccess: { (dictionary) in
             print("\(dictionary)")
             
         }) { (bool, errors) in
@@ -301,7 +304,7 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         progressIndicator.setProgress(0, animated: true)
         let bodyDict = ["name":"Ashish","user_email":"Ashish@kiwitech.com","age":"23","avatar":imageData! as NSData]
         
-        TSGServiceManager.uploadData("5742a30b5262ef7a1aae2980", mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:true, progress: { (percentage) in
+        TSGServiceManager.uploadData(IMAGEUPLOAD, mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:true, progress: { (percentage) in
             print("aaaa \(percentage)")
 
             dispatch_async(dispatch_get_main_queue()) {
@@ -319,7 +322,7 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         
         let bodyDict1 = ["name":"Ashish","user_email":"Ashish@kiwitech.com","age":"23","avatar":imageData! as NSData]
 
-        TSGServiceManager.uploadData("5742a30b5262ef7a1aae2980", mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict1,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
+        TSGServiceManager.uploadData(IMAGEUPLOAD, mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict1,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
             print("bbbb \(percentage)")
 
             dispatch_async(dispatch_get_main_queue()) {
@@ -334,7 +337,11 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
             print("Some error")
             
         }
-//        TSGServiceManager.uploadData("5742a30b5262ef7a1aae2980", mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
+        
+        /***** SEQUENTIAL ********/
+
+        
+//        TSGServiceManager.uploadData(IMAGEUPLOAD, mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
 //            print("ccccc \(percentage)")
 //            dispatch_async(dispatch_get_main_queue()) {
 //                self.progressIndicator.setProgress(percentage, animated: true)
@@ -348,7 +355,7 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
 //            print("Some error")
 //            
 //        }
-//        TSGServiceManager.uploadData("5742a30b5262ef7a1aae2980", mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
+//        TSGServiceManager.uploadData(IMAGEUPLOAD, mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
 //            print("dddd \(percentage)")
 //            dispatch_async(dispatch_get_main_queue()) {
 //                self.progressIndicator.setProgress(percentage, animated: true)
@@ -363,7 +370,7 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
 //            
 //        }
 //
-//        TSGServiceManager.uploadData("5742a30b5262ef7a1aae2980", mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
+//        TSGServiceManager.uploadData(IMAGEUPLOAD, mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
 //            print("eeeee \(percentage)")
 //            dispatch_async(dispatch_get_main_queue()) {
 //                self.progressIndicator.setProgress(percentage, animated: true)
