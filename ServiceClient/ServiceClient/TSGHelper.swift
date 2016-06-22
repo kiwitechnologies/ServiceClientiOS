@@ -278,7 +278,7 @@ public class TSGHelper: NSObject
             actionID = "0"
         }
        
-        TSGHelper.sharedInstance.getDataFromUrl(completeURL,withApiTag: apiTag!, withQueryParam: queryParam, params: bodyParam, typeOfRequest: typeOfRequest, typeOfResponse: typeOFResponse, success: { (object) in
+        TSGHelper.sharedInstance.getDataFromUrl(completeURL,withApiTag: actionID!, withQueryParam: queryParam, params: bodyParam, typeOfRequest: typeOfRequest, typeOfResponse: typeOFResponse, success: { (object) in
             success(object)
             
         }) { (error) in
