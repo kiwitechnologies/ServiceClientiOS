@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <TSGServiceClientTests-Bridging-Header.h>
 //! Project version number for ServiceClient.
 FOUNDATION_EXPORT double ServiceClientVersionNumber;
 

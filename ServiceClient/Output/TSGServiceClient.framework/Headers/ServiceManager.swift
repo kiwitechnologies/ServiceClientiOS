@@ -38,12 +38,6 @@ public class ServiceManager {
         TSGHelper.setCustomHeader(someDict)
     }
     
-    public class func setContentType(contentType:String) {
-        
-        // print(contentType)
-       // TSGHelper.sharedInstance.setContentType = contentType
-    }
-    
     /**
      *	@functionName           : removeHeader
      *	@completion Block		: deviceTokeString : It would be a unique identifier of device

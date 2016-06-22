@@ -98,7 +98,7 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 @import ObjectiveC;
 #endif
 
-#import "/Users/Ayush/Desktop/Kiwitech-Release/iOS/ServiceClientiOS/ServiceClient/TSGServiceClient-Bridging-Header.h"
+#import "/Users/Ayush/Desktop/TSG/TSG-iOS/ServiceClient/ServiceClient/TSGServiceClient-Bridging-Header.h"
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
@@ -166,15 +166,15 @@ SWIFT_CLASS("_TtC16TSGServiceClient3Key")
 @property (nonatomic, readonly, copy) NSString * _Nonnull URLString;
 @end
 
+
+@interface NSURLRequest (SWIFT_EXTENSION(TSGServiceClient))
+@property (nonatomic, readonly, copy) NSString * _Nonnull URLString;
+@end
+
 @class NSMutableURLRequest;
 
 @interface NSURLRequest (SWIFT_EXTENSION(TSGServiceClient))
 @property (nonatomic, readonly, strong) NSMutableURLRequest * _Nonnull URLRequest;
-@end
-
-
-@interface NSURLRequest (SWIFT_EXTENSION(TSGServiceClient))
-@property (nonatomic, readonly, copy) NSString * _Nonnull URLString;
 @end
 
 
@@ -595,6 +595,11 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 
 
 @interface TSGHelper (SWIFT_EXTENSION(TSGServiceClient))
+- (void)hitAnotherSequentialUploadRequest:(void (^ _Nonnull)(float percentage))progressValue success:(void (^ _Nonnull)(id _Nonnull response))success failure:(void (^ _Nonnull)(NSError * _Nonnull))failure;
+@end
+
+
+@interface TSGHelper (SWIFT_EXTENSION(TSGServiceClient))
 
 /// Resume any pending downloads
 ///
@@ -602,11 +607,6 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 /// \param success Block to handle response
 + (void)resumeDownloads:(NSString * _Nonnull)path withApiTag:(NSString * _Nullable)apiTag success:(void (^ _Nonnull)(int64_t, int64_t totalBytes))success;
 - (void)hitAnotherDownloadRequest:(void (^ _Nonnull)(float percentage))progressValue success:(void (^ _Nonnull)(id _Nonnull response))success failure:(void (^ _Nonnull)(NSError * _Nonnull))failure;
-@end
-
-
-@interface TSGHelper (SWIFT_EXTENSION(TSGServiceClient))
-- (void)hitAnotherSequentialUploadRequest:(void (^ _Nonnull)(float percentage))progressValue success:(void (^ _Nonnull)(id _Nonnull response))success failure:(void (^ _Nonnull)(NSError * _Nonnull))failure;
 @end
 
 
