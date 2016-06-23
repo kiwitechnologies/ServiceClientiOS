@@ -221,10 +221,10 @@ public class TSGHelper: NSObject
             } else if TSGHelper.sharedInstance.appRuningMode == .PRODUCTION {
                 completeURL = apiObj.prod_baseURL! + apiObj.actionName!
             } else if TSGHelper.sharedInstance.appRuningMode == .DUMMY {
-                completeURL = apiObj.dummy_server_URL! + apiObj.actionName!
-
+                completeURL = apiObj.dummy_server_URL! //+ apiObj.actionName!
             }
 
+            print(completeURL)
             if apiObj.params_parameters == 1 {
                 completeURL = TSGUtility.createPathParamURL(completeURL, pathParamDict: pathParamDict!)
             }

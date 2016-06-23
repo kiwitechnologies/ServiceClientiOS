@@ -133,7 +133,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     self.activityIndicatorView.hidden = true
                     self.progressIndicator.hidden = true
                     self.apiResult.hidden = false
-                    self.apiResult.text = "SUCCESS: Image Uploaded"                }
+                    self.apiResult.text = "SUCCESS: File Downloaded"
+                }
 
         }) { (error) in
             print(error)
@@ -201,7 +202,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func setProjecRunningID()
     {
-        TSGServiceManager.setProjectRuningMode(.DEVELOPMENT)
+        TSGServiceManager.setProjectRuningMode(.DUMMY)
          let currentTime = NSDate.timeIntervalSinceReferenceDate()
          print(currentTime)
     }
@@ -230,6 +231,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.apiResult.text = "SUCCESS: POST request executed successfully"
         }) { (bool, errors) in
             let temp = self.convertDictToJSONString(errors.userInfo)
+            print(errors)
             self.apiResult.text = temp
 
         }

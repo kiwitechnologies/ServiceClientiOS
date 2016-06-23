@@ -35,6 +35,9 @@ extension TSGHelper {
             } else if TSGHelper.sharedInstance.appRuningMode == .PRODUCTION {
                 completeURL = (object as! API).prod_baseURL! + (object as! API).actionName!
             }
+            else if TSGHelper.sharedInstance.appRuningMode == .DUMMY {
+                completeURL = (object as! API).dummy_server_URL!
+            }
             
             var actionID:String!
             
