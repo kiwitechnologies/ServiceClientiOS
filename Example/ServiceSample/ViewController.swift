@@ -90,7 +90,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
   
     func pathParamRequest(){
         let pathParamDict:NSMutableDictionary = NSMutableDictionary()
-        pathParamDict.setValue("4", forKey: "user-id")
+        pathParamDict.setValue("4", forKey: "versfion_no")
         
         //TSGServiceManager.setProjectRuningMode(.DUMMY)
         TSGServiceManager.performAction(RECENTMEDIA,withPathParams: pathParamDict, onSuccess: { (object) in
@@ -202,6 +202,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func setProjecRunningID()
     {
+        TSGServiceManager.setResponseCode(300)
         TSGServiceManager.setProjectRuningMode(.DUMMY)
          let currentTime = NSDate.timeIntervalSinceReferenceDate()
          print(currentTime)
@@ -223,7 +224,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func postRequest() {
         
         let bodyDict = ["user_email":"yogesh@gmail.com", "name":"yogesh"]
-
         
         TSGServiceManager.performAction(CREATEPROJECT, withParams: bodyDict, onSuccess: { ( dictionary) in
             print("\(dictionary)")

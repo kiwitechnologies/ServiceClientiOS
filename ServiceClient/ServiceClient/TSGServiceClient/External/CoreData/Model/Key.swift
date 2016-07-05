@@ -126,11 +126,14 @@ class Key: NSManagedObject {
             
             let keyName = object.valueForKey("key_name")
 
-            let keyValue = object.valueForKey("key_value")as! NSArray
+            if let keyValue = object.valueForKey("key_value") {
+                
+                let stringRepresentation = keyValue.componentsJoinedByString(",")
+                keyObj.keyValues = stringRepresentation
+ 
+            }
             keyObj.keyName = keyName as? String
             
-           let stringRepresentation = keyValue.componentsJoinedByString(",")
-           keyObj.keyValues = stringRepresentation
 
             APISet.addObject(keyObj)
             

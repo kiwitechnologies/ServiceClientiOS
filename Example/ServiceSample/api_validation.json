@@ -8,15 +8,15 @@
                 "action": "projects/all_projects",
                 "action_id": "576b95b3fdca407a0a50cf44",
                 "request_type": "GET",
-                "dev_url": "http://172.16.144.218:4000/",
-                "qa_url": "http://172.16.144.218:4000/",
-                "staging_url": "http://172.16.144.218:4000/",
-                "production_url": "http://172.16.144.218:4000/",
+                "dev_url": "http://61.16.232.242:4000/",
+                "qa_url": "http://61.16.232.242:4000/",
+                "staging_url": "http://61.16.232.242:4000/",
+                "production_url": "http://61.16.232.242:4000/",
                 "body_parameters": [],
                 "query_parameters": [],
                 "headers": [],
                 "params_parameters": 0,
-                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/576b95b3fdca407a0a50cf44/response"
+                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/577b3f2bc65786562b84c239/response"
                 },
                 {
                 "action": "projects/create_project",
@@ -51,7 +51,7 @@
                 "query_parameters": [],
                 "headers": [],
                 "params_parameters": 0,
-                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/576b9787fdca407a0a50cf48/response"
+                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/577b3f2bc65786562b84c239/response"
                 },
                 {
                 "action": "projects/update_project",
@@ -106,7 +106,7 @@
                 "query_parameters": [],
                 "headers": [],
                 "params_parameters": 0,
-                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/576b983efdca407a0a50cf4e/response"
+                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/577b3f2bc65786562b84c239/response"
                 },
                 {
                 "action": "projects/delete_project",
@@ -131,7 +131,7 @@
                 "query_parameters": [],
                 "headers": [],
                 "params_parameters": 0,
-                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/576b989efdca407a0a50cf56/response"
+                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/577b3f2bc65786562b84c239/response"
                 },
                 {
                 "action": "projects/image_upload",
@@ -186,7 +186,7 @@
                 "query_parameters": [],
                 "headers": [],
                 "params_parameters": 0,
-                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/576b996efdca407a0a50cf5b/response"
+                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/577b3f2bc65786562b84c239/response"
                 },
                 {
                 "action": "{version_no}/users/self/",
@@ -211,7 +211,7 @@
                                      ],
                 "headers": [],
                 "params_parameters": 1,
-                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/576b9eb7fdca407a0a50cf7a/response"
+                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/577b3f2bc65786562b84c239/response"
                 }
                 ]
 }

@@ -32,7 +32,7 @@ public class TSGValidationManager {
         return Static.instance!
     }
 
-    public class func validateActionData(actionID:String,withQueryParma queryParamDict:NSDictionary?=nil, withDic userParamDict:NSDictionary?=nil, withHeaderDic userHeaderDic:NSDictionary?=nil, withOptionalData data:NSData?=nil, onSuccess success:(AnyObject,String)->(), onFailure failure:(NSError)->()){
+    public class func validateActionData(actionID:String,withQueryParma queryParamDict:NSDictionary?=nil, withBodyParam userBodyDict:NSDictionary?=nil, withHeaderDic userHeaderDic:NSDictionary?=nil, withOptionalData data:NSData?=nil, onSuccess success:(AnyObject,String)->(), onFailure failure:(NSError)->()){
         
         errorMessage = ""
         TSGValidationManager.sharedInstance.validationPassed = true
@@ -41,14 +41,18 @@ public class TSGValidationManager {
             var paramKeys:NSSet!
             var headerKeys:NSSet!
             var queryParamKeys:NSSet!
-            
+            var pathParamKey:NSSet!
+
             switch apiObj {
                 
             case is API:
                 paramKeys = (apiObj as! API).parameters!
                 headerKeys = (apiObj as! API).headers!
                 queryParamKeys = (apiObj as! API).queryParameters
-                
+//                if (apiObj as! API).params_parameters == 1 {
+//                    completeURL = TSGUtility.createPathParamURL(completeURL, pathParamDict: pathParamDict!)
+//                }
+
                 break
                 
             default:
@@ -58,7 +62,7 @@ public class TSGValidationManager {
                 
             }
             
-            if let allUserKeys = userParamDict?.allKeys {
+            if let allUserKeys = userBodyDict?.allKeys {
                 
                 for item in paramKeys! {
                     
@@ -74,7 +78,7 @@ public class TSGValidationManager {
                             isFoundRequiredKey = true
                             let dataType = apiParams.dataType as! Int
                             
-                            TSGValidationManager.sharedInstance.requiredValidation(dataType, apiParams: apiParams, dict: userParamDict!, parameterType: ParameterType.BODY_PARAMETER)
+                            TSGValidationManager.sharedInstance.requiredValidation(dataType, apiParams: apiParams, dict: userBodyDict!, parameterType: ParameterType.BODY_PARAMETER)
                             
                         }
                     }
@@ -100,7 +104,6 @@ public class TSGValidationManager {
                         let apiParams = item as! Key
                         
                         if apiParams.keyName == key as? String {
-                          //  print(apiParams.keyName)
                             isFoundRequiredKey = true
                             let dataType = apiParams.dataType as! Int
                             
@@ -115,6 +118,7 @@ public class TSGValidationManager {
                     }
                 }
             }
+            
             TSGValidationManager.sharedInstance.checkHeaderValidation(headerKeys, headerDict: userHeaderDic)
             
             if TSGValidationManager.sharedInstance.validationPassed {

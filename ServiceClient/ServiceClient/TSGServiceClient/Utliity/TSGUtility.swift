@@ -9,7 +9,8 @@
 import UIKit
 
 class TSGUtility: NSObject {
-
+    var tsgErrorManger:TSGErrorManager? = TSGErrorManager()
+    
     internal class func returnMimeType(mimeType:MimeType) -> String {
         
         switch mimeType {
@@ -29,7 +30,7 @@ class TSGUtility: NSObject {
             return "application/pdf"
         }
     }
-
+    
     
     internal class func changeImageResolution(imageData:NSData, withImageQuality imageQuality:ImageQuality)-> NSData {
         
@@ -67,30 +68,31 @@ class TSGUtility: NSObject {
     }
     
     
-    internal class func createPathParamURL (tempURL:String, pathParamDict:NSMutableDictionary!) -> String{
-                
-        var pathParamString = tempURL
+    internal class func createPathParamURL (tempURL:String, pathParamDict:NSMutableDictionary!, setString:(completeString:String?)->(), error:(String)->()){
         
+        var resultantString:String!
+        var pathParamString = tempURL
         while pathParamString.containsString("{") {
             
             let status = tempURL.rangeOfString("{")
             let startIndex: Int = tempURL.startIndex.distanceTo(status!.endIndex)
-            print(status?.startIndex)
-            
             let endRange = tempURL.rangeOfString("}")
             let endIndex: Int = tempURL.startIndex.distanceTo(endRange!.startIndex)
             
-            print(endIndex)
+            let range = tempURL.startIndex.advancedBy(startIndex) ..< tempURL.startIndex.advancedBy(endIndex)
+            resultantString = tempURL.substringWithRange(range)
             
-            let resultantString = tempURL.substringWithRange(Range<String.Index>(start: tempURL.startIndex.advancedBy(startIndex), end: tempURL.startIndex.advancedBy(endIndex)))
-            print(resultantString)
-            
-            pathParamString = pathParamString.stringByReplacingOccurrencesOfString("{\(resultantString)}", withString: "\(pathParamDict.valueForKey(resultantString)!)")
-            
-            print(pathParamString)
+            if pathParamDict.valueForKey(resultantString) == nil{
+                setString(completeString: nil)
+                error("\(resultantString): Required key is missing")
+                 break
+            }else {
+                pathParamString = pathParamString.stringByReplacingOccurrencesOfString("{\(resultantString)}", withString: "\(pathParamDict.valueForKey(resultantString))")
+                setString(completeString: pathParamString)
+                
+            }
         }
-        return pathParamString
+        
     }
-
 }
 

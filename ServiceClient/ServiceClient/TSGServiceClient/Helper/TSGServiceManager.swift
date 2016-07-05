@@ -17,7 +17,15 @@ public class TSGServiceManager {
  These methods would only work when we use TSG WEB CLIENT
 ********************************************************************************************************************/
 
+    /**
+     *	@functionName	: setResponseCode
+     *	@parameters		: code : It would be a response code.
+     *	@description	: It would be used to set response code for which user wants response in apis
+     */
     
+    public class func setResponseCode(code:Int){
+        TSGHelper.setResponseCode(code)
+    }
     
     /**
      *	@functionName	: setProjectRuningMode
@@ -76,7 +84,7 @@ public class TSGServiceManager {
 
     public class func performAction(actionID:String?=nil,withQueryParam queryParamDict:[String:String]?=nil, withParams dict:[String:String]?=nil,withPathParams pathParamDict:NSMutableDictionary?=nil ,withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(), onFailure failed:(Bool, NSError)->()){
 
-        TSGHelper.requestedApi(actionID!,withQueryParam: queryParamDict, withParam: dict,withPathParams: pathParamDict, withTag:apiTag,  onSuccess: { (dictionary) in
+        TSGHelper.requestedApi(actionID!,withQueryParam: queryParamDict, withBodyParam: dict,withPathParams: pathParamDict, withTag:apiTag,  onSuccess: { (dictionary) in
             success(dictionary)
             }) { (bool, error) in
             failed(bool,error)

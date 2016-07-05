@@ -528,6 +528,7 @@ SWIFT_CLASS("_TtC16TSGServiceClient15TSGErrorManager")
 @property (nonatomic, strong) TSGErrorValuesHolder * _Nonnull parameter;
 @property (nonatomic, strong) TSGErrorValuesHolder * _Nonnull header;
 @property (nonatomic, strong) TSGErrorValuesHolder * _Nonnull queryParameter;
+@property (nonatomic, strong) TSGErrorValuesHolder * _Nonnull pathParameter;
 @property (nonatomic, strong) NSMutableDictionary * _Nonnull missingAction;
 - (void)missingactionKeyMessages:(NSString * _Nonnull)keyName errorMsg:(NSString * _Nonnull)errorMsg;
 - (NSString * _Nonnull)mystring;
@@ -577,9 +578,11 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 @property (nonatomic, copy) NSString * _Null_unspecified baseUrl;
 @property (nonatomic, copy) NSString * _Null_unspecified action;
 @property (nonatomic, copy) NSString * _Null_unspecified apiName;
+@property (nonatomic) NSInteger responseCode;
 - (void)saveProjectID:(NSMutableDictionary * _Nonnull)dict;
 - (void)getAPIVersion:(void (^ _Nonnull)(NSDictionary * _Nonnull dic))sucess failure:(void (^ _Nonnull)(NSError * _Nonnull error))failure;
-+ (void)requestedApi:(NSString * _Nonnull)actionID withQueryParam:(NSDictionary<NSString *, NSString *> * _Nullable)queryParamDict withParam:(NSDictionary<NSString *, NSString *> * _Nullable)params withPathParams:(NSMutableDictionary * _Nullable)pathParamDict withTag:(NSString * _Nullable)apiTag onSuccess:(void (^ _Nonnull)(id _Nonnull))success onFailure:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))failed;
++ (void)requestedApi:(NSString * _Nonnull)actionID withQueryParam:(NSDictionary<NSString *, NSString *> * _Nullable)queryParamDict withBodyParam:(NSDictionary<NSString *, NSString *> * _Nullable)params withPathParams:(NSMutableDictionary * _Nullable)pathParamDict withTag:(NSString * _Nullable)apiTag onSuccess:(void (^ _Nonnull)(id _Nonnull))success onFailure:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))failed;
++ (void)setResponseCode:(NSInteger)code;
 - (void)setAppRuningMode;
 @end
 
@@ -612,7 +615,8 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 
 SWIFT_CLASS("_TtC16TSGServiceClient10TSGUtility")
 @interface TSGUtility : NSObject
-+ (NSString * _Nonnull)createPathParamURL:(NSString * _Nonnull)tempURL pathParamDict:(NSMutableDictionary * _Null_unspecified)pathParamDict;
+@property (nonatomic, strong) TSGErrorManager * _Nullable tsgErrorManger;
++ (void)createPathParamURL:(NSString * _Nonnull)tempURL pathParamDict:(NSMutableDictionary * _Null_unspecified)pathParamDict setString:(void (^ _Nonnull)(NSString * _Nullable completeString))setString error:(void (^ _Nonnull)(NSString * _Nonnull))error;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 

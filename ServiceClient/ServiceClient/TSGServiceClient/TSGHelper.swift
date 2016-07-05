@@ -152,6 +152,7 @@ public class TSGHelper: NSObject
     var baseUrl:String!
     var action:String!
     var apiName:String!
+    var responseCode:Int = 200
     
     internal func saveProjectID(dict:NSMutableDictionary) {
         Project.saveProjectInfo(dict)
@@ -190,15 +191,20 @@ public class TSGHelper: NSObject
         }
     }
     
-    public class func requestedApi(actionID:String,withQueryParam queryParamDict:[String:String]?=nil, withParam params:[String:String]?=nil ,withPathParams pathParamDict:NSMutableDictionary?=nil, withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(),
+    public class func requestedApi(actionID:String,withQueryParam queryParamDict:[String:String]?=nil, withBodyParam params:[String:String]?=nil ,withPathParams pathParamDict:NSMutableDictionary?=nil, withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(),
                                    onFailure failed:(Bool,NSError)->()){
         let obj = TSGHelper.sharedInstance
         var completeURL:String!
 
         
-        TSGValidationManager.validateActionData(actionID,withQueryParma: queryParamDict, withDic: params,withHeaderDic:TSGHelper.sharedInstance.apiHeaderDict,withOptionalData: nil, onSuccess: { (apiName, string) in
+        TSGValidationManager.validateActionData(actionID,withQueryParma: queryParamDict, withBodyParam: params,withHeaderDic:TSGHelper.sharedInstance.apiHeaderDict, withOptionalData: nil, onSuccess: { (apiName, string) in
             
+            var queryParam:[String:String]!
+            if queryParamDict != nil {
+                queryParam = queryParamDict
 
+            }
+            
             let apiObj:API = apiName as! API
             var requestType:RequestType!
             
@@ -222,11 +228,32 @@ public class TSGHelper: NSObject
                 completeURL = apiObj.prod_baseURL! + apiObj.actionName!
             } else if TSGHelper.sharedInstance.appRuningMode == .DUMMY {
                 completeURL = apiObj.dummy_server_URL! //+ apiObj.actionName!
+                queryParam = ["status_code":"\(TSGHelper.sharedInstance.responseCode)"]
+
             }
 
-            print(completeURL)
             if apiObj.params_parameters == 1 {
-                completeURL = TSGUtility.createPathParamURL(completeURL, pathParamDict: pathParamDict!)
+
+                TSGUtility.createPathParamURL(completeURL, pathParamDict: pathParamDict!, setString: { (completeString) in
+                    completeURL = completeString
+
+                    }, error: { (error) in
+                            errorMessage = error
+                            TSGValidationManager.sharedInstance.tsgErrorManger!.pathParameter.missingErrorMessages("", errorMsg: errorMessage)
+                            let str:String = TSGValidationManager.sharedInstance.tsgErrorManger!.mystring()
+                            
+                            if TSGValidationManager.sharedInstance.tsgErrorManger != nil {
+                                TSGValidationManager.sharedInstance.tsgErrorManger = nil
+                                TSGValidationManager.sharedInstance.tsgErrorManger = TSGErrorManager()
+                            }
+                            if let data = str.dataUsingEncoding(NSUTF8StringEncoding) {
+                                do {
+                                    let temp:[String:AnyObject] = try NSJSONSerialization.JSONObjectWithData(data, options: []) as! [String : AnyObject]
+                                    failed(true,NSError(domain: "Failed", code: 1004, userInfo:[NSLocalizedDescriptionKey : temp]))
+                                } catch _ {
+                                }
+                            }
+                })
             }
             
             var tag:String!
@@ -236,21 +263,24 @@ public class TSGHelper: NSObject
             }else {
                 tag = apiTag
             }
-            
-            obj.getDataFromUrl(completeURL, withApiTag:tag!, withQueryParam:queryParamDict, params: params, typeOfRequest:requestType, typeOfResponse: .JSON, success: { (dict) in
-                
-                success(dict)
-                }, failure: { (dict) in
-
-                    let error:NSError = NSError(domain: "", code: -10004, userInfo: ["Response Error":dict])
-                    failed(true, error)
-            })
+            if completeURL != nil {
+                obj.getDataFromUrl(completeURL, withApiTag: tag!, withQueryParam: queryParam, params: params, typeOfRequest: requestType, typeOfResponse: .JSON, success: { (dict) in
+                    success(dict)
+                    }, failure: { (error) in
+                        failed(true, error)
+                })
+            }
             
         }) { (error) in
             failed(true,error)
         }
+        
     }
-
+    
+    public class func setResponseCode(code:Int){
+        TSGHelper.sharedInstance.responseCode = code
+    }
+    
     public class func setProjectRuningMode(releaseMode:AppRuningModeType)
     {
         let obj = TSGHelper.sharedInstance
@@ -302,7 +332,6 @@ public class TSGHelper: NSObject
 
     internal func getDataFromUrl( url:String, withApiTag apiTag:String, withQueryParam queryParamDict:[String:String]?=nil, params:NSDictionary?=nil,typeOfRequest:RequestType, typeOfResponse:ResponseMethod, success: AnyObject -> Void,failure: NSError -> Void)
     {
-        
         self.serviceCount = self.serviceCount + 1
         
         let obj = TSGHelper.sharedInstance
@@ -357,7 +386,6 @@ public class TSGHelper: NSObject
                     dispatch_async(dispatch_get_main_queue(),
                         {
                             self.serviceCount = self.serviceCount - 1
-                            print(response)
                             if response.response?.statusCode <= 200 {
                                 if response.result.value != nil {
                                     success(response.result.value!)

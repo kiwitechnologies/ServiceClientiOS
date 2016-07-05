@@ -14,6 +14,7 @@ public class TSGErrorManager:JSONModel {
     var parameter:TSGErrorValuesHolder = TSGErrorValuesHolder()
     var header:TSGErrorValuesHolder = TSGErrorValuesHolder()
     var queryParameter:TSGErrorValuesHolder = TSGErrorValuesHolder()
+    var pathParameter:TSGErrorValuesHolder = TSGErrorValuesHolder()
     
     var missingAction:NSMutableDictionary = [:]
 

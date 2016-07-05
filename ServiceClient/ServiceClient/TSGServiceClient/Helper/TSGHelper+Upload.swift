@@ -20,7 +20,7 @@ extension TSGHelper {
         let dictParams = NSMutableDictionary(dictionary:bodyParams)
         dictParams.removeObjectForKey(dataKeyName)
         
-        TSGValidationManager.validateActionData(actionName, withDic: bodyParams,withHeaderDic: TSGHelper.sharedInstance.apiHeaderDict, withOptionalData:imageData , onSuccess: { (object, str) in
+        TSGValidationManager.validateActionData(actionName, withBodyParam: bodyParams,withHeaderDic: TSGHelper.sharedInstance.apiHeaderDict, withOptionalData:imageData , onSuccess: { (object, str) in
             
             var completeURL:String!
             

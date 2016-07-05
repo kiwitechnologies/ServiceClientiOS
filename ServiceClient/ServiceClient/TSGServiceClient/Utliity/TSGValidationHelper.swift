@@ -85,6 +85,7 @@ public class TSGValidationHelper: NSObject {
                             
                         }
                     }
+
                 }
  
             }
@@ -106,9 +107,7 @@ public class TSGValidationHelper: NSObject {
                         TSGValidationManager.sharedInstance.validationPassed = false
                         
                     }
-                    
-                    break
-                    
+            
                 case .QUERY_PARAMETER:
                     
                     let userDataLength = queryDict!.valueForKey(obj.keyName! as String) as! String
@@ -119,7 +118,7 @@ public class TSGValidationHelper: NSObject {
                         TSGValidationManager.sharedInstance.validationPassed = false
                         
                     }
- 
+
             }
 
                 break
@@ -165,6 +164,7 @@ public class TSGValidationHelper: NSObject {
                         TSGValidationManager.sharedInstance.validationPassed = false
                     }
                 }
+
             }
             
             break
