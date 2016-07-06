@@ -100,25 +100,23 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func anyRequest(){
-    
-        let header = ["Content-Type":"application/json"]
-        let bodyDict = ["email":"manish.johari@kiwitech.com","code":"9967"]
-        let dict = ["user":bodyDict]
-        
-        ServiceManager.setHeader(header)
-        TSGServiceManager.performAction(SESSION,withParams: dict, onSuccess: { (object) in
+    func anyRequest()
+    {
+        let dict1 = ["user[email]":"manish.johari@kiwitech.com","user[code]":"9967"]
+        TSGServiceManager.performAction("577b39efc65786562b84c20a",withParams: dict1, onSuccess: { (object) in
+            let myObject = object
+            print(myObject)
         }) { (status, error) in
+            print(error)
+
         }
         
         ServiceManager.setBaseURL("http://172.16.146.158:3001/api/")
-        ServiceManager.hitRequestForAPI("v1/sessions", bodyParam: dict, typeOfRequest: .POST, typeOFResponse: .JSON, success: { (object) in
+        ServiceManager.hitRequestForAPI("v1/sessions", bodyParam: dict1, typeOfRequest: .POST, typeOFResponse: .JSON, success: { (object) in
             print(object)
             }) { (error) in
                 print(error)
         }
-        
-
     }
     
     func downloadRequest()

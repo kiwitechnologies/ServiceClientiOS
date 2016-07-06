@@ -1,7 +1,7 @@
 {
     "project_id": "577a444f306a4c97210a0167",
-    "updated_at": 1467801881660,
-    "version_no": 0.17,
+    "updated_at": 1467806302692,
+    "version_no": 0.21000000000000005,
     "project_name": "Allective",
     "actions": [
         {
@@ -14,8 +14,18 @@
             "production_url": "http://172.16.146.73:3001/api/v1/",
             "body_parameters": [
                 {
-                    "key_name": "user",
+                    "key_name": "user[email]",
                     "validation_data_type": 2,
+                    "validations": {
+                        "format_string": 3,
+                        "max": "0",
+                        "min": "0",
+                        "require": 1
+                    }
+                },
+                {
+                    "key_name": "user[code]",
+                    "validation_data_type": 0,
                     "validations": {
                         "max": "0",
                         "min": "0",
@@ -79,7 +89,7 @@
             "body_parameters": [],
             "query_parameters": [
                 {
-                    "key_name": "user[\"email\"]",
+                    "key_name": "user[email]",
                     "validation_data_type": 2,
                     "validations": {
                         "format_string": 3,
