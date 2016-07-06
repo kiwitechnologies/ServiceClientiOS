@@ -190,7 +190,7 @@ public class TSGHelper: NSObject
         }
     }
     
-    public class func requestedApi(actionID:String,withQueryParam queryParamDict:[String:String]?=nil, withBodyParam params:[String:String]?=nil ,withPathParams pathParamDict:NSMutableDictionary?=nil, withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(),
+    public class func requestedApi(actionID:String,withQueryParam queryParamDict:[String:AnyObject]?=nil, withBodyParam params:[String:AnyObject]?=nil ,withPathParams pathParamDict:NSMutableDictionary?=nil, withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(),
                                    onFailure failed:(Bool,NSError)->()){
         let obj = TSGHelper.sharedInstance
         var completeURL:String!
@@ -198,7 +198,7 @@ public class TSGHelper: NSObject
         
         TSGValidationManager.validateActionData(actionID,withQueryParma: queryParamDict, withBodyParam: params,withHeaderDic:TSGHelper.sharedInstance.apiHeaderDict, withOptionalData: nil, onSuccess: { (apiName, string) in
             
-            var queryParam:[String:String]!
+            var queryParam:[String:AnyObject]!
             if queryParamDict != nil {
                 queryParam = queryParamDict
 
@@ -325,7 +325,7 @@ public class TSGHelper: NSObject
     
     //MARK: Common Methods
 
-    internal func getDataFromUrl( url:String, withApiTag apiTag:String, withQueryParam queryParamDict:[String:String]?=nil, params:NSDictionary?=nil,typeOfRequest:RequestType, typeOfResponse:ResponseMethod, success: AnyObject -> Void,failure: NSError -> Void)
+    internal func getDataFromUrl( url:String, withApiTag apiTag:String, withQueryParam queryParamDict:[String:AnyObject]?=nil, params:NSDictionary?=nil,typeOfRequest:RequestType, typeOfResponse:ResponseMethod, success: AnyObject -> Void,failure: NSError -> Void)
     {
         self.serviceCount = self.serviceCount + 1
         
@@ -335,12 +335,12 @@ public class TSGHelper: NSObject
         {
         case RequestType.GET:
             
-            self.req =  self.manager.request(.GET,url, parameters: params as? [String : AnyObject], queryParameters: queryParamDict)
+            self.req =  self.manager.request(.GET,url, parameters: params as? [String : AnyObject], queryParameters: queryParamDict as? [String:String])
             
             
         case RequestType.POST:
             
-            self.req =  self.manager.request(.POST,url, parameters: params as? [String : AnyObject], queryParameters:queryParamDict,  encoding: .JSON)
+            self.req =  self.manager.request(.POST,url, parameters: params as? [String : AnyObject], queryParameters:queryParamDict as? [String:String],  encoding: .JSON)
             
         case RequestType.PUT:
             

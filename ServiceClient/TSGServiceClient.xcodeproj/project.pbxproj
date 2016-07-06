@@ -125,7 +125,7 @@
 		2AA4505D1D1AA4B400056BD8 /* TSGHelper+Cancel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TSGHelper+Cancel.swift"; sourceTree = "<group>"; };
 		2AA4505E1D1AA4B400056BD8 /* TSGHelper+Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TSGHelper+Download.swift"; sourceTree = "<group>"; };
 		2AA4505F1D1AA4B400056BD8 /* TSGHelper+Upload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TSGHelper+Upload.swift"; sourceTree = "<group>"; };
-		2AA450601D1AA4B400056BD8 /* TSGServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGServiceManager.swift; sourceTree = "<group>"; };
+		2AA450601D1AA4B400056BD8 /* TSGServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TSGServiceManager.swift; path = Helper/TSGServiceManager.swift; sourceTree = "<group>"; };
 		2AA450611D1AA4B400056BD8 /* ServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		2AA450621D1AA4B400056BD8 /* TSGHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGHelper.swift; sourceTree = "<group>"; };
 		2AA450641D1AA4B400056BD8 /* String+Validations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Validations.swift"; sourceTree = "<group>"; };
@@ -157,6 +157,7 @@
 				2AA4502A1D1AA4B400056BD8 /* External */,
 				2AA450591D1AA4B400056BD8 /* Helper */,
 				2AA450611D1AA4B400056BD8 /* ServiceManager.swift */,
+				2AA450601D1AA4B400056BD8 /* TSGServiceManager.swift */,
 				2AA450621D1AA4B400056BD8 /* TSGHelper.swift */,
 				2AA450631D1AA4B400056BD8 /* Utliity */,
 			);
@@ -273,7 +274,6 @@
 				2AA4505D1D1AA4B400056BD8 /* TSGHelper+Cancel.swift */,
 				2AA4505E1D1AA4B400056BD8 /* TSGHelper+Download.swift */,
 				2AA4505F1D1AA4B400056BD8 /* TSGHelper+Upload.swift */,
-				2AA450601D1AA4B400056BD8 /* TSGServiceManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
