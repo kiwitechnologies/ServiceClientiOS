@@ -86,8 +86,12 @@
     NSURL *modelURL = [abc URLForResource:@"TSGAPIDetails" withExtension:@"momd"];
     NSLog(@"Model URL------>%@",modelURL);
     
+    if (modelURL != nil)
+    {
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;
+    }
+    return [[NSManagedObjectModel alloc] init];
 }
 
 // Returns the persistent store coordinator for the application.

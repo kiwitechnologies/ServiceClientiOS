@@ -62,7 +62,6 @@ public class TSGHelper: NSObject
         self.appRuningMode = .DEVELOPMENT
         super.init()
         setDefaultHeader()
-        setAppRuningMode()
     }
     
     public func setDefaultHeader()
@@ -85,13 +84,9 @@ public class TSGHelper: NSObject
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         configuration.timeoutIntervalForRequest = 60
         configuration.timeoutIntervalForResource = 60
-        configuration.HTTPAdditionalHeaders = dict
+        //configuration.HTTPAdditionalHeaders = dict
+        configuration.HTTPAdditionalHeaders = ["Content-Type": "application/json" ]
         TSGHelper.sharedInstance.manager = Manager(configuration: configuration)
-        
-        if (TSGHelper.sharedInstance.apiHeaderDict != nil) {
-            TSGHelper.sharedInstance.apiHeaderDict.removeAllObjects() }
-        
-        TSGHelper.sharedInstance.apiHeaderDict = NSMutableDictionary(dictionary: configuration.HTTPAdditionalHeaders!)
     }
     
     public class func removeCustomHeader()
@@ -142,7 +137,11 @@ public class TSGHelper: NSObject
                     saveProjectID(mutDict)
                     }
                     break
+                    
+                default:
+                    break
                 }
+               
                 
             }
         }
@@ -287,11 +286,7 @@ public class TSGHelper: NSObject
         obj.pid = NSUserDefaults().valueForKey("ProjectID") as? String
         obj.appRuningMode = releaseMode
     }
-    
-    internal func setAppRuningMode()
-    {
-        self.appRuningMode = .DEVELOPMENT
-    }
+
 
     /*************************************************************************************************************************************      NON WEB-TOOL METHODS
      
@@ -386,21 +381,34 @@ public class TSGHelper: NSObject
                     dispatch_async(dispatch_get_main_queue(),
                         {
                             self.serviceCount = self.serviceCount - 1
-                            if response.response?.statusCode <= 200 {
-                                if response.result.value != nil {
+                            if response.response?.statusCode <= 200
+                            {
+                                if response.result.value != nil
+                                {
                                     success(response.result.value!)
-                                } else {
-                                    if response.result.error != nil {
-                                        print(response.result.error)
-
+                                }
+                                else
+                                {
+                                    if response.result.error != nil
+                                    {
                                         failure(response.result.error!)
                                     }
                                 }
                                 
-                            } else {
-                                if response.result.error != nil {
+                            }
+                            else
+                            {
+                                if response.result.value != nil
+                                {
+                                    let error = NSError(domain: "Server Error", code: (response.response?.statusCode)!, userInfo: response.result.value! as? [NSObject : AnyObject])
+                                    failure(error)
+
+                                }
+                                if response.result.error != nil
+                                {
                                     failure(response.result.error!)
                                 }
+                            
                             }
                     })
             }

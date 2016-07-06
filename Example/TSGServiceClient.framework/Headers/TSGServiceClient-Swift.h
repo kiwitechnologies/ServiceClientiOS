@@ -98,7 +98,7 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 @import ObjectiveC;
 #endif
 
-#import "/Users/kiwitech/TSG-Master/ServiceClient/ServiceClient/TSGServiceClient-Bridging-Header.h"
+#import "/Users/kiwitech/TSG/TSG-Master/ServiceClient/ServiceClient/TSGServiceClient-Bridging-Header.h"
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
@@ -583,7 +583,6 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 - (void)getAPIVersion:(void (^ _Nonnull)(NSDictionary * _Nonnull dic))sucess failure:(void (^ _Nonnull)(NSError * _Nonnull error))failure;
 + (void)requestedApi:(NSString * _Nonnull)actionID withQueryParam:(NSDictionary<NSString *, NSString *> * _Nullable)queryParamDict withBodyParam:(NSDictionary<NSString *, NSString *> * _Nullable)params withPathParams:(NSMutableDictionary * _Nullable)pathParamDict withTag:(NSString * _Nullable)apiTag onSuccess:(void (^ _Nonnull)(id _Nonnull))success onFailure:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))failed;
 + (void)setResponseCode:(NSInteger)code;
-- (void)setAppRuningMode;
 @end
 
 

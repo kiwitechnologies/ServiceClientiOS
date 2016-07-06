@@ -101,14 +101,29 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func anyRequest(){
-        ServiceManager.setBaseURL("http://172.16.144.218:4000/")
-        ServiceManager.hitRequestForAPI("projects/all_projects",typeOfRequest: .GET, typeOFResponse: .JSON, withApiTag: "Hit", success: { (object) in
+    
+        ServiceManager.setBaseURL("http://172.16.146.158:3001/api/")
+        let bodyDict = ["email":"manish.johari@kiwitech.com","code":"9967"]
+        
+        // print(jsonString)
+        let dict = ["user":bodyDict]
+        
+//        let header = ["Content-Type":"application/json"]
+//        ServiceManager.setHeader(header)
+        
+        ServiceManager.hitRequestForAPI("v1/sessions", bodyParam: dict, typeOfRequest: .POST, typeOFResponse: .JSON, success: { (object) in
             print(object)
-            self.apiResult.text = "SUCCESS: Any-request executed successfully"
-
             }) { (error) in
                 print(error)
         }
+        
+//        ServiceManager.hitRequestForAPI("v1/sessions",typeOfRequest: .GET, typeOFResponse: .JSON, withApiTag: "Hit", success: { (object) in
+//            print(object)
+//            self.apiResult.text = "SUCCESS: Any-request executed successfully"
+//
+//            }) { (error) in
+//                print(error)
+//        }
     }
     
     func downloadRequest()
@@ -203,7 +218,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func setProjecRunningID()
     {
         TSGServiceManager.setResponseCode(300)
-        TSGServiceManager.setProjectRuningMode(.DUMMY)
+        TSGServiceManager.setProjectRuningMode(.DEVELOPMENT)
          let currentTime = NSDate.timeIntervalSinceReferenceDate()
          print(currentTime)
     }
