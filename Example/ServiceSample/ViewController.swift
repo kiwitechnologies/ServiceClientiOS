@@ -100,12 +100,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func sessionRequest(){
-    
-        let bodyDict = ["email":"manish.johari@kiwitech.com","code":"9967"]
-        let dict = ["user":bodyDict]
-        
-        TSGServiceManager.performAction(SESSION, withParams: dict, onSuccess: { (object) in
+    func sessionRequest()
+    {
+        TSGServiceManager.setEncoding(.URL)
+        let jsonDict = ["user[email]":"manish.johari@kiwitech.com","user[code]":"9967"]
+        TSGServiceManager.performAction(SESSION, withParams: jsonDict, onSuccess: { (object) in
             print(object)
              self.apiResult.text = "\(object)"
             }) { (status, error) in

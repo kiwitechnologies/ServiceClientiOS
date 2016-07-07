@@ -39,7 +39,6 @@
 		2AA450791D1AA4B400056BD8 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4503B1D1AA4B400056BD8 /* Upload.swift */; };
 		2AA4507A1D1AA4B400056BD8 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4503C1D1AA4B400056BD8 /* Validation.swift */; };
 		2AA4507B1D1AA4B400056BD8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4503F1D1AA4B400056BD8 /* Constants.swift */; };
-		2AA4507C1D1AA4B400056BD8 /* CoreDataHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AA450401D1AA4B400056BD8 /* CoreDataHelper.h */; };
 		2AA4507D1D1AA4B400056BD8 /* CoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450411D1AA4B400056BD8 /* CoreDataHelper.m */; };
 		2AA4507E1D1AA4B400056BD8 /* API+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450431D1AA4B400056BD8 /* API+CoreDataProperties.swift */; };
 		2AA4507F1D1AA4B400056BD8 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450441D1AA4B400056BD8 /* API.swift */; };
@@ -48,16 +47,10 @@
 		2AA450821D1AA4B400056BD8 /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450471D1AA4B400056BD8 /* Project+CoreDataProperties.swift */; };
 		2AA450831D1AA4B400056BD8 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450481D1AA4B400056BD8 /* Project.swift */; };
 		2AA450841D1AA4B400056BD8 /* TSGAPIDetails.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450491D1AA4B400056BD8 /* TSGAPIDetails.xcdatamodeld */; };
-		2AA450851D1AA4B400056BD8 /* JSONModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AA4504D1D1AA4B400056BD8 /* JSONModel.h */; };
 		2AA450861D1AA4B400056BD8 /* JSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4504E1D1AA4B400056BD8 /* JSONModel.m */; };
-		2AA450871D1AA4B400056BD8 /* JSONModelClassProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AA4504F1D1AA4B400056BD8 /* JSONModelClassProperty.h */; };
 		2AA450881D1AA4B400056BD8 /* JSONModelClassProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450501D1AA4B400056BD8 /* JSONModelClassProperty.m */; };
-		2AA450891D1AA4B400056BD8 /* JSONModelError.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AA450511D1AA4B400056BD8 /* JSONModelError.h */; };
 		2AA4508A1D1AA4B400056BD8 /* JSONModelError.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450521D1AA4B400056BD8 /* JSONModelError.m */; };
-		2AA4508B1D1AA4B400056BD8 /* JSONModelLib.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AA450531D1AA4B400056BD8 /* JSONModelLib.h */; };
-		2AA4508C1D1AA4B400056BD8 /* JSONKeyMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AA450551D1AA4B400056BD8 /* JSONKeyMapper.h */; };
 		2AA4508D1D1AA4B400056BD8 /* JSONKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450561D1AA4B400056BD8 /* JSONKeyMapper.m */; };
-		2AA4508E1D1AA4B400056BD8 /* JSONValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AA450571D1AA4B400056BD8 /* JSONValueTransformer.h */; };
 		2AA4508F1D1AA4B400056BD8 /* JSONValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450581D1AA4B400056BD8 /* JSONValueTransformer.m */; };
 		2AA450901D1AA4B400056BD8 /* RequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4505A1D1AA4B400056BD8 /* RequestModel.swift */; };
 		2AA450911D1AA4B400056BD8 /* TSGErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4505B1D1AA4B400056BD8 /* TSGErrorManager.swift */; };
@@ -75,9 +68,7 @@
 		2AA4509D1D1AA4B400056BD8 /* TSGValidationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450681D1AA4B400056BD8 /* TSGValidationHelper.swift */; };
 		2AA4509E1D1AA4B400056BD8 /* TSGValidationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450691D1AA4B400056BD8 /* TSGValidationManager.swift */; };
 		2AA451171D1AA9D700056BD8 /* ServiceManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = 2AA450611D1AA4B400056BD8 /* ServiceManager.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		2AA451181D1AA9D700056BD8 /* TSGHelper.swift in Headers */ = {isa = PBXBuildFile; fileRef = 2AA450621D1AA4B400056BD8 /* TSGHelper.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		D618B6351CB7B87E0044D96D /* ServiceClient.h in Headers */ = {isa = PBXBuildFile; fileRef = D618B6341CB7B87E0044D96D /* ServiceClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D61DDA541CFCB9AC00FFA18F /* TSGServiceClient-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = D61DDA531CFCB9AC00FFA18F /* TSGServiceClient-Bridging-Header.h */; };
+		2AC544451D2E31E600FB8A82 /* TSGServiceManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = 2AA450601D1AA4B400056BD8 /* TSGServiceManager.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -325,17 +316,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AA4508B1D1AA4B400056BD8 /* JSONModelLib.h in Headers */,
 				2AA451171D1AA9D700056BD8 /* ServiceManager.swift in Headers */,
-				2AA451181D1AA9D700056BD8 /* TSGHelper.swift in Headers */,
-				2AA450851D1AA4B400056BD8 /* JSONModel.h in Headers */,
-				D61DDA541CFCB9AC00FFA18F /* TSGServiceClient-Bridging-Header.h in Headers */,
-				2AA450871D1AA4B400056BD8 /* JSONModelClassProperty.h in Headers */,
-				D618B6351CB7B87E0044D96D /* ServiceClient.h in Headers */,
-				2AA4508C1D1AA4B400056BD8 /* JSONKeyMapper.h in Headers */,
-				2AA4507C1D1AA4B400056BD8 /* CoreDataHelper.h in Headers */,
-				2AA4508E1D1AA4B400056BD8 /* JSONValueTransformer.h in Headers */,
-				2AA450891D1AA4B400056BD8 /* JSONModelError.h in Headers */,
+				2AC544451D2E31E600FB8A82 /* TSGServiceManager.swift in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

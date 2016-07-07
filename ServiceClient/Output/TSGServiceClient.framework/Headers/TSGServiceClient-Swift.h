@@ -98,7 +98,7 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 @import ObjectiveC;
 #endif
 
-#import "/Users/kiwitech/TSG/TSG-ServiceClient/ServiceClient/ServiceClient/TSGServiceClient-Bridging-Header.h"
+#import "/Users/Ayush/Desktop/TSG/TSG-iOS/ServiceClient/ServiceClient/TSGServiceClient-Bridging-Header.h"
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
@@ -567,6 +567,11 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 @property (nonatomic, strong) NSMutableArray * _Nonnull parallelDownloadRequest;
 @property (nonatomic, strong) NSMutableArray * _Nonnull sequentialUploadRequest;
 @property (nonatomic, strong) NSMutableArray * _Nonnull parallelUploadRequest;
+@property (nonatomic, copy) NSString * _Null_unspecified pid;
+@property (nonatomic, copy) NSString * _Null_unspecified baseUrl;
+@property (nonatomic, copy) NSString * _Null_unspecified action;
+@property (nonatomic, copy) NSString * _Null_unspecified apiName;
+@property (nonatomic) NSInteger responseCode;
 + (TSGHelper * _Nonnull)sharedInstance;
 @property (nonatomic) NSInteger serviceCount;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
@@ -574,11 +579,6 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 + (void)setBaseURL:(NSString * _Nonnull)url;
 + (void)setCustomHeader:(NSDictionary * _Nonnull)dict;
 + (void)removeCustomHeader;
-@property (nonatomic, copy) NSString * _Null_unspecified pid;
-@property (nonatomic, copy) NSString * _Null_unspecified baseUrl;
-@property (nonatomic, copy) NSString * _Null_unspecified action;
-@property (nonatomic, copy) NSString * _Null_unspecified apiName;
-@property (nonatomic) NSInteger responseCode;
 - (void)saveProjectID:(NSMutableDictionary * _Nonnull)dict;
 - (void)getAPIVersion:(void (^ _Nonnull)(NSDictionary * _Nonnull dic))sucess failure:(void (^ _Nonnull)(NSError * _Nonnull error))failure;
 + (void)requestedApi:(NSString * _Nonnull)actionID withQueryParam:(NSDictionary<NSString *, id> * _Nullable)queryParamDict withBodyParam:(NSDictionary<NSString *, id> * _Nullable)params withPathParams:(NSMutableDictionary * _Nullable)pathParamDict withTag:(NSString * _Nullable)apiTag onSuccess:(void (^ _Nonnull)(id _Nonnull))success onFailure:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))failed;

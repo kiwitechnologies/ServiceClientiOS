@@ -4,21 +4,17 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/ServiceClient.h</key>
-		<data>
-		BZbyTad9oQR3rnsNJt9SfzK26pg=
-		</data>
 		<key>Headers/ServiceManager.swift</key>
 		<data>
-		dl8SJLaxbtZhstzYxzDzVz8jSJk=
-		</data>
-		<key>Headers/TSGHelper.swift</key>
-		<data>
-		efS/vfKMgmEGw6d8QygEcm2ON40=
+		unY8FAnUvKcQ7QUnY9VHvUiqIEY=
 		</data>
 		<key>Headers/TSGServiceClient-Swift.h</key>
 		<data>
-		Sifr99ECl57wj8PKNpsebnm6weM=
+		ETDrSy01ofqN1alL8sYPo7lb8wI=
+		</data>
+		<key>Headers/TSGServiceManager.swift</key>
+		<data>
+		oa6+FecKZ+DZsdkfCx6g93OxsN8=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -26,19 +22,19 @@
 		</data>
 		<key>Modules/TSGServiceClient.swiftmodule/arm.swiftdoc</key>
 		<data>
-		O8dXaZ3877JdRRKpWT1NSbngZas=
+		m469njTwtvYK2JcHoD5p7OWIa7M=
 		</data>
 		<key>Modules/TSGServiceClient.swiftmodule/arm.swiftmodule</key>
 		<data>
-		aCX28RrebbZSkaBaarZ9glMQoAM=
+		N4+2m80xYrC1k6PLJUnMOMMVuCQ=
 		</data>
 		<key>Modules/TSGServiceClient.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		D69x2w4tmX9BZTVZqmCh0oC5ryE=
+		5GzGxV4TZjZb+DPXLJZ4SID/07k=
 		</data>
 		<key>Modules/TSGServiceClient.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		IZhJjnF41WRjbSnn7F30C0lghig=
+		AY+IbCg5t/Vps0j5MS7Js6BYn1I=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -55,92 +51,81 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/ServiceClient.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			BZbyTad9oQR3rnsNJt9SfzK26pg=
-			</data>
-			<key>hash2</key>
-			<data>
-			gAUXbNYML7XAia1hCiuAVmuxH41yUxrZWHLd+UFX1yc=
-			</data>
-		</dict>
 		<key>Headers/ServiceManager.swift</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			dl8SJLaxbtZhstzYxzDzVz8jSJk=
+			unY8FAnUvKcQ7QUnY9VHvUiqIEY=
 			</data>
 			<key>hash2</key>
 			<data>
-			0lA4SPbKNAxeiiqQ/b46xoOrx4OXnEhzLCn/TGE6EVs=
-			</data>
-		</dict>
-		<key>Headers/TSGHelper.swift</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			efS/vfKMgmEGw6d8QygEcm2ON40=
-			</data>
-			<key>hash2</key>
-			<data>
-			PRXw+T4Bm9NOXOcmUFlR/Y9IKB0uVcK/NDnVQJdSPOs=
+			/9mPM+uwHNaLmv4nnNnB81SAPXxaG487UD4hpvWn51w=
 			</data>
 		</dict>
 		<key>Headers/TSGServiceClient-Swift.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Sifr99ECl57wj8PKNpsebnm6weM=
+			ETDrSy01ofqN1alL8sYPo7lb8wI=
 			</data>
 			<key>hash2</key>
 			<data>
-			38NJYGzISNzB9Z6/qspcnQV1sMipP8XzjQ5QWN6i/Gk=
+			RKtHwlCLFdd13Vd/FYFQnIbTCDWemOYc3g8Oi9GwQbU=
+			</data>
+		</dict>
+		<key>Headers/TSGServiceManager.swift</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			oa6+FecKZ+DZsdkfCx6g93OxsN8=
+			</data>
+			<key>hash2</key>
+			<data>
+			esmaU7KQttXaLuEDGVVFZyZCgMqL5rSr14iW67iJres=
 			</data>
 		</dict>
 		<key>Modules/TSGServiceClient.swiftmodule/arm.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			O8dXaZ3877JdRRKpWT1NSbngZas=
+			m469njTwtvYK2JcHoD5p7OWIa7M=
 			</data>
 			<key>hash2</key>
 			<data>
-			e0ew1WDdf7GhgMSaTeILoqRX8AupBvHA467MFQKFBxk=
+			ndy4cz2bXbmmKbmjO0ycQ8Bp5dI7DbIWTb+D1PxLYCA=
 			</data>
 		</dict>
 		<key>Modules/TSGServiceClient.swiftmodule/arm.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			aCX28RrebbZSkaBaarZ9glMQoAM=
+			N4+2m80xYrC1k6PLJUnMOMMVuCQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			5WahRfzyXBMIe92YbsZrMsIAEK0np0y+bG2p518i68Q=
+			ppZ9rme927HzsO5C4Q4zLoZLJi4o5N1Js4j+pnZec1I=
 			</data>
 		</dict>
 		<key>Modules/TSGServiceClient.swiftmodule/arm64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			D69x2w4tmX9BZTVZqmCh0oC5ryE=
+			5GzGxV4TZjZb+DPXLJZ4SID/07k=
 			</data>
 			<key>hash2</key>
 			<data>
-			baUrfATjdvbKFu4F/uyNTIQz5cye3m4xfKJzfF9GdoU=
+			rvciZ3Yzk84QMhmv0T9ZQX1iwZLUAlpEltEhXxA52ag=
 			</data>
 		</dict>
 		<key>Modules/TSGServiceClient.swiftmodule/arm64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			IZhJjnF41WRjbSnn7F30C0lghig=
+			AY+IbCg5t/Vps0j5MS7Js6BYn1I=
 			</data>
 			<key>hash2</key>
 			<data>
-			j4KeU/1fD8utbWhL5GIcCZaB6qEZBmEakTTy/u5klXs=
+			W6n56H70WVhpjZ2gODGkNAPpGf2lf7S/x7KXugXukMo=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

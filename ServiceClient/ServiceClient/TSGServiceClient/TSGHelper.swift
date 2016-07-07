@@ -25,6 +25,15 @@ public class TSGHelper: NSObject
 
     //Alamofire Manager
     var manager:Manager!
+    
+    
+    var pid:String!
+    var baseUrl:String!
+    var action:String!
+    var apiName:String!
+    var responseCode:Int = 200
+    var encodingType:ParameterEncoding = .JSON
+
     /*
      *Singleton method
      */
@@ -41,6 +50,7 @@ public class TSGHelper: NSObject
         return Static.instance!
     }
     
+  
     var serviceCount:Int
         {
         didSet
@@ -95,6 +105,12 @@ public class TSGHelper: NSObject
         TSGHelper.sharedInstance.setDefaultHeader()
     }
     
+    public class func setEncoding(encoding:ParameterEncoding)
+    {
+        TSGHelper.sharedInstance.encodingType = encoding
+    }
+    
+    
     
     /*************************************************************************************************************************************      ALL WEB-TOOL METHODS
      
@@ -144,12 +160,7 @@ public class TSGHelper: NSObject
             }
         }
     }
-    
-    var pid:String!
-    var baseUrl:String!
-    var action:String!
-    var apiName:String!
-    var responseCode:Int = 200
+ 
     
     internal func saveProjectID(dict:NSMutableDictionary) {
         Project.saveProjectInfo(dict)
@@ -333,20 +344,20 @@ public class TSGHelper: NSObject
         {
         case RequestType.GET:
             
-            self.req =  self.manager.request(.GET,url, parameters: params as? [String : AnyObject], queryParameters: queryParamDict as? [String:String])
+            self.req =  self.manager.request(.GET,url, parameters: params as? [String : AnyObject], queryParameters: queryParamDict as? [String:String], encoding: self.encodingType)
             
             
         case RequestType.POST:
             
-            self.req =  self.manager.request(.POST,url, parameters: params as? [String : AnyObject], queryParameters:queryParamDict as? [String:String],  encoding: .JSON)
+            self.req =  self.manager.request(.POST,url, parameters: params as? [String : AnyObject], queryParameters:queryParamDict as? [String:String],  encoding: self.encodingType)
             
         case RequestType.PUT:
             
-            self.req = self.manager.request(.PUT,url, parameters: params as? [String : AnyObject], encoding: .JSON)
+            self.req = self.manager.request(.PUT,url, parameters: params as? [String : AnyObject], encoding: self.encodingType)
             
         case RequestType.DELETE:
             
-            self.req =  self.manager.request(.DELETE, url, parameters: params as? [String : AnyObject], encoding: .JSON)
+            self.req =  self.manager.request(.DELETE, url, parameters: params as? [String : AnyObject], encoding: self.encodingType)
         }
         
         let currentTime = NSDate.timeIntervalSinceReferenceDate()

@@ -24,7 +24,16 @@ public class ServiceManager {
         TSGHelper.setBaseURL(url)
     }
     
+    /**
+     *	@functionName	: setEncoding
+     *	@parameters		: encoding : URL-Nested, JSON- Default
+     *	@description	: It would be used to set encoding Type
+     */
     
+    public class func setEncoding(encoding:ParameterEncoding)
+    {
+        TSGHelper.setEncoding(encoding)
+    }
     
     /**
      *	@functionName	: setHeader
