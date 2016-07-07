@@ -84,7 +84,6 @@
     
     NSBundle *abc = [NSBundle bundleWithIdentifier:@"com.Framework.ServiceClient"];
     NSURL *modelURL = [abc URLForResource:@"TSGAPIDetails" withExtension:@"momd"];
-    NSLog(@"Model URL------>%@",modelURL);
     
     if (modelURL != nil)
     {
@@ -103,7 +102,6 @@
     }
     
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"TSGAPIDetails.sqlite"];
-    NSLog(@"storeURL----->%@",storeURL.absoluteString);
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     

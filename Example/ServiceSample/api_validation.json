@@ -1,114 +1,104 @@
 {
     "project_id": "577a444f306a4c97210a0167",
-    "updated_at": 1467806302692,
-    "version_no": 0.21000000000000005,
+    "updated_at": 1467805079397,
+    "version_no": 0.18000000000000002,
     "project_name": "Allective",
     "actions": [
-        {
-            "action": "sessions",
-            "action_id": "577b39efc65786562b84c20a",
-            "request_type": "POST",
-            "dev_url": "http://172.16.146.158:3001/api/v1/",
-            "qa_url": "http://172.16.146.73:3001/api/v1/",
-            "staging_url": "http://172.16.146.73:3001/api/v1/",
-            "production_url": "http://172.16.146.73:3001/api/v1/",
-            "body_parameters": [
                 {
-                    "key_name": "user[email]",
-                    "validation_data_type": 2,
-                    "validations": {
-                        "format_string": 3,
-                        "max": "0",
-                        "min": "0",
-                        "require": 1
-                    }
+                "action": "sessions",
+                "action_id": "577b39efc65786562b84c20a",
+                "request_type": "POST",
+                "dev_url": "http://172.16.146.158:3001/api/v1/",
+                "qa_url": "http://172.16.146.73:3001/api/v1/",
+                "staging_url": "http://172.16.146.73:3001/api/v1/",
+                "production_url": "http://172.16.146.73:3001/api/v1/",
+                "body_parameters": [
+                                    {
+                                    "key_name": "user",
+                                    "validation_data_type": 2,
+                                    "validations": {
+                                    "max": "0",
+                                    "min": "0",
+                                    "require": 1,
+                                    "format_string": -1
+                                    }
+                                    }
+                                    ],
+                "query_parameters": [],
+                "headers": [
+                            {
+                            "key_name": "content-type",
+                            "key_value": [
+                                          "application/json"
+                                          ]
+                            }
+                            ],
+                "params_parameters": 0,
+                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/577b39efc65786562b84c20a/response"
                 },
                 {
-                    "key_name": "user[code]",
-                    "validation_data_type": 0,
-                    "validations": {
-                        "max": "0",
-                        "min": "0",
-                        "require": 1,
-                        "format_string": -1
-                    }
-                }
-            ],
-            "query_parameters": [],
-            "headers": [
+                "action": "categories",
+                "action_id": "577a44e5306a4c97210a0168",
+                "request_type": "GET",
+                "dev_url": "http://172.16.146.158:3001/api/v1/",
+                "qa_url": "http://172.16.146.158:3001/api/v1/",
+                "staging_url": "http://172.16.146.158:3001/api/v1/",
+                "production_url": "http://172.16.146.158:3001/api/v1/",
+                "body_parameters": [],
+                "query_parameters": [
+                                     {
+                                     "key_name": "auth_token",
+                                     "validation_data_type": 2,
+                                     "validations": {
+                                     "max": "0",
+                                     "min": "0",
+                                     "require": 1,
+                                     "format_string": -1
+                                     }
+                                     }
+                                     ],
+                "headers": [
+                            {
+                            "key_name": "content-type",
+                            "key_value": [
+                                          "application/json"
+                                          ]
+                            }
+                            ],
+                "params_parameters": 0,
+                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/577a44e5306a4c97210a0168/response"
+                },
                 {
-                    "key_name": "content-type",
-                    "key_value": [
-                        "application/json"
-                    ]
+                "action": "reset_password",
+                "action_id": "577ce08a12b6239a2e5843be",
+                "request_type": "POST",
+                "dev_url": "http://172.16.146.158:3001/api/v1/",
+                "qa_url": "http://172.16.146.158:3001/api/v1/",
+                "staging_url": "http://172.16.146.158:3001/api/v1/",
+                "production_url": "http://172.16.146.158:3001/api/v1/",
+                "body_parameters": [],
+                "query_parameters": [
+                                     {
+                                     "key_name": "user[\"email\"]",
+                                     "validation_data_type": 2,
+                                     "validations": {
+                                     "format_string": 3,
+                                     "max": "0",
+                                     "min": "0",
+                                     "require": 1
+                                     }
+                                     }
+                                     ],
+                "headers": [
+                            {
+                            "key_name": "content-type",
+                            "key_value": [
+                                          "application/json"
+                                          ]
+                            }
+                            ],
+                "params_parameters": 0,
+                "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/577ce08a12b6239a2e5843be/response"
                 }
-            ],
-            "params_parameters": 0,
-            "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/577b39efc65786562b84c20a/response"
-        },
-        {
-            "action": "categories",
-            "action_id": "577a44e5306a4c97210a0168",
-            "request_type": "GET",
-            "dev_url": "http://172.16.146.158:3001/api/v1/",
-            "qa_url": "http://172.16.146.158:3001/api/v1/",
-            "staging_url": "http://172.16.146.158:3001/api/v1/",
-            "production_url": "http://172.16.146.158:3001/api/v1/",
-            "body_parameters": [],
-            "query_parameters": [
-                {
-                    "key_name": "auth_token",
-                    "validation_data_type": 2,
-                    "validations": {
-                        "max": "0",
-                        "min": "0",
-                        "require": 1,
-                        "format_string": -1
-                    }
-                }
-            ],
-            "headers": [
-                {
-                    "key_name": "content-type",
-                    "key_value": [
-                        "application/json"
-                    ]
-                }
-            ],
-            "params_parameters": 0,
-            "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/577a44e5306a4c97210a0168/response"
-        },
-        {
-            "action": "reset_password",
-            "action_id": "577ce08a12b6239a2e5843be",
-            "request_type": "POST",
-            "dev_url": "http://172.16.146.158:3001/api/v1/",
-            "qa_url": "http://172.16.146.158:3001/api/v1/",
-            "staging_url": "http://172.16.146.158:3001/api/v1/",
-            "production_url": "http://172.16.146.158:3001/api/v1/",
-            "body_parameters": [],
-            "query_parameters": [
-                {
-                    "key_name": "user[email]",
-                    "validation_data_type": 2,
-                    "validations": {
-                        "format_string": 3,
-                        "max": "0",
-                        "min": "0",
-                        "require": 1
-                    }
-                }
-            ],
-            "headers": [
-                {
-                    "key_name": "content-type",
-                    "key_value": [
-                        "application/json"
-                    ]
-                }
-            ],
-            "params_parameters": 0,
-            "dummy_server_url": "http://kiwitechopensource.com/tsg/dummy_server/577ce08a12b6239a2e5843be/response"
-        }
-    ]
+                ]
 }

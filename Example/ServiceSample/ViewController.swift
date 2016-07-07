@@ -33,26 +33,27 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBAction func btnActionClicked(sender: AnyObject)
     {
         
-        let optionMenu = UIAlertController(title: nil, message: "Select http actions", preferredStyle: .ActionSheet)
+        let optionMenu = UIAlertController(title: nil, message: "ALLECTIVE ACTIONS", preferredStyle: .ActionSheet)
         
         let setProjectId = UIAlertAction(title: "Set ProjectID", style: .Default) { (alert:UIAlertAction) in
             self.setProjecRunningID()
         }
         
-        let hitAnyRequest = UIAlertAction(title: "Any Request", style: .Default) { (alert:UIAlertAction) in
-            self.anyRequest()
+        let hitAnyRequest = UIAlertAction(title: "SESSION Request", style: .Default) { (alert:UIAlertAction) in
+            self.sessionRequest()
         }
-        let getRequest = UIAlertAction(title: "GET Request", style: .Default) { (alert: UIAlertAction) in
-            self.getRequest()
+        let getRequest = UIAlertAction(title: "CATEGORIES Request", style: .Default) { (alert: UIAlertAction) in
+            self.categoryRequest()
         }
         
+        let postRequest = UIAlertAction(title: "RESET PASSWORD", style: .Default) { (alert: UIAlertAction) in
+            self.resetRequest()
+        }
+        /*
         let pathParamRequest = UIAlertAction(title: "PathParam Request", style: .Default) { (alert: UIAlertAction) in
             self.pathParamRequest()
         }
-        let postRequest = UIAlertAction(title: "POST Request", style: .Default) { (alert: UIAlertAction) in
-            self.postRequest()
-        }
-        
+
         let putRequest = UIAlertAction(title: "PUT Request", style: .Default) { (alert:UIAlertAction) in
             self.putRequest()
         }
@@ -67,7 +68,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         let deleteRequest = UIAlertAction(title: "Delete Request", style: .Default) { (alert:UIAlertAction) in
             self.deleteRequest()
-        }
+        } */
         
         let cancelRequest = UIAlertAction(title: "Cancel", style: .Default) { (alert:UIAlertAction) in
             
@@ -76,12 +77,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         optionMenu.addAction(setProjectId)
         optionMenu.addAction(hitAnyRequest)
         optionMenu.addAction(getRequest)
-        optionMenu.addAction(pathParamRequest)
         optionMenu.addAction(postRequest)
+       /* optionMenu.addAction(pathParamRequest)
         optionMenu.addAction(putRequest)
         optionMenu.addAction(uploadRequest)
         optionMenu.addAction(downloadRequest)
-        optionMenu.addAction(deleteRequest)
+        optionMenu.addAction(deleteRequest)*/
         optionMenu.addAction(cancelRequest)
         
         self.presentViewController(optionMenu, animated: true, completion: nil)
@@ -92,7 +93,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let pathParamDict:NSMutableDictionary = NSMutableDictionary()
         pathParamDict.setValue("4", forKey: "versfion_no")
         
-        //TSGServiceManager.setProjectRuningMode(.DUMMY)
         TSGServiceManager.performAction(RECENTMEDIA,withPathParams: pathParamDict, onSuccess: { (object) in
             print(object)
             }) { (status, error) in
@@ -100,22 +100,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func anyRequest()
-    {
-        let dict1 = ["user[email]":"manish.johari@kiwitech.com","user[code]":"9967"]
-        TSGServiceManager.performAction("577b39efc65786562b84c20a",withParams: dict1, onSuccess: { (object) in
-            let myObject = object
-            print(myObject)
-        }) { (status, error) in
-            print(error)
-
-        }
+    func sessionRequest(){
+    
+        let bodyDict = ["email":"manish.johari@kiwitech.com","code":"9967"]
+        let dict = ["user":bodyDict]
         
-        ServiceManager.setBaseURL("http://172.16.146.158:3001/api/")
-        ServiceManager.hitRequestForAPI("v1/sessions", bodyParam: dict1, typeOfRequest: .POST, typeOFResponse: .JSON, success: { (object) in
+        TSGServiceManager.performAction(SESSION, withParams: dict, onSuccess: { (object) in
             print(object)
-            }) { (error) in
+             self.apiResult.text = "\(object)"
+            }) { (status, error) in
                 print(error)
+            self.apiResult.text = "\(error)"
         }
     }
     
@@ -217,26 +212,35 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     //MARK : function for Get Request
-    func getRequest() {
+    func categoryRequest() {
     
-        TSGServiceManager.performAction(ALLPROJECTS, onSuccess: { ( dictionary) in
-            print("\(dictionary)")
-            self.apiResult.text = "Success: GET request executed successfully"
-            
-        }) { (bool, errors) in
-            print("\(bool,errors)")
+        let bodyDict = ["auth_token":"fdssgfg gfgfgfdgfd"]
+
+        
+        TSGServiceManager.performAction(CATEGORIES, withQueryParam: bodyDict, onSuccess: { (object) in
+            print(object)
+            self.apiResult.text = "\(object)"
+
+            }) { (status, error) in
+                print(error)
+                self.apiResult.text = "\(error)"
+
         }
     }
     
     //MARK : function for Post Request
-    func postRequest() {
+    func resetRequest() {
         
-        let bodyDict = ["user_email":"yogesh@gmail.com", "name":"yogesh"]
+        //let bodyDict = ["email":"manish.johari@kiwitech.com","code":"9967"]
         
-        TSGServiceManager.performAction(CREATEPROJECT, withParams: bodyDict, onSuccess: { ( dictionary) in
+     //   let dict = ["user":bodyDict]
+        
+        let bodyDict = ["user[email]":"manish.johari@kiwitech.com"]
+        
+        TSGServiceManager.performAction(RESETPASSWORD, withParams: bodyDict, onSuccess: { ( dictionary) in
             print("\(dictionary)")
 
-            self.apiResult.text = "SUCCESS: POST request executed successfully"
+            self.apiResult.text = "\(dictionary)"
         }) { (bool, errors) in
             let temp = self.convertDictToJSONString(errors.userInfo)
             print(errors)

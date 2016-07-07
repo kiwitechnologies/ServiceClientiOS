@@ -15,3 +15,8 @@ let DELETEPROJECT = "5742a2b95262ef7a1aae297d"
 let IMAGEUPLOAD = "576b996efdca407a0a50cf5b"
 
 let SESSION = "577b39efc65786562b84c20a"
+
+//////////////////////////////////////////////////////////////////
+
+let CATEGORIES = "577a44e5306a4c97210a0168"
+let RESETPASSWORD = "577ce08a12b6239a2e5843be"

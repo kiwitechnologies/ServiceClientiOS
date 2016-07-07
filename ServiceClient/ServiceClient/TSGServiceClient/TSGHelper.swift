@@ -36,6 +36,7 @@ public class TSGHelper: NSObject
         }
         dispatch_once(&Static.onceToken) {
             Static.instance = TSGHelper()
+            Static.instance?.appRuningMode = .DEVELOPMENT
         }
         return Static.instance!
     }
@@ -136,9 +137,6 @@ public class TSGHelper: NSObject
                     } else {
                     saveProjectID(mutDict)
                     }
-                    break
-                    
-                default:
                     break
                 }
                
