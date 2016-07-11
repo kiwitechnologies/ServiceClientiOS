@@ -25,15 +25,16 @@ public class TSGHelper: NSObject
 
     //Alamofire Manager
     var manager:Manager!
-    
-    
     var pid:String!
     var baseUrl:String!
     var action:String!
     var apiName:String!
     var responseCode:Int = 200
     var encodingType:ParameterEncoding = .JSON
-
+    var enableLog:Bool = false
+    var success:(response:AnyObject) -> Void? = {_ in return}
+    var progress: (percent: Float) -> Void? = {_ in return}
+    var failure:NSError->Void? = {_ in return}
     /*
      *Singleton method
      */
@@ -177,7 +178,7 @@ public class TSGHelper: NSObject
         let urlString:String! = "http://kiwitechopensource.com/tsg/projects/\((string!))/version"
         
         
-        obj.getDataFromUrl(urlString,withApiTag: "0", params: [:], typeOfRequest: .GET, typeOfResponse: .JSON, success: { (obj) in
+        obj.getDataFromUrl(urlString,withApiTag: "0", bodyParams: [:], typeOfRequest: .GET, typeOfResponse: .JSON, success: { (obj) in
             
             var result:String!
             
@@ -199,13 +200,13 @@ public class TSGHelper: NSObject
         }
     }
     
-    public class func requestedApi(actionID:String,withQueryParam queryParamDict:[String:AnyObject]?=nil, withBodyParam params:[String:AnyObject]?=nil ,withPathParams pathParamDict:NSMutableDictionary?=nil, withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(),
+    public class func requestedApi(actionID:String,withQueryParam queryParamDict:[String:AnyObject]?=nil, withBodyParam bodyParams:[String:AnyObject]?=nil ,withPathParams pathParamDict:NSMutableDictionary?=nil, withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(),
                                    onFailure failed:(Bool,NSError)->()){
         let obj = TSGHelper.sharedInstance
         var completeURL:String!
 
         
-        TSGValidationManager.validateActionData(actionID,withQueryParma: queryParamDict, withBodyParam: params,withHeaderDic:TSGHelper.sharedInstance.apiHeaderDict, withOptionalData: nil, onSuccess: { (apiName, string) in
+        TSGValidationManager.validateActionData(actionID,withQueryParma: queryParamDict, withBodyParam: bodyParams,withHeaderDic:TSGHelper.sharedInstance.apiHeaderDict, withOptionalData: nil, onSuccess: { (apiName, string) in
             
             var queryParam:[String:AnyObject]!
             if queryParamDict != nil {
@@ -272,7 +273,7 @@ public class TSGHelper: NSObject
                 tag = apiTag
             }
             if completeURL != nil {
-                obj.getDataFromUrl(completeURL, withApiTag: tag!, withQueryParam: queryParam, params: params, typeOfRequest: requestType, typeOfResponse: .JSON, success: { (dict) in
+                obj.getDataFromUrl(completeURL, withApiTag: tag!, withQueryParam: queryParam, bodyParams: bodyParams, typeOfRequest: requestType, typeOfResponse: .JSON, success: { (dict) in
                     success(dict)
                     }, failure: { (error) in
                         failed(true, error)
@@ -314,7 +315,7 @@ public class TSGHelper: NSObject
             actionID = "0"
         }
        
-        TSGHelper.sharedInstance.getDataFromUrl(completeURL,withApiTag: actionID!, withQueryParam: queryParam, params: bodyParam, typeOfRequest: typeOfRequest, typeOfResponse: typeOFResponse, success: { (object) in
+        TSGHelper.sharedInstance.getDataFromUrl(completeURL,withApiTag: actionID!, withQueryParam: queryParam, bodyParams: bodyParam, typeOfRequest: typeOfRequest, typeOfResponse: typeOFResponse, success: { (object) in
             success(object)
             
         }) { (error) in
@@ -334,30 +335,37 @@ public class TSGHelper: NSObject
     
     //MARK: Common Methods
 
-    internal func getDataFromUrl( url:String, withApiTag apiTag:String, withQueryParam queryParamDict:[String:AnyObject]?=nil, params:NSDictionary?=nil,typeOfRequest:RequestType, typeOfResponse:ResponseMethod, success: AnyObject -> Void,failure: NSError -> Void)
+    internal func getDataFromUrl( url:String, withApiTag apiTag:String, withQueryParam queryParamDict:[String:AnyObject]?=nil, bodyParams:NSDictionary?=nil,typeOfRequest:RequestType, typeOfResponse:ResponseMethod, success: AnyObject -> Void,failure: NSError -> Void)
     {
         self.serviceCount = self.serviceCount + 1
         
         let obj = TSGHelper.sharedInstance
         
+        if TSGHelper.sharedInstance.enableLog {
+            print("Request Type:----------------\(typeOfRequest)")
+            print("Request URL :----------------\(url)")
+            print("QuerParams  :----------------\(queryParamDict)")
+            print("BodyParams  :----------------\(bodyParams)")
+        }
+        
         switch(typeOfRequest)
         {
         case RequestType.GET:
             
-            self.req =  self.manager.request(.GET,url, parameters: params as? [String : AnyObject], queryParameters: queryParamDict as? [String:String], encoding: self.encodingType)
+            self.req =  self.manager.request(.GET,url, parameters: bodyParams as? [String : AnyObject], queryParameters: queryParamDict as? [String:String], encoding: self.encodingType)
             
             
         case RequestType.POST:
             
-            self.req =  self.manager.request(.POST,url, parameters: params as? [String : AnyObject], queryParameters:queryParamDict as? [String:String],  encoding: self.encodingType)
+            self.req =  self.manager.request(.POST,url, parameters: bodyParams as? [String : AnyObject], queryParameters:queryParamDict as? [String:String],  encoding: self.encodingType)
             
         case RequestType.PUT:
             
-            self.req = self.manager.request(.PUT,url, parameters: params as? [String : AnyObject], encoding: self.encodingType)
+            self.req = self.manager.request(.PUT,url, parameters: bodyParams as? [String : AnyObject], encoding: self.encodingType)
             
         case RequestType.DELETE:
             
-            self.req =  self.manager.request(.DELETE, url, parameters: params as? [String : AnyObject], encoding: self.encodingType)
+            self.req =  self.manager.request(.DELETE, url, parameters: bodyParams as? [String : AnyObject], encoding: self.encodingType)
         }
         
         let currentTime = NSDate.timeIntervalSinceReferenceDate()
@@ -365,7 +373,7 @@ public class TSGHelper: NSObject
         let progressValue:(percentage:Float)->()? = { percent in return}
         progressValue(percentage: 1.0)
         
-        obj.normalActionRequest.addObject(RequestModel(url: url, bodyParam: params, queryParam: queryParamDict, type: typeOfRequest, state: true, apiTag: apiTag, priority: true, actionType: .NORMAL,apiTime:"\(currentTime)",requestObj: self.req,progressBlock: progressValue, successBlock: success,  failureBlock: failure))
+        obj.normalActionRequest.addObject(RequestModel(url: url, bodyParam: bodyParams, queryParam: queryParamDict, type: typeOfRequest, state: true, apiTag: apiTag, priority: true, actionType: .NORMAL,apiTime:"\(currentTime)",requestObj: self.req,progressBlock: progressValue, successBlock: success,  failureBlock: failure))
         let requestTag =  self.req?.requestTAG
 
         switch(typeOfResponse)
@@ -426,5 +434,15 @@ public class TSGHelper: NSObject
         case ResponseMethod.DATA: break
             
         }
+    }
+    
+    /**
+     *	@functionName	: enableLog
+     *	@parameters		: enable : Set log.
+     *	@description	: It would be used to set response code for which user wants response in apis
+     */
+    
+    public class func enableLog(enable:Bool){
+       TSGHelper.sharedInstance.enableLog = enable
     }
 }

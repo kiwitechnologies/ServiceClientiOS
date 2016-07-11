@@ -167,7 +167,7 @@ extension TSGHelper {
     }
 
     //MARK: Internal method to upload file
-    internal func uploadFile(completeURL:String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, withApiTag apiTag:String,uploadType:UploadType = UploadType.PARALLEL,priority:Bool, var progress: (percent: Float) -> Void?, var success:(response:AnyObject) -> Void?, var failure:NSError->Void?){
+    internal func uploadFile(completeURL:String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, withApiTag apiTag:String,uploadType:UploadType = UploadType.PARALLEL,priority:Bool, progress: (percent: Float) -> Void?,success:(response:AnyObject) -> Void?, failure:NSError->Void?){
         
         let obj = TSGHelper.sharedInstance
         let imageData = TSGUtility.changeImageResolution(bodyParams.valueForKey(dataKeyName) as! NSData, withImageQuality: imageQuality!)
@@ -175,6 +175,9 @@ extension TSGHelper {
         dictParams.removeObjectForKey(dataKeyName)
         
         let mimeType:String = TSGUtility.returnMimeType(mimeType)
+        self.success = success
+        self.progress = progress
+        self.failure = failure
         
         var currentAPITime:String!
         let currentTime = NSDate.timeIntervalSinceReferenceDate()
@@ -219,7 +222,7 @@ extension TSGHelper {
                             let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
                             if uploadType == .SEQUENTIAL {
                                 firstArrayObject.progressValue(percentage: percent)
-                                progress = firstArrayObject.progressValue
+                                self.progress = firstArrayObject.progressValue
                             }else {
                                 progress(percent: percent)
                                 
@@ -265,7 +268,7 @@ extension TSGHelper {
                                         
                                         if uploadType == .SEQUENTIAL {
                                             firstArrayObject.successBlock(response: response.result.value!)
-                                            success = firstArrayObject.successBlock
+                                            self.success = firstArrayObject.successBlock
                                         } else {
                                             success(response: response.result.value!)
                                             
@@ -287,7 +290,7 @@ extension TSGHelper {
                                     if response.result.error != nil {
                                         if uploadType == .SEQUENTIAL {
                                             firstArrayObject.failureBlock(error: response.result.error!)
-                                            failure = firstArrayObject.failureBlock
+                                            self.failure = firstArrayObject.failureBlock
                                         }else {
                                             failure(response.result.error!)
                                         }

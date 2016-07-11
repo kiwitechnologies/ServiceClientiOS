@@ -73,13 +73,25 @@ extension TSGHelper{
         }
     }
     
-    func download(path:String, param:NSDictionary?=nil,requestType:RequestType,downloadType:DownloadType, withApiTag apiTag:String,var progressValue:(percentage:Float)->Void?, var success:(response:AnyObject) -> Void?, var failure:NSError->Void?){
+    func download(path:String, param:NSDictionary?=nil,requestType:RequestType,downloadType:DownloadType, withApiTag apiTag:String, progressValue:(percentage:Float)->Void?, success:(response:AnyObject) -> Void?,  failure:NSError->Void?){
+        
+        self.success = success
+        self.progress = progressValue
+        self.failure = failure
+        var localPath: NSURL?
         
         let obj = TSGHelper.sharedInstance
-        let completeURL = TSGHelper.sharedInstance.baseUrl + path
+        var completeURL:String!
         
-        let destination = Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
+        if TSGHelper.sharedInstance.baseUrl != nil {
+            completeURL = TSGHelper.sharedInstance.baseUrl + path
+        }
+        else {
+            completeURL = path
+        }
         
+      //  let destination = Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
+
         var requestMethod:Method = .GET
         
         switch requestType {
@@ -104,12 +116,18 @@ extension TSGHelper{
         }
         
         obj.req =  obj.manager.download(requestMethod, completeURL,parameters:param as? [String : AnyObject],
-            destination: destination)
+            destination: { (temporaryURL, response) in
+                let directoryURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
+                let pathComponent = response.suggestedFilename
+                
+                localPath = directoryURL.URLByAppendingPathComponent(pathComponent!)
+                return localPath!
+        })
             .progress { bytesRead, totalBytesRead, totalBytesExpectedToRead in
                 let percentage = (Float(totalBytesRead) / Float(totalBytesExpectedToRead))
                 if downloadType == .SEQUENTIAL {
                     firstArrayObject.progressValue(percentage: percentage)
-                    progressValue = firstArrayObject.progressValue
+                    self.progress = firstArrayObject.progressValue
                 } else {
                     progressValue(percentage: percentage)
                 }
@@ -147,7 +165,7 @@ extension TSGHelper{
                 self.hitAnotherDownloadRequest({ (percentage) in
                     progressValue(percentage: percentage)
                     }, success: { (response) in
-                        success(response: response)
+                        success(response: localPath!)
                     }, failure: { (error) in
                         failure(error)
                 })
@@ -168,17 +186,17 @@ extension TSGHelper{
             
             if response != nil {
                 if downloadType == .SEQUENTIAL {
-                    firstArrayObject.successBlock(response: response!)
-                    success = firstArrayObject.successBlock
+                    firstArrayObject.successBlock(response: localPath!)
+                    self.success = firstArrayObject.successBlock
                 }
                 else {
-                    success(response: response!)
+                    success(response: localPath!)
                 }
             }
             if error != nil {
                 if downloadType == .SEQUENTIAL {
                     firstArrayObject.failureBlock(error: error!)
-                    failure = firstArrayObject.failureBlock
+                    self.failure = firstArrayObject.failureBlock
                 }
                 else {
                     failure(error!)

@@ -49,6 +49,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let postRequest = UIAlertAction(title: "RESET PASSWORD", style: .Default) { (alert: UIAlertAction) in
             self.resetRequest()
         }
+        
+        let downloadRequest = UIAlertAction(title: "Download Request", style: .Default) { (alert:UIAlertAction) in
+            self.downloadRequest()
+        }
         /*
         let pathParamRequest = UIAlertAction(title: "PathParam Request", style: .Default) { (alert: UIAlertAction) in
             self.pathParamRequest()
@@ -78,6 +82,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         optionMenu.addAction(hitAnyRequest)
         optionMenu.addAction(getRequest)
         optionMenu.addAction(postRequest)
+        optionMenu.addAction(downloadRequest)
+
        /* optionMenu.addAction(pathParamRequest)
         optionMenu.addAction(putRequest)
         optionMenu.addAction(uploadRequest)
@@ -102,9 +108,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func sessionRequest()
     {
+        TSGServiceManager.enableLog(true)
         TSGServiceManager.setEncoding(.URL)
+        
         let jsonDict = ["user[email]":"manish.johari@kiwitech.com","user[code]":"9967"]
-        TSGServiceManager.performAction(SESSION, withParams: jsonDict, onSuccess: { (object) in
+
+        TSGServiceManager.performAction(SESSION, withBodyParams: jsonDict, onSuccess: { (object) in
             print(object)
              self.apiResult.text = "\(object)"
             }) { (status, error) in
@@ -121,15 +130,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         progressIndicator.hidden = false
 
-        ServiceManager.setBaseURL("http://jplayer.org/video/m4v/")
-
-        ServiceManager.downloadWith("Finding_Nemo_Teaser.m4v",requestType: .GET, downloadType: .PARALLEL, withApiTag: "BBBBB", prority: false, progress: { (percentage) in
-            print("BBBBB\(percentage)")
+        ServiceManager.downloadWith("https://www.fi.edu/sites/default/files/styles/hero_medium/public/Hero_Home_Slider_Pixar_Sulley_9_0.jpg?itok=-zFEmbG",requestType: .GET, downloadType: .PARALLEL, withApiTag: "Picture 1", prority: false, progress: { (percentage) in
+            print("Picture1 progress\(percentage)")
             dispatch_async(dispatch_get_main_queue()) {
                 self.progressIndicator.setProgress(percentage, animated: true)
             }
             }, success: { (response) in
-                print("BBBBB\(response)")
+                print("Picture1 response \(response)")
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     self.activityIndicatorView.hidden = true
@@ -236,7 +243,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         let bodyDict = ["user[email]":"manish.johari@kiwitech.com"]
         
-        TSGServiceManager.performAction(RESETPASSWORD, withParams: bodyDict, onSuccess: { ( dictionary) in
+        TSGServiceManager.performAction(RESETPASSWORD, withBodyParams: bodyDict, onSuccess: { ( dictionary) in
             print("\(dictionary)")
 
             self.apiResult.text = "\(dictionary)"
@@ -254,7 +261,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let bodyDict = ["project_id":"55", "name":"yogesh","user_email":"yogesh@gmail.com","age":"32"]
         
         
-        TSGServiceManager.performAction(UPDATEPROJECT, withParams:bodyDict, onSuccess: { (dictionary) in
+        TSGServiceManager.performAction(UPDATEPROJECT, withBodyParams:bodyDict, onSuccess: { (dictionary) in
           //  print("\(dictionary)")
             self.apiResult.text = "SUCCESS: PUT request executed successfully"
             
@@ -272,7 +279,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let keydict = ["project_id":"56"]
         
         
-        TSGServiceManager.performAction(DELETEPROJECT, withParams: keydict, onSuccess: { (dictionary) in
+        TSGServiceManager.performAction(DELETEPROJECT, withBodyParams: keydict, onSuccess: { (dictionary) in
             print("\(dictionary)")
             
         }) { (bool, errors) in

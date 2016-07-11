@@ -41,7 +41,6 @@ public class TSGValidationManager {
             var paramKeys:NSSet!
             var headerKeys:NSSet!
             var queryParamKeys:NSSet!
-            var pathParamKey:NSSet!
 
             switch apiObj {
                 

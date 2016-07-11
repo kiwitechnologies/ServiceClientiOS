@@ -18,6 +18,16 @@ public class TSGServiceManager {
 ********************************************************************************************************************/
 
     /**
+     *	@functionName	: enableLog
+     *	@parameters		: enable : Set log.
+     *	@description	: It would be used to set response code for which user wants response in apis
+     */
+    
+    public class func enableLog(enable:Bool){
+        TSGHelper.enableLog(enable)
+    }
+    
+    /**
      *	@functionName	: setResponseCode
      *	@parameters		: code : It would be a response code.
      *	@description	: It would be used to set response code for which user wants response in apis
@@ -93,9 +103,9 @@ public class TSGServiceManager {
      */
     
 
-    public class func performAction(actionID:String?=nil,withQueryParam queryParamDict:[String:AnyObject]?=nil, withParams dict:[String:AnyObject]?=nil,withPathParams pathParamDict:NSMutableDictionary?=nil ,withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(), onFailure failed:(Bool, NSError)->()){
+    public class func performAction(actionID:String?=nil,withQueryParam queryParamDict:[String:AnyObject]?=nil, withBodyParams bodyDict:[String:AnyObject]?=nil,withPathParams pathParamDict:NSMutableDictionary?=nil ,withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(), onFailure failed:(Bool, NSError)->()){
 
-        TSGHelper.requestedApi(actionID!,withQueryParam: queryParamDict, withBodyParam: dict,withPathParams: pathParamDict, withTag:apiTag,  onSuccess: { (dictionary) in
+        TSGHelper.requestedApi(actionID!,withQueryParam: queryParamDict, withBodyParam: bodyDict,withPathParams: pathParamDict, withTag:apiTag,  onSuccess: { (dictionary) in
             success(dictionary)
             }) { (bool, error) in
             failed(bool,error)

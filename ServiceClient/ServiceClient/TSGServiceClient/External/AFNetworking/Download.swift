@@ -156,11 +156,10 @@ extension Request {
             if !directoryURLs.isEmpty {
                 return directoryURLs[0].URLByAppendingPathComponent(response.suggestedFilename!)
             }
-
             return temporaryURL
         }
     }
-
+    
     /// The resume data of the underlying download task if available after a failure.
     public var resumeData: NSData? {
         var data: NSData?

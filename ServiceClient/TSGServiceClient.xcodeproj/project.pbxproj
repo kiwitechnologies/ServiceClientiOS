@@ -69,6 +69,18 @@
 		2AA4509E1D1AA4B400056BD8 /* TSGValidationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450691D1AA4B400056BD8 /* TSGValidationManager.swift */; };
 		2AA451171D1AA9D700056BD8 /* ServiceManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = 2AA450611D1AA4B400056BD8 /* ServiceManager.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		2AC544451D2E31E600FB8A82 /* TSGServiceManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = 2AA450601D1AA4B400056BD8 /* TSGServiceManager.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		D61082E21D33BC5800EC804F /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61082DA1D33BC5800EC804F /* Image.swift */; };
+		D61082E31D33BC5800EC804F /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61082DB1D33BC5800EC804F /* ImageCache.swift */; };
+		D61082E41D33BC5800EC804F /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61082DC1D33BC5800EC804F /* ImageDownloader.swift */; };
+		D61082E51D33BC5800EC804F /* ImageFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61082DD1D33BC5800EC804F /* ImageFilter.swift */; };
+		D61082E61D33BC5800EC804F /* Request+AlamofireImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61082DE1D33BC5800EC804F /* Request+AlamofireImage.swift */; };
+		D61082E71D33BC5800EC804F /* UIButton+AlamofireImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61082DF1D33BC5800EC804F /* UIButton+AlamofireImage.swift */; };
+		D61082E81D33BC5800EC804F /* UIImage+AlamofireImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61082E01D33BC5800EC804F /* UIImage+AlamofireImage.swift */; };
+		D61082E91D33BC5800EC804F /* UIImageView+AlamofireImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61082E11D33BC5800EC804F /* UIImageView+AlamofireImage.swift */; };
+		D61082EA1D33BC8500EC804F /* TSGEnum.swift in Headers */ = {isa = PBXBuildFile; fileRef = 2AA450661D1AA4B400056BD8 /* TSGEnum.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		D61082EC1D33BD4900EC804F /* UIButton+AlamofireImage.swift in Headers */ = {isa = PBXBuildFile; fileRef = D61082DF1D33BC5800EC804F /* UIButton+AlamofireImage.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		D61082ED1D33BD4B00EC804F /* UIImage+AlamofireImage.swift in Headers */ = {isa = PBXBuildFile; fileRef = D61082E01D33BC5800EC804F /* UIImage+AlamofireImage.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		D61082EE1D33BD4E00EC804F /* UIImageView+AlamofireImage.swift in Headers */ = {isa = PBXBuildFile; fileRef = D61082E11D33BC5800EC804F /* UIImageView+AlamofireImage.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -125,6 +137,14 @@
 		2AA450671D1AA4B400056BD8 /* TSGUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGUtility.swift; sourceTree = "<group>"; };
 		2AA450681D1AA4B400056BD8 /* TSGValidationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGValidationHelper.swift; sourceTree = "<group>"; };
 		2AA450691D1AA4B400056BD8 /* TSGValidationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGValidationManager.swift; sourceTree = "<group>"; };
+		D61082DA1D33BC5800EC804F /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		D61082DB1D33BC5800EC804F /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		D61082DC1D33BC5800EC804F /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
+		D61082DD1D33BC5800EC804F /* ImageFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFilter.swift; sourceTree = "<group>"; };
+		D61082DE1D33BC5800EC804F /* Request+AlamofireImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Request+AlamofireImage.swift"; sourceTree = "<group>"; };
+		D61082DF1D33BC5800EC804F /* UIButton+AlamofireImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIButton+AlamofireImage.swift"; path = "External/ImageCaching/UIButton+AlamofireImage.swift"; sourceTree = "<group>"; };
+		D61082E01D33BC5800EC804F /* UIImage+AlamofireImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+AlamofireImage.swift"; path = "External/ImageCaching/UIImage+AlamofireImage.swift"; sourceTree = "<group>"; };
+		D61082E11D33BC5800EC804F /* UIImageView+AlamofireImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImageView+AlamofireImage.swift"; path = "External/ImageCaching/UIImageView+AlamofireImage.swift"; sourceTree = "<group>"; };
 		D618B6311CB7B87E0044D96D /* TSGServiceClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TSGServiceClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D618B6341CB7B87E0044D96D /* ServiceClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServiceClient.h; sourceTree = "<group>"; };
 		D618B6361CB7B87E0044D96D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -147,6 +167,7 @@
 			children = (
 				2AA4502A1D1AA4B400056BD8 /* External */,
 				2AA450591D1AA4B400056BD8 /* Helper */,
+				D61082EB1D33BCE400EC804F /* Image+Extension */,
 				2AA450611D1AA4B400056BD8 /* ServiceManager.swift */,
 				2AA450601D1AA4B400056BD8 /* TSGServiceManager.swift */,
 				2AA450621D1AA4B400056BD8 /* TSGHelper.swift */,
@@ -158,6 +179,7 @@
 		2AA4502A1D1AA4B400056BD8 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				D61082D91D33BC5800EC804F /* ImageCaching */,
 				2AA4502B1D1AA4B400056BD8 /* AFNetworking */,
 				2AA4503D1D1AA4B400056BD8 /* CoreData */,
 				2AA4504B1D1AA4B400056BD8 /* JSONModel */,
@@ -282,6 +304,28 @@
 			path = Utliity;
 			sourceTree = "<group>";
 		};
+		D61082D91D33BC5800EC804F /* ImageCaching */ = {
+			isa = PBXGroup;
+			children = (
+				D61082DA1D33BC5800EC804F /* Image.swift */,
+				D61082DB1D33BC5800EC804F /* ImageCache.swift */,
+				D61082DC1D33BC5800EC804F /* ImageDownloader.swift */,
+				D61082DD1D33BC5800EC804F /* ImageFilter.swift */,
+				D61082DE1D33BC5800EC804F /* Request+AlamofireImage.swift */,
+			);
+			path = ImageCaching;
+			sourceTree = "<group>";
+		};
+		D61082EB1D33BCE400EC804F /* Image+Extension */ = {
+			isa = PBXGroup;
+			children = (
+				D61082DF1D33BC5800EC804F /* UIButton+AlamofireImage.swift */,
+				D61082E01D33BC5800EC804F /* UIImage+AlamofireImage.swift */,
+				D61082E11D33BC5800EC804F /* UIImageView+AlamofireImage.swift */,
+			);
+			name = "Image+Extension";
+			sourceTree = "<group>";
+		};
 		D618B6271CB7B87E0044D96D = {
 			isa = PBXGroup;
 			children = (
@@ -318,6 +362,10 @@
 			files = (
 				2AA451171D1AA9D700056BD8 /* ServiceManager.swift in Headers */,
 				2AC544451D2E31E600FB8A82 /* TSGServiceManager.swift in Headers */,
+				D61082EA1D33BC8500EC804F /* TSGEnum.swift in Headers */,
+				D61082EC1D33BD4900EC804F /* UIButton+AlamofireImage.swift in Headers */,
+				D61082ED1D33BD4B00EC804F /* UIImage+AlamofireImage.swift in Headers */,
+				D61082EE1D33BD4E00EC804F /* UIImageView+AlamofireImage.swift in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,7 +475,9 @@
 				2AA450761D1AA4B400056BD8 /* ServerTrustPolicy.swift in Sources */,
 				2AA4506B1D1AA4B400056BD8 /* Download.swift in Sources */,
 				2AA4507E1D1AA4B400056BD8 /* API+CoreDataProperties.swift in Sources */,
+				D61082E31D33BC5800EC804F /* ImageCache.swift in Sources */,
 				2AA450971D1AA4B400056BD8 /* ServiceManager.swift in Sources */,
+				D61082E81D33BC5800EC804F /* UIImage+AlamofireImage.swift in Sources */,
 				2AA450751D1AA4B400056BD8 /* Result.swift in Sources */,
 				2AA450821D1AA4B400056BD8 /* Project+CoreDataProperties.swift in Sources */,
 				2AA4507A1D1AA4B400056BD8 /* Validation.swift in Sources */,
@@ -438,6 +488,8 @@
 				2AA4509D1D1AA4B400056BD8 /* TSGValidationHelper.swift in Sources */,
 				2AA450981D1AA4B400056BD8 /* TSGHelper.swift in Sources */,
 				2AA4507F1D1AA4B400056BD8 /* API.swift in Sources */,
+				D61082E41D33BC5800EC804F /* ImageDownloader.swift in Sources */,
+				D61082E51D33BC5800EC804F /* ImageFilter.swift in Sources */,
 				2AA450741D1AA4B400056BD8 /* ResponseSerialization.swift in Sources */,
 				2AA4507D1D1AA4B400056BD8 /* CoreDataHelper.m in Sources */,
 				2AA450791D1AA4B400056BD8 /* Upload.swift in Sources */,
@@ -445,11 +497,15 @@
 				2AA4509B1D1AA4B400056BD8 /* TSGEnum.swift in Sources */,
 				2AA450721D1AA4B400056BD8 /* Request.swift in Sources */,
 				2AA450881D1AA4B400056BD8 /* JSONModelClassProperty.m in Sources */,
+				D61082E21D33BC5800EC804F /* Image.swift in Sources */,
 				2AA4508F1D1AA4B400056BD8 /* JSONValueTransformer.m in Sources */,
 				2AA450811D1AA4B400056BD8 /* Key.swift in Sources */,
 				2AA4508D1D1AA4B400056BD8 /* JSONKeyMapper.m in Sources */,
 				2AA4506E1D1AA4B400056BD8 /* MultipartFormData.swift in Sources */,
+				D61082E71D33BC5800EC804F /* UIButton+AlamofireImage.swift in Sources */,
 				2AA450801D1AA4B400056BD8 /* Key+CoreDataProperties.swift in Sources */,
+				D61082E61D33BC5800EC804F /* Request+AlamofireImage.swift in Sources */,
+				D61082E91D33BC5800EC804F /* UIImageView+AlamofireImage.swift in Sources */,
 				2AA450941D1AA4B400056BD8 /* TSGHelper+Download.swift in Sources */,
 				2AA4509A1D1AA4B400056BD8 /* StringConstants.swift in Sources */,
 				2AA450861D1AA4B400056BD8 /* JSONModel.m in Sources */,

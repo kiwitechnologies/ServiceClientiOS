@@ -96,9 +96,11 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 @import Foundation;
 @import Foundation.NSURLSession;
 @import ObjectiveC;
+@import UIKit;
+@import CoreGraphics;
 #endif
 
-#import "/Users/Ayush/Desktop/TSG/TSG-iOS/ServiceClient/ServiceClient/TSGServiceClient-Bridging-Header.h"
+#import "/Users/kiwitech/TSG/TSG-ServiceClient/ServiceClient/ServiceClient/TSGServiceClient-Bridging-Header.h"
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
@@ -166,15 +168,15 @@ SWIFT_CLASS("_TtC16TSGServiceClient3Key")
 @property (nonatomic, readonly, copy) NSString * _Nonnull URLString;
 @end
 
-
-@interface NSURLRequest (SWIFT_EXTENSION(TSGServiceClient))
-@property (nonatomic, readonly, copy) NSString * _Nonnull URLString;
-@end
-
 @class NSMutableURLRequest;
 
 @interface NSURLRequest (SWIFT_EXTENSION(TSGServiceClient))
 @property (nonatomic, readonly, strong) NSMutableURLRequest * _Nonnull URLRequest;
+@end
+
+
+@interface NSURLRequest (SWIFT_EXTENSION(TSGServiceClient))
+@property (nonatomic, readonly, copy) NSString * _Nonnull URLString;
 @end
 
 
@@ -572,6 +574,7 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 @property (nonatomic, copy) NSString * _Null_unspecified action;
 @property (nonatomic, copy) NSString * _Null_unspecified apiName;
 @property (nonatomic) NSInteger responseCode;
+@property (nonatomic) BOOL enableLog;
 + (TSGHelper * _Nonnull)sharedInstance;
 @property (nonatomic) NSInteger serviceCount;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
@@ -581,8 +584,11 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 + (void)removeCustomHeader;
 - (void)saveProjectID:(NSMutableDictionary * _Nonnull)dict;
 - (void)getAPIVersion:(void (^ _Nonnull)(NSDictionary * _Nonnull dic))sucess failure:(void (^ _Nonnull)(NSError * _Nonnull error))failure;
-+ (void)requestedApi:(NSString * _Nonnull)actionID withQueryParam:(NSDictionary<NSString *, id> * _Nullable)queryParamDict withBodyParam:(NSDictionary<NSString *, id> * _Nullable)params withPathParams:(NSMutableDictionary * _Nullable)pathParamDict withTag:(NSString * _Nullable)apiTag onSuccess:(void (^ _Nonnull)(id _Nonnull))success onFailure:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))failed;
++ (void)requestedApi:(NSString * _Nonnull)actionID withQueryParam:(NSDictionary<NSString *, id> * _Nullable)queryParamDict withBodyParam:(NSDictionary<NSString *, id> * _Nullable)bodyParams withPathParams:(NSMutableDictionary * _Nullable)pathParamDict withTag:(NSString * _Nullable)apiTag onSuccess:(void (^ _Nonnull)(id _Nonnull))success onFailure:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))failed;
 + (void)setResponseCode:(NSInteger)code;
+
+/// <ul><li>@functionName	: enableLog</li><li>@parameters		: enable : Set log.</li><li>@description	: It would be used to set response code for which user wants response in apis</li></ul>
++ (void)enableLog:(BOOL)enable;
 @end
 
 
@@ -597,11 +603,6 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 
 
 @interface TSGHelper (SWIFT_EXTENSION(TSGServiceClient))
-- (void)hitAnotherSequentialUploadRequest:(void (^ _Nonnull)(float percentage))progressValue success:(void (^ _Nonnull)(id _Nonnull response))success failure:(void (^ _Nonnull)(NSError * _Nonnull))failure;
-@end
-
-
-@interface TSGHelper (SWIFT_EXTENSION(TSGServiceClient))
 
 /// Resume any pending downloads
 ///
@@ -609,6 +610,11 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 /// \param success Block to handle response
 + (void)resumeDownloads:(NSString * _Nonnull)path withApiTag:(NSString * _Nullable)apiTag success:(void (^ _Nonnull)(int64_t, int64_t totalBytes))success;
 - (void)hitAnotherDownloadRequest:(void (^ _Nonnull)(float percentage))progressValue success:(void (^ _Nonnull)(id _Nonnull response))success failure:(void (^ _Nonnull)(NSError * _Nonnull))failure;
+@end
+
+
+@interface TSGHelper (SWIFT_EXTENSION(TSGServiceClient))
+- (void)hitAnotherSequentialUploadRequest:(void (^ _Nonnull)(float percentage))progressValue success:(void (^ _Nonnull)(id _Nonnull response))success failure:(void (^ _Nonnull)(NSError * _Nonnull))failure;
 @end
 
 
@@ -626,6 +632,154 @@ SWIFT_CLASS("_TtC16TSGServiceClient19TSGValidationHelper")
 + (void)checkFileSize:(Key * _Nonnull)obj withData:(NSData * _Nullable)data;
 + (void)checkFormats:(Key * _Nonnull)obj withUserDict:(NSDictionary * _Nonnull)dict;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface UIButton (SWIFT_EXTENSION(TSGServiceClient))
+
+/// Cancels the active download request for the image, if one exists.
+- (void)af_cancelImageRequestForState:(UIControlState)state;
+
+/// Cancels the active download request for the background image, if one exists.
+- (void)af_cancelBackgroundImageRequestForState:(UIControlState)state;
+@end
+
+
+@interface UIImage (SWIFT_EXTENSION(TSGServiceClient))
+
+/// Returns a new version of the image using a CoreImage filter with the specified name and parameters.
+///
+/// \param filterName The name of the CoreImage filter to use on the new image.
+///
+/// \param filterParameters The parameters to apply to the CoreImage filter.
+///
+/// \returns  A new image object, or <code>nil
+/// </code> if the filter failed for any reason.
+- (UIImage * _Nullable)af_imageWithAppliedCoreImageFilter:(NSString * _Nonnull)filterName filterParameters:(NSDictionary<NSString *, id> * _Nullable)filterParameters;
+@end
+
+
+@interface UIImage (SWIFT_EXTENSION(TSGServiceClient))
+
+/// Initializes and returns the image object with the specified data in a thread-safe manner.
+///
+/// It has been reported that there are thread-safety issues when initializing large amounts of images
+/// simultaneously. In the event of these issues occurring, this method can be used in place of
+/// the <code>init?(data:)
+/// </code> method.
+///
+/// \param data The data object containing the image data.
+///
+/// \returns  An initialized <code>UIImage
+/// </code> object, or <code>nil
+/// </code> if the method failed.
++ (UIImage * _Nullable)af_threadSafeImageWithData:(NSData * _Nonnull)data;
+
+/// Initializes and returns the image object with the specified data and scale in a thread-safe manner.
+///
+/// It has been reported that there are thread-safety issues when initializing large amounts of images
+/// simultaneously. In the event of these issues occurring, this method can be used in place of
+/// the <code>init?(data:scale:)
+/// </code> method.
+///
+/// \param data The data object containing the image data.
+///
+/// \param scale The scale factor to assume when interpreting the image data. Applying a scale factor of 1.0
+/// results in an image whose size matches the pixel-based dimensions of the image. Applying a
+/// different scale factor changes the size of the image as reported by the size property.
+///
+/// \returns  An initialized <code>UIImage
+/// </code> object, or <code>nil
+/// </code> if the method failed.
++ (UIImage * _Nullable)af_threadSafeImageWithData:(NSData * _Nonnull)data scale:(CGFloat)scale;
+@end
+
+
+@interface UIImage (SWIFT_EXTENSION(TSGServiceClient))
+
+/// Returns a new version of the image with the corners rounded to the specified radius.
+///
+/// \param radius The radius to use when rounding the new image.
+///
+/// \param divideRadiusByImageScale Whether to divide the radius by the image scale. Set to <code>true
+/// </code> when the
+/// image has the same resolution for all screen scales such as @1x, @2x and
+/// @3x (i.e. single image from web server). Set to <code>false
+/// </code> for images loaded
+/// from an asset catalog with varying resolutions for each screen scale.
+/// <code>false
+/// </code> by default.
+///
+/// \returns  A new image object.
+- (UIImage * _Nonnull)af_imageWithRoundedCornerRadius:(CGFloat)radius divideRadiusByImageScale:(BOOL)divideRadiusByImageScale;
+
+/// Returns a new version of the image rounded into a circle.
+///
+/// \returns  A new image object.
+- (UIImage * _Nonnull)af_imageRoundedIntoCircle;
+@end
+
+
+@interface UIImage (SWIFT_EXTENSION(TSGServiceClient))
+
+/// Returns a new version of the image scaled to the specified size.
+///
+/// \param size The size to use when scaling the new image.
+///
+/// \returns  A new image object.
+- (UIImage * _Nonnull)af_imageScaledToSize:(CGSize)size;
+
+/// Returns a new version of the image scaled from the center while maintaining the aspect ratio to fit within a specified size.
+///
+/// The resulting image contains an alpha component used to pad the width or height with the necessary transparent
+/// pixels to fit the specified size. In high performance critical situations, this may not be the optimal approach.
+/// To maintain an opaque image, you could compute the <code>scaledSize
+/// </code> manually, then use the <code>af_imageScaledToSize
+/// </code>
+/// method in conjunction with a <code>.Center
+/// </code> content mode to achieve the same visual result.
+///
+/// \param size The size to use when scaling the new image.
+///
+/// \returns  A new image object.
+- (UIImage * _Nonnull)af_imageAspectScaledToFitSize:(CGSize)size;
+
+/// Returns a new version of the image scaled from the center while maintaining the aspect ratio to fill a specified size. Any pixels that fall outside the specified size are clipped.
+///
+/// \param size The size to use when scaling the new image.
+///
+/// \returns  A new image object.
+- (UIImage * _Nonnull)af_imageAspectScaledToFillSize:(CGSize)size;
+@end
+
+
+@interface UIImage (SWIFT_EXTENSION(TSGServiceClient))
+
+/// Returns whether the image contains an alpha component.
+@property (nonatomic, readonly) BOOL af_containsAlphaComponent;
+
+/// Returns whether the image is opaque.
+@property (nonatomic, readonly) BOOL af_isOpaque;
+@end
+
+
+@interface UIImage (SWIFT_EXTENSION(TSGServiceClient))
+
+/// Returns whether the image is inflated.
+@property (nonatomic) BOOL af_inflated;
+
+/// Inflates the underlying compressed image data to be backed by an uncompressed bitmap representation.
+///
+/// Inflating compressed image formats (such as PNG or JPEG) can significantly improve drawing performance as it
+/// allows a bitmap representation to be constructed in the background rather than on the main thread.
+- (void)af_inflate;
+@end
+
+
+@interface UIImageView (SWIFT_EXTENSION(TSGServiceClient))
+
+/// Cancels the active download request, if one exists.
+- (void)af_cancelImageRequest;
 @end
 
 #pragma clang diagnostic pop

@@ -16,6 +16,16 @@ public class ServiceManager {
      ********************************************************************************************************************/
 
     /**
+     *	@functionName	: enableLog
+     *	@parameters		: enable : Set log.
+     *	@description	: It would be used to set response code for which user wants response in apis
+     */
+    
+    public class func enableLog(enable:Bool){
+        TSGHelper.enableLog(enable)
+    }
+    
+    /**
      *	@functionName	: setBaseURL
      *	@parameters		: url : It would be the baseURL of app
      */
