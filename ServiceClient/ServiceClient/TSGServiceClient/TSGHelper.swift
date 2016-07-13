@@ -96,8 +96,7 @@ public class TSGHelper: NSObject
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         configuration.timeoutIntervalForRequest = 60
         configuration.timeoutIntervalForResource = 60
-        //configuration.HTTPAdditionalHeaders = dict
-        configuration.HTTPAdditionalHeaders = ["Content-Type": "application/json" ]
+        configuration.HTTPAdditionalHeaders = dict
         TSGHelper.sharedInstance.manager = Manager(configuration: configuration)
     }
     

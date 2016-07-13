@@ -42,7 +42,7 @@
 		</data>
 		<key>Modules/TSGServiceClient.swiftmodule/arm.swiftmodule</key>
 		<data>
-		A08uNpKlaTkz7zU257csN0uLJtk=
+		nwHyr3xbOtptPHN4hhZynq26HV0=
 		</data>
 		<key>Modules/TSGServiceClient.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -50,7 +50,7 @@
 		</data>
 		<key>Modules/TSGServiceClient.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		mCuz/rLAITEK0SdHsFQveRE679c=
+		F9l4tFdrJMyMOiV4QuzJDODrgd0=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -159,11 +159,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			A08uNpKlaTkz7zU257csN0uLJtk=
+			nwHyr3xbOtptPHN4hhZynq26HV0=
 			</data>
 			<key>hash2</key>
 			<data>
-			UQleARSIWFQ6Cfxv+jYlvfLB20p+7fQXnyY+rQfNu9c=
+			5SMnVvSsvRvEwRmD3pzN2Jqp0/eiYdf97pJOE+IgYbg=
 			</data>
 		</dict>
 		<key>Modules/TSGServiceClient.swiftmodule/arm64.swiftdoc</key>
@@ -181,11 +181,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			mCuz/rLAITEK0SdHsFQveRE679c=
+			F9l4tFdrJMyMOiV4QuzJDODrgd0=
 			</data>
 			<key>hash2</key>
 			<data>
-			XeFV9bYnDIqP14jhF6AAABp7wZk4POO1JA6pW5skEr8=
+			tJznBAhEbPfHeZ44lWxX3Ihbj77B+uQOvyTamEnjnq8=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
