@@ -11,7 +11,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface CoreDataHelper : NSObject
+@interface TSGServiceClientCoreDataHelper : NSObject
 
 
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
@@ -27,7 +27,7 @@
  *  @return Return Singleton Object.
  */
 
-+(CoreDataHelper *)sharedInstance;
++(TSGServiceClientCoreDataHelper *)sharedInstance;
 //-(void)deleteAllObjectsInCoreData;
 -(void)initialiseValues;
 +(NSManagedObjectContext*)privateMoc;

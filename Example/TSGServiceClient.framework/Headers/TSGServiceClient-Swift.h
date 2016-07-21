@@ -584,7 +584,7 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 + (void)removeCustomHeader;
 - (void)saveProjectID:(NSMutableDictionary * _Nonnull)dict;
 - (void)getAPIVersion:(void (^ _Nonnull)(NSDictionary * _Nonnull dic))sucess failure:(void (^ _Nonnull)(NSError * _Nonnull error))failure;
-+ (void)requestedApi:(NSString * _Nonnull)actionID withQueryParam:(NSDictionary<NSString *, id> * _Nullable)queryParamDict withBodyParam:(NSDictionary<NSString *, id> * _Nullable)bodyParams withPathParams:(NSMutableDictionary * _Nullable)pathParamDict withTag:(NSString * _Nullable)apiTag onSuccess:(void (^ _Nonnull)(id _Nonnull))success onFailure:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))failed;
++ (void)requestedApi:(NSString * _Nonnull)actionID withQueryParam:(NSDictionary<NSString *, id> * _Nullable)queryParamDict withBodyParam:(NSDictionary<NSString *, id> * _Nullable)bodyParams withPathParams:(NSDictionary<NSString *, id> * _Nullable)pathParamDict withTag:(NSString * _Nullable)apiTag onSuccess:(void (^ _Nonnull)(id _Nonnull))success onFailure:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))failed;
 + (void)setResponseCode:(NSInteger)code;
 
 /// <ul><li>@functionName	: enableLog</li><li>@parameters		: enable : Set log.</li><li>@description	: It would be used to set response code for which user wants response in apis</li></ul>
@@ -621,7 +621,7 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 SWIFT_CLASS("_TtC16TSGServiceClient10TSGUtility")
 @interface TSGUtility : NSObject
 @property (nonatomic, strong) TSGErrorManager * _Nullable tsgErrorManger;
-+ (void)createPathParamURL:(NSString * _Nonnull)tempURL pathParamDict:(NSMutableDictionary * _Null_unspecified)pathParamDict setString:(void (^ _Nonnull)(NSString * _Nullable completeString))setString error:(void (^ _Nonnull)(NSString * _Nonnull))error;
++ (void)createPathParamURL:(NSString * _Nonnull)tempURL pathParamDict:(NSDictionary<NSString *, id> * _Null_unspecified)pathParamDict setString:(void (^ _Nonnull)(NSString * _Nullable completeString))setString error:(void (^ _Nonnull)(NSString * _Nonnull))error;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 

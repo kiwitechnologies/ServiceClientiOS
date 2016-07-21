@@ -53,12 +53,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let downloadRequest = UIAlertAction(title: "Download Request", style: .Default) { (alert:UIAlertAction) in
             self.downloadRequest()
         }
-        /*
+       
         let pathParamRequest = UIAlertAction(title: "PathParam Request", style: .Default) { (alert: UIAlertAction) in
             self.pathParamRequest()
         }
 
-        let putRequest = UIAlertAction(title: "PUT Request", style: .Default) { (alert:UIAlertAction) in
+        /* let putRequest = UIAlertAction(title: "PUT Request", style: .Default) { (alert:UIAlertAction) in
             self.putRequest()
         }
         
@@ -84,8 +84,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         optionMenu.addAction(postRequest)
         optionMenu.addAction(downloadRequest)
 
-       /* optionMenu.addAction(pathParamRequest)
-        optionMenu.addAction(putRequest)
+        optionMenu.addAction(pathParamRequest)
+         /*optionMenu.addAction(putRequest)
         optionMenu.addAction(uploadRequest)
         optionMenu.addAction(downloadRequest)
         optionMenu.addAction(deleteRequest)*/
@@ -96,14 +96,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
   
     func pathParamRequest(){
-        let pathParamDict:NSMutableDictionary = NSMutableDictionary()
-        pathParamDict.setValue("4", forKey: "versfion_no")
-        
-        TSGServiceManager.performAction(RECENTMEDIA,withPathParams: pathParamDict, onSuccess: { (object) in
+        let pathParamDict:[String:AnyObject] = ["id":"11"]
+        TSGServiceManager.enableLog(true)
+
+        TSGServiceManager.performAction(RECENTMEDIA, withQueryParam: ["auth_token":"3nzhxHYd9Tpfsjx-WmdL"], withPathParams: pathParamDict, onSuccess: { (object) in
             print(object)
             }) { (status, error) in
                 print(error)
         }
+        
+        
+//        TSGServiceManager.performAction(RECENTMEDIA,withPathParams: pathParamDict, onSuccess: { (object) in
+//            print(object)
+//            }) { (status, error) in
+//                print(error)
+//        }
     }
     
     func sessionRequest()

@@ -68,7 +68,7 @@ class TSGUtility: NSObject {
     }
     
     
-    internal class func createPathParamURL (tempURL:String, pathParamDict:NSMutableDictionary!, setString:(completeString:String?)->(), error:(String)->()){
+    internal class func createPathParamURL (tempURL:String, pathParamDict:[String:AnyObject]!, setString:(completeString:String?)->(), error:(String)->()){
         
         var resultantString:String!
         var pathParamString = tempURL
@@ -82,12 +82,12 @@ class TSGUtility: NSObject {
             let range = tempURL.startIndex.advancedBy(startIndex) ..< tempURL.startIndex.advancedBy(endIndex)
             resultantString = tempURL.substringWithRange(range)
             
-            if pathParamDict.valueForKey(resultantString) == nil{
+            if pathParamDict[resultantString] == nil{
                 setString(completeString: nil)
                 error("\(resultantString): Required key is missing")
                  break
             }else {
-                pathParamString = pathParamString.stringByReplacingOccurrencesOfString("{\(resultantString)}", withString: "\(pathParamDict.valueForKey(resultantString))")
+                pathParamString = pathParamString.stringByReplacingOccurrencesOfString("{\(resultantString)}", withString: "\(pathParamDict[resultantString]!)")
                 setString(completeString: pathParamString)
                 
             }

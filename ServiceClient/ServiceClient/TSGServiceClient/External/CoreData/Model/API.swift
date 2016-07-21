@@ -61,7 +61,7 @@ public class API: NSManagedObject {
     
     class func getApiForAction(actionID:String)->AnyObject!{
         
-        let context = CoreDataHelper.sharedInstance().mainMOC
+        let context = TSGServiceClientCoreDataHelper.sharedInstance().mainMOC
         var objects: [API]!
 
         context.performBlockAndWait {

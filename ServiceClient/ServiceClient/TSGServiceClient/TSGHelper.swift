@@ -199,7 +199,7 @@ public class TSGHelper: NSObject
         }
     }
     
-    public class func requestedApi(actionID:String,withQueryParam queryParamDict:[String:AnyObject]?=nil, withBodyParam bodyParams:[String:AnyObject]?=nil ,withPathParams pathParamDict:NSMutableDictionary?=nil, withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(),
+    public class func requestedApi(actionID:String,withQueryParam queryParamDict:[String:AnyObject]?=nil, withBodyParam bodyParams:[String:AnyObject]?=nil ,withPathParams pathParamDict:[String:AnyObject]?=nil, withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(),
                                    onFailure failed:(Bool,NSError)->()){
         let obj = TSGHelper.sharedInstance
         var completeURL:String!
@@ -304,7 +304,14 @@ public class TSGHelper: NSObject
 
     class func hitRequestForAPI(path:String, withQueryParam queryParam:[String:String]?=nil, bodyParam:NSDictionary?=nil,typeOfRequest:RequestType, typeOFResponse:ResponseMethod, withApiTag apiTag:String?=nil, success:AnyObject->Void, failure:NSError -> Void){
         
-        let completeURL = TSGHelper.sharedInstance.baseUrl + path
+        var completeURL:String!
+        
+        if TSGHelper.sharedInstance.baseUrl != nil {
+            completeURL = TSGHelper.sharedInstance.baseUrl + path
+        }
+        else {
+            completeURL = path
+        }
         
         var actionID:String!
         
@@ -382,11 +389,11 @@ public class TSGHelper: NSObject
             self.req?.responseJSON
                 { response in
                     
-                    let matchingObjects = self.sequentialDownloadRequest.filter({return ($0 as! RequestModel).apiTag == requestTag})
+                    let matchingObjects = self.normalActionRequest.filter({return ($0 as! RequestModel).apiTag == requestTag})
                     
                     for object in matchingObjects {
                         
-                        for serialObj in self.sequentialDownloadRequest {
+                        for serialObj in self.normalActionRequest {
                             if (object as! RequestModel).apiTag == (serialObj as! RequestModel).apiTag{
                                 self.normalActionRequest.removeObject(object)
                             }
@@ -397,7 +404,7 @@ public class TSGHelper: NSObject
                     dispatch_async(dispatch_get_main_queue(),
                         {
                             self.serviceCount = self.serviceCount - 1
-                            if response.response?.statusCode <= 200
+                            if response.response?.statusCode < 400
                             {
                                 if response.result.value != nil
                                 {

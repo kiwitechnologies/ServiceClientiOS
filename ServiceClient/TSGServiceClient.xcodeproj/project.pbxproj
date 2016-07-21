@@ -39,7 +39,7 @@
 		2AA450791D1AA4B400056BD8 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4503B1D1AA4B400056BD8 /* Upload.swift */; };
 		2AA4507A1D1AA4B400056BD8 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4503C1D1AA4B400056BD8 /* Validation.swift */; };
 		2AA4507B1D1AA4B400056BD8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4503F1D1AA4B400056BD8 /* Constants.swift */; };
-		2AA4507D1D1AA4B400056BD8 /* CoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450411D1AA4B400056BD8 /* CoreDataHelper.m */; };
+		2AA4507D1D1AA4B400056BD8 /* TSGServiceClientCoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450411D1AA4B400056BD8 /* TSGServiceClientCoreDataHelper.m */; };
 		2AA4507E1D1AA4B400056BD8 /* API+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450431D1AA4B400056BD8 /* API+CoreDataProperties.swift */; };
 		2AA4507F1D1AA4B400056BD8 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450441D1AA4B400056BD8 /* API.swift */; };
 		2AA450801D1AA4B400056BD8 /* Key+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450451D1AA4B400056BD8 /* Key+CoreDataProperties.swift */; };
@@ -102,8 +102,8 @@
 		2AA4503B1D1AA4B400056BD8 /* Upload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
 		2AA4503C1D1AA4B400056BD8 /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		2AA4503F1D1AA4B400056BD8 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		2AA450401D1AA4B400056BD8 /* CoreDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataHelper.h; sourceTree = "<group>"; };
-		2AA450411D1AA4B400056BD8 /* CoreDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataHelper.m; sourceTree = "<group>"; };
+		2AA450401D1AA4B400056BD8 /* TSGServiceClientCoreDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSGServiceClientCoreDataHelper.h; sourceTree = "<group>"; };
+		2AA450411D1AA4B400056BD8 /* TSGServiceClientCoreDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSGServiceClientCoreDataHelper.m; sourceTree = "<group>"; };
 		2AA450431D1AA4B400056BD8 /* API+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "API+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2AA450441D1AA4B400056BD8 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		2AA450451D1AA4B400056BD8 /* Key+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Key+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -215,8 +215,8 @@
 			isa = PBXGroup;
 			children = (
 				2AA4503E1D1AA4B400056BD8 /* Constants */,
-				2AA450401D1AA4B400056BD8 /* CoreDataHelper.h */,
-				2AA450411D1AA4B400056BD8 /* CoreDataHelper.m */,
+				2AA450401D1AA4B400056BD8 /* TSGServiceClientCoreDataHelper.h */,
+				2AA450411D1AA4B400056BD8 /* TSGServiceClientCoreDataHelper.m */,
 				2AA450421D1AA4B400056BD8 /* Model */,
 				2AA450491D1AA4B400056BD8 /* TSGAPIDetails.xcdatamodeld */,
 			);
@@ -448,7 +448,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Merge Script\n\n# workaround for bitcode generation problem with Xcode 7.3\nunset TOOLCHAINS\n# 1\n# Set bash script to exit immediately if any commands fail.\nset -e\n\n# 2\n# Setup some constants for use later on.\nFRAMEWORK_NAME=\"TSGServiceClient\"\n\nmkdir -p \"${SRCROOT}/Output\"\n# 3\n# If remnants from a previous build exist, delete them.\nif [ -d \"${SRCROOT}/build\" ]; then\nrm -rf \"${SRCROOT}/build\"\nfi\n\n# 4\n# Build the framework for device and for simulator (using\n# all needed architectures).\nxcodebuild -target \"${FRAMEWORK_NAME}\" -configuration Release -arch arm64 -arch armv7 -arch armv7s only_active_arch=no defines_module=yes -sdk \"iphoneos\"\nxcodebuild -target \"${FRAMEWORK_NAME}\" -configuration Release -arch x86_64 -arch i386 only_active_arch=no defines_module=yes -sdk \"iphonesimulator\"\n\n# 5\n# Remove .framework file if exists on Output from previous run.\nif [ -d \"${SRCROOT}/Output/${FRAMEWORK_NAME}.framework\" ]; then\nrm -rf \"${SRCROOT}/Output/${FRAMEWORK_NAME}.framework\"\nfi\n\n# 6\n# Copy the device version of framework to Output.\ncp -r \"${SRCROOT}/build/Release-iphoneos/${FRAMEWORK_NAME}.framework\" \"${SRCROOT}/Output/${FRAMEWORK_NAME}.framework\"\n\n# 7\n# Replace the framework executable within the framework with\n# a new version created by merging the device and simulator\n# frameworks' executables with lipo.\nlipo -create -output \"${SRCROOT}/Output/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\" \"${SRCROOT}/build/Release-iphoneos/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\" \"${SRCROOT}/build/Release-iphonesimulator/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\"\n\n# 8\n# Copy the Swift module mappings for the simulator into the\n# framework.  The device mappings already exist from step 6.\ncp -r \"${SRCROOT}/build/Release-iphonesimulator/${FRAMEWORK_NAME}.framework/Modules/${FRAMEWORK_NAME}.swiftmodule/\" \"${SRCROOT}/Output/${FRAMEWORK_NAME}.framework/Modules/${FRAMEWORK_NAME}.swiftmodule\"\n\n# 9\n# Delete the most recent build.\nif [ -d \"${SRCROOT}/build\" ]; then\nrm -rf \"${SRCROOT}/build\"\nfi";
+			shellScript = "# Merge Script\n\n# workaround for bitcode generation problem with Xcode 7.3\nunset TOOLCHAINS\n# 1\n# Set bash script to exit immediately if any commands fail.\nset -e\n\n# 2\n# Setup some constants for use later on.\nFRAMEWORK_NAME=\"TSGServiceClient\"\n\nmkdir -p \"${SRCROOT}/Output\"\n# 3\n# If remnants from a previous build exist, delete them.\nif [ -d \"${SRCROOT}/build\" ]; then\nrm -rf \"${SRCROOT}/build\"\nfi\n\n# 4\n# Build the framework for device and for simulator (using\n# all needed architectures).\nxcodebuild -target \"${FRAMEWORK_NAME}\" -configuration Release -arch arm64 -arch armv7 -arch armv7s only_active_arch=no defines_module=yes -sdk \"iphoneos\"\nxcodebuild -target \"${FRAMEWORK_NAME}\" -configuration Release -arch x86_64 -arch i386 only_active_arch=no defines_module=yes -sdk \"iphonesimulator\"\n\n# 5\n# Remove .framework file if exists on Output from previous run.\nif [ -d \"${SRCROOT}/Output/${FRAMEWORK_NAME}.framework\" ]; then\nrm -rf \"${SRCROOT}/Output/${FRAMEWORK_NAME}.framework\"\nfi\n\n# 6\n# Copy the device version of framework to Output.\ncp -r \"${SRCROOT}/build/Release-iphoneos/${FRAMEWORK_NAME}.framework\" \"${SRCROOT}/Output/${FRAMEWORK_NAME}.framework\"\n\n# 7\n# Replace the framework executable within the framework with\n# a new version created by merging the device and simulator\n# frameworks' executables with lipo.\nlipo -create -output \"${SRCROOT}/Output/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\" \"${SRCROOT}/build/Release-iphoneos/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\" \"${SRCROOT}/build/Release-iphonesimulator/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\"\n\n# 8\n# Copy the Swift module mappings for the simulator into the\n# framework.  The device mappings already exist from step 6.\ncp -r \"${SRCROOT}/build/Release-iphonesimulator/${FRAMEWORK_NAME}.framework/Modules/${FRAMEWORK_NAME}.swiftmodule/\" \"${SRCROOT}/Output/${FRAMEWORK_NAME}.framework/Modules/${FRAMEWORK_NAME}.swiftmodule\"\n\n# 9\n# Delete the most recent build.\nif [ -d \"${SRCROOT}/build\" ]; then\nrm -rf \"${SRCROOT}/build\"\nfi\n\n\n\nAPP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n# removes unused architectures.\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\ndo\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -491,7 +491,7 @@
 				D61082E41D33BC5800EC804F /* ImageDownloader.swift in Sources */,
 				D61082E51D33BC5800EC804F /* ImageFilter.swift in Sources */,
 				2AA450741D1AA4B400056BD8 /* ResponseSerialization.swift in Sources */,
-				2AA4507D1D1AA4B400056BD8 /* CoreDataHelper.m in Sources */,
+				2AA4507D1D1AA4B400056BD8 /* TSGServiceClientCoreDataHelper.m in Sources */,
 				2AA450791D1AA4B400056BD8 /* Upload.swift in Sources */,
 				2AA450991D1AA4B400056BD8 /* String+Validations.swift in Sources */,
 				2AA4509B1D1AA4B400056BD8 /* TSGEnum.swift in Sources */,

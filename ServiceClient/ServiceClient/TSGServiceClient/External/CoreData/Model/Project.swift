@@ -32,7 +32,7 @@ public class Project: NSManagedObject {
         
         let date = NSDate(timeIntervalSince1970: (unixTime as! NSTimeInterval)/1000)
         
-        let context = CoreDataHelper.privateMoc()
+        let context = TSGServiceClientCoreDataHelper.privateMoc()
         
         context.performBlockAndWait
             {
@@ -54,7 +54,7 @@ public class Project: NSManagedObject {
                 
                 do {
                     try context.save()
-                    CoreDataHelper.saveDataContext()
+                    TSGServiceClientCoreDataHelper.saveDataContext()
                     
                 } catch let error as NSError  {
                      print("Could not save \(error), \(error.userInfo)")
@@ -64,7 +64,7 @@ public class Project: NSManagedObject {
     
     class func checkIfProjectIdExist(actionName:String)->Bool{
             
-            let context = CoreDataHelper.sharedInstance().mainMOC
+            let context = TSGServiceClientCoreDataHelper.sharedInstance().mainMOC
             var objects: [Project]!
             
             context.performBlockAndWait {
@@ -94,7 +94,7 @@ public class Project: NSManagedObject {
  
     class func deleteProject(){
         
-        let context = CoreDataHelper.sharedInstance().mainMOC
+        let context = TSGServiceClientCoreDataHelper.sharedInstance().mainMOC
 
         let fetchRequest = NSFetchRequest(entityName: "Project")
         if #available(iOS 9.0, *) {
@@ -106,7 +106,7 @@ public class Project: NSManagedObject {
             }
         } else {
             // Fallback on earlier versions
-            let context = CoreDataHelper.sharedInstance().mainMOC
+            let context = TSGServiceClientCoreDataHelper.sharedInstance().mainMOC
 
             let fetchRequest = NSFetchRequest(entityName: "Project")
             fetchRequest.returnsObjectsAsFaults = false
@@ -129,7 +129,7 @@ public class Project: NSManagedObject {
     
     class func getProjectDetail(projectID:String?)->AnyObject!{
         
-        let context = CoreDataHelper.sharedInstance().mainMOC
+        let context = TSGServiceClientCoreDataHelper.sharedInstance().mainMOC
         var objects: [Project]!
         
         if projectID == nil {return nil}

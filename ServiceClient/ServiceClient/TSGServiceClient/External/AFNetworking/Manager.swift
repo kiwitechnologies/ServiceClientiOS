@@ -190,6 +190,12 @@ public class Manager {
         -> Request
     {
         let mutableURLRequest = URLRequest(method, URLString, queryParameter: queryParameters, headers: headers)//URLRequest(method, URLString, headers: headers)
+        
+        if TSGHelper.sharedInstance.enableLog {
+
+           print("Complete Request \(mutableURLRequest)")
+        }
+
         let encodedURLRequest = encoding.encode(mutableURLRequest, parameters: parameters).0
         
         return request(encodedURLRequest)

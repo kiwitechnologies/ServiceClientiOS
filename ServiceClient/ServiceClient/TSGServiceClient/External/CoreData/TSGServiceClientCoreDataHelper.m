@@ -8,23 +8,23 @@
 //
 
 //marking up code before mmoc implementation
-#import "CoreDataHelper.h"
+#import "TSGServiceClientCoreDataHelper.h"
 #import <CoreData/CoreData.h>
 
 
 
-@implementation CoreDataHelper
+@implementation TSGServiceClientCoreDataHelper
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize mainMOC = _mainMOC;
 @synthesize writerMOC = _writerMOC;
 
-+(CoreDataHelper *)sharedInstance{
-    static CoreDataHelper *sharedInstance =  nil;
++(TSGServiceClientCoreDataHelper *)sharedInstance{
+    static TSGServiceClientCoreDataHelper *sharedInstance =  nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance  =  [[CoreDataHelper alloc]init];
+        sharedInstance  =  [[TSGServiceClientCoreDataHelper alloc]init];
     });
     return sharedInstance;
 }
@@ -36,7 +36,7 @@
 +(NSManagedObjectContext*)privateMoc
 {
     NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    temporaryContext.parentContext = [[CoreDataHelper sharedInstance] managedObjectContext];
+    temporaryContext.parentContext = [[TSGServiceClientCoreDataHelper sharedInstance] managedObjectContext];
 
 
     return temporaryContext;
@@ -142,7 +142,7 @@
 }
 +(void)saveDataContext
 {
-    NSManagedObjectContext *context =  [[CoreDataHelper sharedInstance] managedObjectContext];
+    NSManagedObjectContext *context =  [[TSGServiceClientCoreDataHelper sharedInstance] managedObjectContext];
     [context performBlockAndWait:^{
         [context save:nil];
     }];

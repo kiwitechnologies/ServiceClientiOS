@@ -109,7 +109,14 @@ extension TSGHelper {
         let dictParams = NSMutableDictionary(dictionary:bodyParams)
         dictParams.removeObjectForKey(dataKeyName)
         
-        let completeURL = TSGHelper.sharedInstance.baseUrl + path
+        var completeURL:String!
+        
+        if TSGHelper.sharedInstance.baseUrl != nil {
+            completeURL = TSGHelper.sharedInstance.baseUrl + path
+        }
+        else {
+            completeURL = path
+        }
         
         let currentTime = NSDate.timeIntervalSinceReferenceDate()
         
