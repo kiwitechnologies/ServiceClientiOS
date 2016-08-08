@@ -1,6 +1,12 @@
 ServiceClient-Framework
 =============
+
 ## Features
+- Version 1.1
+- [x] Sequential and Parallel Downloading
+- [x] Image Caching
+
+- Version 1.0
 - [x] GET, POST, PUT, DELETE
 - [x] Download with progress, Upload with Progress
 - [x] Cancel specific request, Cancel All Request
