@@ -12,7 +12,7 @@ extension TSGHelper {
     
     //MARK: A webtool method to upload file
     
-    public class func uploadFileWith(actionName: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, withApiTag apiTag:String?=nil,uploadType:UploadType = UploadType.PARALLEL,priority:Bool, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void)
+    public class func uploadFileWith(actionName: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, withApiTag apiTag:String?=nil,uploadType:UploadType = UploadType.PARALLEL,priority:Bool,requestType:RequestType, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void)
     {
         let obj = TSGHelper.sharedInstance
         let imageData = TSGUtility.changeImageResolution(bodyParams.valueForKey(dataKeyName) as! NSData, withImageQuality: imageQuality!)
@@ -51,14 +51,14 @@ extension TSGHelper {
                 
                 let currentTime = NSDate.timeIntervalSinceReferenceDate()
                 if priority == true {
-                    obj.sequentialUploadRequest.insertObject(RequestModel(url: completeURL,bodyParam:bodyParams , type: .POST, apiTag: actionID, priority: priority, actionType: .UPLOAD, apiTime: "\(currentTime)",dataKeyName:dataKeyName, mimeType:mimeType,imageQuality:imageQuality, progressBlock: progress, successBlock: success, failureBlock: failure), atIndex: 0)
+                    obj.sequentialUploadRequest.insertObject(RequestModel(url: completeURL,bodyParam:bodyParams , type: requestType, apiTag: actionID, priority: priority, actionType: .UPLOAD, apiTime: "\(currentTime)",dataKeyName:dataKeyName, mimeType:mimeType,imageQuality:imageQuality, progressBlock: progress, successBlock: success, failureBlock: failure), atIndex: 0)
                 } else {
-                    obj.sequentialUploadRequest.addObject(RequestModel(url: completeURL,bodyParam: bodyParams, type: .POST, apiTag: actionID, priority: priority, actionType: .UPLOAD, apiTime: "\(currentTime)",dataKeyName:dataKeyName,mimeType:mimeType,imageQuality:imageQuality, progressBlock: progress, successBlock: success, failureBlock: failure))
+                    obj.sequentialUploadRequest.addObject(RequestModel(url: completeURL,bodyParam: bodyParams, type: requestType, apiTag: actionID, priority: priority, actionType: .UPLOAD, apiTime: "\(currentTime)",dataKeyName:dataKeyName,mimeType:mimeType,imageQuality:imageQuality, progressBlock: progress, successBlock: success, failureBlock: failure))
                 }
                 
                 if obj.sequentialUploadRequest.count == 1 {
                     
-                    obj.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality:imageQuality, withApiTag: actionID,uploadType:uploadType,priority: priority, progress: { (percent) in
+                    obj.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality:imageQuality, withApiTag: actionID,uploadType:uploadType,requestType:requestType,priority: priority, progress: { (percent) in
                         progress(percent: percent)
                         }, success: { (response) in
                             success(response: response)
@@ -69,7 +69,7 @@ extension TSGHelper {
                     let firstArrayObject:RequestModel = obj.sequentialUploadRequest[0] as! RequestModel
                     
                     if firstArrayObject.isRunning == true {
-                        obj.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality:imageQuality, withApiTag: actionID,uploadType:uploadType,priority: priority, progress: { (percent) in
+                        obj.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality:imageQuality, withApiTag: actionID,uploadType:uploadType,requestType:requestType,priority: priority, progress: { (percent) in
                             progress(percent: percent)
                             }, success: { (response) in
                                 success(response: response)
@@ -82,7 +82,7 @@ extension TSGHelper {
                 
             } else {
                 
-                TSGHelper.sharedInstance.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality: imageQuality, withApiTag:actionID,uploadType: uploadType,priority: priority,  progress: { (percent) in
+                TSGHelper.sharedInstance.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality: imageQuality, withApiTag:actionID,uploadType: uploadType,requestType:requestType,priority: priority,  progress: { (percent) in
                     progress(percent: percent)
                     }, success: { (response) in
                         success(response: response)
@@ -102,7 +102,7 @@ extension TSGHelper {
 
     //MARK: A common method to upload data
     
-    public class func uploadWith(path: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, withApiTag apiTag:String?=nil,uploadType:UploadType = UploadType.PARALLEL,priority:Bool = false, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void)
+    public class func uploadWith(path: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, withApiTag apiTag:String?=nil,uploadType:UploadType = UploadType.PARALLEL,requestType:RequestType,priority:Bool = false, progress: (percent: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void)
     {
         let obj = TSGHelper.sharedInstance
         
@@ -136,7 +136,7 @@ extension TSGHelper {
             }
             
             if obj.sequentialUploadRequest.count == 1 {
-                obj.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality:imageQuality, withApiTag: objID,uploadType:uploadType,priority: priority, progress: { (percent) in
+                obj.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality:imageQuality, withApiTag: objID,uploadType:uploadType,requestType:requestType,priority: priority, progress: { (percent) in
                     progress(percent: percent)
                     }, success: { (response) in
                         success(response: response)
@@ -149,7 +149,7 @@ extension TSGHelper {
                 let firstArrayObject:RequestModel = obj.sequentialUploadRequest[0] as! RequestModel
                 
                 if firstArrayObject.isRunning == false {
-                    obj.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality:imageQuality, withApiTag: objID,uploadType:uploadType,priority: priority, progress: { (percent) in
+                    obj.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality:imageQuality, withApiTag: objID,uploadType:uploadType,requestType:requestType,priority: priority, progress: { (percent) in
                         progress(percent: percent)
                         }, success: { (response) in
                             success(response: response)
@@ -163,7 +163,7 @@ extension TSGHelper {
         }
         else {
             
-            obj.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality:imageQuality, withApiTag: objID,uploadType:uploadType,priority: priority, progress: { (percent) in
+            obj.uploadFile(completeURL, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality:imageQuality, withApiTag: objID,uploadType:uploadType,requestType:requestType,priority: priority, progress: { (percent) in
                 progress(percent: percent)
                 }, success: { (response) in
                     success(response: response)
@@ -174,7 +174,7 @@ extension TSGHelper {
     }
 
     //MARK: Internal method to upload file
-    internal func uploadFile(completeURL:String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, withApiTag apiTag:String,uploadType:UploadType = UploadType.PARALLEL,priority:Bool, progress: (percent: Float) -> Void?,success:(response:AnyObject) -> Void?, failure:NSError->Void?){
+    internal func uploadFile(completeURL:String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH, withApiTag apiTag:String,uploadType:UploadType = UploadType.PARALLEL,requestType:RequestType,priority:Bool, progress: (percent: Float) -> Void?,success:(response:AnyObject) -> Void?, failure:NSError->Void?){
         
         let obj = TSGHelper.sharedInstance
         let imageData = TSGUtility.changeImageResolution(bodyParams.valueForKey(dataKeyName) as! NSData, withImageQuality: imageQuality!)
@@ -192,12 +192,31 @@ extension TSGHelper {
         
         var firstArrayObject:RequestModel!
         
+        var requestMethod:Method = .GET
+        
+        switch requestType {
+            
+        case .GET:
+            requestMethod = .GET
+            
+        case .POST:
+            requestMethod = .POST
+            
+        case .DELETE:
+            requestMethod = .DELETE
+            
+        case .PUT:
+            requestMethod = .PUT
+        }
+        
+
+        
         if uploadType == .SEQUENTIAL {
             firstArrayObject = obj.sequentialUploadRequest[0] as! RequestModel
         }
         
         obj.manager.upload(
-            .POST,
+            requestMethod,
             completeURL,
             requestTAG:apiTag,
             apiTime:currentAPITime,
@@ -284,7 +303,7 @@ extension TSGHelper {
                                         failure(response.result.error!)
                                     }
                                     if uploadType == .SEQUENTIAL {
-                                        self.hitAnotherSequentialUploadRequest({ (percentage) in
+                                        self.hitAnotherSequentialUploadRequest(requestType,progressValue: { (percentage) in
                                             progress(percent: percentage)
                                             }, success: { (response) in
                                                 success(response: response)
@@ -302,7 +321,7 @@ extension TSGHelper {
                                             failure(response.result.error!)
                                         }
                                           if uploadType == .SEQUENTIAL {
-                                        self.hitAnotherSequentialUploadRequest({ (percentage) in
+                                        self.hitAnotherSequentialUploadRequest(requestType,progressValue: { (percentage) in
                                             progress(percent: percentage)
                                             }, success: { (response) in
                                                 success(response: response)
@@ -321,14 +340,14 @@ extension TSGHelper {
         )
     }
 
-    func hitAnotherSequentialUploadRequest(progressValue:(percentage:Float)->(),success:(response:AnyObject)->(),failure:(NSError)->()){
+    func hitAnotherSequentialUploadRequest(requestType:RequestType,progressValue:(percentage:Float)->(),success:(response:AnyObject)->(),failure:(NSError)->()){
         
         if TSGHelper.sharedInstance.sequentialUploadRequest.count > 0 {
 
             let requestObj:RequestModel = sequentialUploadRequest[0] as! RequestModel
                requestObj.isRunning = true
             
-            self.uploadFile(requestObj.url, bodyParams: requestObj.bodyParam!, dataKeyName: requestObj.dataKeyName!, mimeType: requestObj.mimeType!,imageQuality: requestObj.imageQuality, withApiTag: requestObj.apiTag, uploadType:.SEQUENTIAL, priority: requestObj.priority, progress: { (percent) -> Void? in
+            self.uploadFile(requestObj.url, bodyParams: requestObj.bodyParam!, dataKeyName: requestObj.dataKeyName!, mimeType: requestObj.mimeType!,imageQuality: requestObj.imageQuality, withApiTag: requestObj.apiTag, uploadType:.SEQUENTIAL,requestType:requestType, priority: requestObj.priority, progress: { (percent) -> Void? in
                 progressValue(percentage: percent)
                 }, success: { (response) -> Void? in
                     success(response: response)

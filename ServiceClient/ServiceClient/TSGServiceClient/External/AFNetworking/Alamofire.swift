@@ -89,19 +89,35 @@ func URLRequest(
     method: Method,
     _ URLString: URLStringConvertible,
       queryParameter:[String:String]?=nil,
+      cachePolicies:NSURLRequestCachePolicy?=nil,
     headers: [String: String]? = nil)
     -> NSMutableURLRequest
 {
     let mutableURLRequest:NSMutableURLRequest!
     if(queryParameter == nil)
     {
-        mutableURLRequest = NSMutableURLRequest(URL: NSURL(string: URLString.URLString)!)
+
+        if cachePolicies != nil {
+            mutableURLRequest = NSMutableURLRequest(URL: NSURL(string: URLString.URLString)!, cachePolicy:cachePolicies!, timeoutInterval: 1.0)
+            mutableURLRequest.addValue("private", forHTTPHeaderField: "Cache-Control")
+        }else{
+            mutableURLRequest = NSMutableURLRequest(URL: NSURL(string: URLString.URLString)!)
+
+        }
     }
     
     else
     {
+
         let queryURL = URLByAppendingQueryParameters(queryParameter, url: URLString.URLString)
-        mutableURLRequest = NSMutableURLRequest(URL:queryURL)
+        if cachePolicies != nil {
+            mutableURLRequest = NSMutableURLRequest(URL: queryURL, cachePolicy:cachePolicies!, timeoutInterval: 1.0)
+            mutableURLRequest.addValue("private", forHTTPHeaderField: "Cache-Control")
+        }else{
+              mutableURLRequest = NSMutableURLRequest(URL:queryURL)
+ 
+        }
+
 
     }
     

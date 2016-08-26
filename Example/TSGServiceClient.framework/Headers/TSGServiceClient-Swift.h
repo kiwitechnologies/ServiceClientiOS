@@ -575,16 +575,19 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 @property (nonatomic, copy) NSString * _Null_unspecified apiName;
 @property (nonatomic) NSInteger responseCode;
 @property (nonatomic) BOOL enableLog;
+@property (nonatomic) BOOL allowBGConfiguration;
+@property (nonatomic, copy) NSString * _Null_unspecified bundleID;
+@property (nonatomic) NSTimeInterval timeInterval;
 + (TSGHelper * _Nonnull)sharedInstance;
 @property (nonatomic) NSInteger serviceCount;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 - (void)setDefaultHeader;
 + (void)setBaseURL:(NSString * _Nonnull)url;
++ (void)setTimeInterval:(double)timeInterval;
 + (void)setCustomHeader:(NSDictionary * _Nonnull)dict;
 + (void)removeCustomHeader;
 - (void)saveProjectID:(NSMutableDictionary * _Nonnull)dict;
 - (void)getAPIVersion:(void (^ _Nonnull)(NSDictionary * _Nonnull dic))sucess failure:(void (^ _Nonnull)(NSError * _Nonnull error))failure;
-+ (void)requestedApi:(NSString * _Nonnull)actionID withQueryParam:(NSDictionary<NSString *, id> * _Nullable)queryParamDict withBodyParam:(NSDictionary<NSString *, id> * _Nullable)bodyParams withPathParams:(NSDictionary<NSString *, id> * _Nullable)pathParamDict withTag:(NSString * _Nullable)apiTag onSuccess:(void (^ _Nonnull)(id _Nonnull))success onFailure:(void (^ _Nonnull)(BOOL, NSError * _Nonnull))failed;
 + (void)setResponseCode:(NSInteger)code;
 
 /// <ul><li>@functionName	: enableLog</li><li>@parameters		: enable : Set log.</li><li>@description	: It would be used to set response code for which user wants response in apis</li></ul>
@@ -614,7 +617,6 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 
 
 @interface TSGHelper (SWIFT_EXTENSION(TSGServiceClient))
-- (void)hitAnotherSequentialUploadRequest:(void (^ _Nonnull)(float percentage))progressValue success:(void (^ _Nonnull)(id _Nonnull response))success failure:(void (^ _Nonnull)(NSError * _Nonnull))failure;
 @end
 
 

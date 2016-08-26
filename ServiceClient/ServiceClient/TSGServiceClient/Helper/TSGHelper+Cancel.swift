@@ -38,12 +38,17 @@ extension TSGHelper {
             (request as! Request).cancel()
             obj.parallelDownloadRequest.removeObject(request)
         }
+        
         for request in obj.parallelUploadRequest {
             (request as! Request).cancel()
             obj.parallelUploadRequest.removeObject(request)
         }
+        
         for request in obj.normalActionRequest {
-            (request as! Request).cancel()
+            if (request as! RequestModel).requestObj != nil {
+                let req = (request as! RequestModel).requestObj
+                req?.cancel()
+            }
             obj.normalActionRequest.removeObject(request)
         }
     }
@@ -56,15 +61,20 @@ extension TSGHelper {
     {
         let obj = TSGHelper.sharedInstance
         
+        print("dfdfdsfdsfdsfdsfdsfds")
         for requestObj in obj.sequentialDownloadRequest {
             if (requestObj as! RequestModel).apiTag == apiTag {
+                print("dfdfdsfdsfdsfdsfdsfds")
+
                 let req = (requestObj as! RequestModel).requestObj
                 req?.cancel()
                 obj.sequentialDownloadRequest.removeObject(requestObj)
                 break
             }
         }
+        
         for requestObj in obj.sequentialUploadRequest {
+
             if (requestObj as! RequestModel).apiTag == apiTag {
                 let req = (requestObj as! RequestModel).requestObj
                 req?.cancel()
@@ -72,22 +82,32 @@ extension TSGHelper {
                 break
             }
         }
+        
         for requestObj in obj.parallelDownloadRequest {
+
             if (requestObj as! Request).requestTAG == apiTag {
+                (requestObj as! Request).cancel()
                 obj.parallelDownloadRequest.removeObject(requestObj)
-                
+                break
             }
         }
+        
         for requestObj in obj.parallelUploadRequest {
+
             if (requestObj as! Request).requestTAG == apiTag {
+                (requestObj as! Request).cancel()
                 obj.parallelUploadRequest.removeObject(requestObj)
-                
+                break
             }
         }
+        
         for requestObj in obj.normalActionRequest {
-            if (requestObj as! Request).requestTAG == apiTag {
+
+            if (requestObj as! RequestModel).apiTag == apiTag {
+                let req = (requestObj as! RequestModel).requestObj
+                req?.cancel()
                 obj.normalActionRequest.removeObject(requestObj)
-                
+               break
             }
         }
     }

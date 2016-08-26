@@ -32,6 +32,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func btnActionClicked(sender: AnyObject)
     {
+        apiResult.text = ""
         
         let optionMenu = UIAlertController(title: nil, message: "ALLECTIVE ACTIONS", preferredStyle: .ActionSheet)
         
@@ -57,14 +58,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let pathParamRequest = UIAlertAction(title: "PathParam Request", style: .Default) { (alert: UIAlertAction) in
             self.pathParamRequest()
         }
+        let uploadRequest = UIAlertAction(title: "UPLOAD Request", style: .Default) { (alert:UIAlertAction) in
+            self.uploadRequest()
+        }
 
         /* let putRequest = UIAlertAction(title: "PUT Request", style: .Default) { (alert:UIAlertAction) in
             self.putRequest()
         }
         
-        let uploadRequest = UIAlertAction(title: "UPLOAD Request", style: .Default) { (alert:UIAlertAction) in
-            self.uploadRequest()
-        }
         
         let downloadRequest = UIAlertAction(title: "Download Request", style: .Default) { (alert:UIAlertAction) in
             self.downloadRequest()
@@ -83,10 +84,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         optionMenu.addAction(getRequest)
         optionMenu.addAction(postRequest)
         optionMenu.addAction(downloadRequest)
+        optionMenu.addAction(uploadRequest)
+
 
         optionMenu.addAction(pathParamRequest)
          /*optionMenu.addAction(putRequest)
-        optionMenu.addAction(uploadRequest)
         optionMenu.addAction(downloadRequest)
         optionMenu.addAction(deleteRequest)*/
         optionMenu.addAction(cancelRequest)
@@ -97,6 +99,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
   
     func pathParamRequest(){
         let pathParamDict:[String:AnyObject] = ["id":"11"]
+        ServiceManager.setBackGroundConfiguration(false, bundleID: "com.tsg.iOS")
+      
+        
         TSGServiceManager.enableLog(true)
 
         TSGServiceManager.performAction(RECENTMEDIA, withQueryParam: ["auth_token":"3nzhxHYd9Tpfsjx-WmdL"], withPathParams: pathParamDict, onSuccess: { (object) in
@@ -104,13 +109,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
             }) { (status, error) in
                 print(error)
         }
-        
-        
-//        TSGServiceManager.performAction(RECENTMEDIA,withPathParams: pathParamDict, onSuccess: { (object) in
-//            print(object)
-//            }) { (status, error) in
-//                print(error)
-//        }
     }
     
     func sessionRequest()
@@ -134,13 +132,30 @@ class ViewController: UIViewController, UITextFieldDelegate {
         //http://www.charts.noaa.gov/BookletChart/
         activityIndicatorView.hidden = false
         activityIndicatorView.startAnimating()
-        
+        ServiceManager.setTimeOutInterval(200)
+        let bundleIdentifier = NSBundle.mainBundle().bundleIdentifier
+        print(bundleIdentifier)
+        ServiceManager.setBackGroundConfiguration(true, bundleID: bundleIdentifier)
         progressIndicator.hidden = false
+        
+        ServiceManager.downloadWith("http://www.jplayer.org/video/m4v/Incredibles_Teaser_640x272_h264aac.m4v", requestType: .GET, downloadType: .SEQUENTIAL, withApiTag: "CCCCC", prority: false, downloadingPath: "DownloadedArticles/Articles",fileName: "image.m4v", progress: { (percentage) in
+            print("CCCCCC\(percentage)")
+            dispatch_async(dispatch_get_main_queue()) {
+                self.progressIndicator.setProgress(percentage, animated: true)
+            }
+            }, success: { (response) in
+                print("CCCCCC\(response)")
 
-        ServiceManager.downloadWith("https://www.fi.edu/sites/default/files/styles/hero_medium/public/Hero_Home_Slider_Pixar_Sulley_9_0.jpg?itok=-zFEmbG",requestType: .GET, downloadType: .PARALLEL, withApiTag: "Picture 1", prority: false, progress: { (percentage) in
+            }) { (error) in
+                print(error)
+ 
+        }
+
+        ServiceManager.downloadWith("http://www.jplayer.org/video/m4v/Incredibles_Teaser.m4v",requestType: .GET, downloadType: .SEQUENTIAL, withApiTag: "Picture 1", prority: true, progress: { (percentage) in
             print("Picture1 progress\(percentage)")
             dispatch_async(dispatch_get_main_queue()) {
                 self.progressIndicator.setProgress(percentage, animated: true)
+
             }
             }, success: { (response) in
                 print("Picture1 response \(response)")
@@ -155,42 +170,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }) { (error) in
             print(error)
         }
-        
-        /***** SEQUENTIAL ********/
-
-//        ServiceManager.downloadWith("Incredibles_Teaser.m4v",requestType: .GET, downloadType: .SEQUENTIAL, withApiTag: "CCCCCC", prority: false, progress: { (percentage) in
-//            print("CCCCCC\(percentage)")
-//            dispatch_async(dispatch_get_main_queue()) {
-//                self.progressIndicator.setProgress(percentage, animated: true)
-//            }
-//            }, success: { (response) in
-//                print("CCCCCC\(response)")
-//        }) { (error) in
-//            print(error)
-//        }
-//
-//        ServiceManager.downloadWith("Incredibles_Teaser_320x144_h264aac.m4v",requestType: .GET, downloadType: .PARALLEL, withApiTag: "DDDDDD", prority: false, progress: { (percentage) in
-//            print("DDDDDD\(percentage)")
-//            dispatch_async(dispatch_get_main_queue()) {
-//                self.progressIndicator.setProgress(percentage, animated: true)
-//            }
-//            }, success: { (response) in
-//                print("DDDDDD\(response)")
-//        }) { (error) in
-//            print(error)
-//        }
-//
-//        ServiceManager.downloadWith("Incredibles_Teaser_640x272_h264aac.m4v",requestType: .GET, downloadType: .SEQUENTIAL, withApiTag: "EEEEEE", prority: true, progress: { (percentage) in
-//            print("EEEEEE\(percentage)")
-//            dispatch_async(dispatch_get_main_queue()) {
-//                self.progressIndicator.setProgress(percentage, animated: true)
-//            }
-//            }, success: { (response) in
-//                print("EEEEEE\(response)")
-//        }) { (error) in
-//            print(error)
-//        }
-
         
     }
     
@@ -226,27 +205,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     //MARK : function for Get Request
     func categoryRequest() {
-    
-        let bodyDict = ["auth_token":"fdssgfg gfgfgfdgfd"]
 
-        
-        TSGServiceManager.performAction(CATEGORIES, withQueryParam: bodyDict, onSuccess: { (object) in
-            print(object)
-            self.apiResult.text = "\(object)"
-
-            }) { (status, error) in
+        ServiceManager.hitRequestForAPI("http://52.24.112.194:8080/AdminAPI/security/REST/getBankSettings?bankId=000010000100001", typeOfRequest: .GET, typeOFResponse: .JSON,cachePolicy:NSURLRequestCachePolicy.ReturnCacheDataElseLoad, success: { (obect) in
+            print(obect)
+            }) { (error) in
                 print(error)
-                self.apiResult.text = "\(error)"
-
         }
     }
     
     //MARK : function for Post Request
     func resetRequest() {
-        
-        //let bodyDict = ["email":"manish.johari@kiwitech.com","code":"9967"]
-        
-     //   let dict = ["user":bodyDict]
         
         let bodyDict = ["user[email]":"manish.johari@kiwitech.com"]
         
@@ -326,91 +294,11 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         imageView.image = UIImage(named: "chand")
           let imageData = UIImageJPEGRepresentation(image, 1.0)
         
+
+        
         activityIndicatorView.startAnimating()
         progressIndicator.hidden = false
         progressIndicator.setProgress(0, animated: true)
-        let bodyDict = ["name":"Ashish","user_email":"Ashish@kiwitech.com","age":"23","avatar":imageData! as NSData]
-        
-        TSGServiceManager.uploadData(IMAGEUPLOAD, mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:true, progress: { (percentage) in
-            print("aaaa \(percentage)")
-
-            dispatch_async(dispatch_get_main_queue()) {
-                self.progressIndicator.setProgress(percentage, animated: true)
-            }
-        }, success: { (response) in
-            self.activityIndicatorView.hidden = true
-           self.progressIndicator.hidden = true
-            self.apiResult.hidden = false
-            self.apiResult.text = "SUCCESS: Image Uploaded"
-        }) { (error) in
-            print("Some error")
-
-        }
-        
-        let bodyDict1 = ["name":"Ashish","user_email":"Ashish@kiwitech.com","age":"23","avatar":imageData! as NSData]
-
-        TSGServiceManager.uploadData(IMAGEUPLOAD, mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict1,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
-            print("bbbb \(percentage)")
-
-            dispatch_async(dispatch_get_main_queue()) {
-                self.progressIndicator.setProgress(percentage, animated: true)
-            }
-            }, success: { (response) in
-                self.activityIndicatorView.hidden = true
-                self.progressIndicator.hidden = true
-                self.apiResult.hidden = false
-                self.apiResult.text = "SUCCESS: Image Uploaded"
-        }) { (error) in
-            print("Some error")
-            
-        }
-        
-        /***** SEQUENTIAL ********/
-
-        
-//        TSGServiceManager.uploadData(IMAGEUPLOAD, mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
-//            print("ccccc \(percentage)")
-//            dispatch_async(dispatch_get_main_queue()) {
-//                self.progressIndicator.setProgress(percentage, animated: true)
-//            }
-//            }, success: { (response) in
-//                self.activityIndicatorView.hidden = true
-//                self.progressIndicator.hidden = true
-//                self.apiResult.hidden = false
-//                self.apiResult.text = "SUCCESS: Image Uploaded"
-//        }) { (error) in
-//            print("Some error")
-//            
-//        }
-//        TSGServiceManager.uploadData(IMAGEUPLOAD, mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
-//            print("dddd \(percentage)")
-//            dispatch_async(dispatch_get_main_queue()) {
-//                self.progressIndicator.setProgress(percentage, animated: true)
-//            }
-//            }, success: { (response) in
-//                self.activityIndicatorView.hidden = true
-//                self.progressIndicator.hidden = true
-//                self.apiResult.hidden = false
-//                self.apiResult.text = "SUCCESS: Image Uploaded"
-//        }) { (error) in
-//            print("Some error")
-//            
-//        }
-//
-//        TSGServiceManager.uploadData(IMAGEUPLOAD, mimeType: MimeType.PNG_IMAGE, bodyParams: bodyDict,dataKeyName:"avatar", imageQuality: ImageQuality.LOW,uploadType:.SEQUENTIAL,prority:false, progress: { (percentage) in
-//            print("eeeee \(percentage)")
-//            dispatch_async(dispatch_get_main_queue()) {
-//                self.progressIndicator.setProgress(percentage, animated: true)
-//            }
-//            }, success: { (response) in
-//                self.activityIndicatorView.hidden = true
-//                self.progressIndicator.hidden = true
-//                self.apiResult.hidden = false
-//                self.apiResult.text = "SUCCESS: Image Uploaded"
-//        }) { (error) in
-//            print("Some error")
-//            
-//        }
 
         dismissViewControllerAnimated(true, completion: nil)
     }

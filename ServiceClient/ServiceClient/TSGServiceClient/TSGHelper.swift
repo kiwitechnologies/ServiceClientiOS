@@ -32,6 +32,13 @@ public class TSGHelper: NSObject
     var responseCode:Int = 200
     var encodingType:ParameterEncoding = .JSON
     var enableLog:Bool = false
+    var allowBGConfiguration:Bool = false {
+        didSet{
+            setDefaultHeader()
+        }
+    }
+    var bundleID:String! = "com.tsg.ServiceClientFrameWork"
+    var timeInterval:NSTimeInterval = 60
     var success:(response:AnyObject) -> Void? = {_ in return}
     var progress: (percent: Float) -> Void? = {_ in return}
     var failure:NSError->Void? = {_ in return}
@@ -73,29 +80,44 @@ public class TSGHelper: NSObject
         self.serviceCount = 0
         self.appRuningMode = .DEVELOPMENT
         super.init()
-        setDefaultHeader()
+        self.setDefaultHeader()
+
     }
     
     public func setDefaultHeader()
     {
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.timeoutIntervalForRequest = 60
-        configuration.timeoutIntervalForResource = 60
+        var configuration:NSURLSessionConfiguration!
+
+        configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.timeoutIntervalForRequest = timeInterval
+        configuration.timeoutIntervalForResource = timeInterval
         configuration.HTTPAdditionalHeaders = Manager.defaultHTTPHeaders
         self.manager = Manager(configuration: configuration)
     }
+    
+//    public class func setBGSetting(backGroundConfiguration:Bool, bundleID:String?=nil){
+//        TSGHelper.sharedInstance.allowBGConfiguration = backGroundConfiguration
+//        if bundleID != nil {
+//            TSGHelper.sharedInstance.bundleID = bundleID
+//        }
+//    }
     
     public class func setBaseURL(url:String)
     {
         TSGHelper.sharedInstance.baseUrl = url
     }
     
+    public class func setTimeInterval(timeInterval:Double){
+        TSGHelper.sharedInstance.timeInterval = timeInterval
+        TSGHelper.sharedInstance.setDefaultHeader()
+    }
+    
     internal class func setCustomHeader(dict:[NSObject:AnyObject])
     {
         
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.timeoutIntervalForRequest = 60
-        configuration.timeoutIntervalForResource = 60
+        configuration.timeoutIntervalForRequest = TSGHelper.sharedInstance.timeInterval
+        configuration.timeoutIntervalForResource = TSGHelper.sharedInstance.timeInterval
         configuration.HTTPAdditionalHeaders = dict
         TSGHelper.sharedInstance.manager = Manager(configuration: configuration)
     }
@@ -199,7 +221,7 @@ public class TSGHelper: NSObject
         }
     }
     
-    public class func requestedApi(actionID:String,withQueryParam queryParamDict:[String:AnyObject]?=nil, withBodyParam bodyParams:[String:AnyObject]?=nil ,withPathParams pathParamDict:[String:AnyObject]?=nil, withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(),
+    public class func requestedApi(actionID:String,withQueryParam queryParamDict:[String:AnyObject]?=nil, withBodyParam bodyParams:[String:AnyObject]?=nil ,withPathParams pathParamDict:[String:AnyObject]?=nil, withTag apiTag:String?=nil,cachePolicy:NSURLRequestCachePolicy?=nil, onSuccess success:(AnyObject)->(),
                                    onFailure failed:(Bool,NSError)->()){
         let obj = TSGHelper.sharedInstance
         var completeURL:String!
@@ -272,7 +294,7 @@ public class TSGHelper: NSObject
                 tag = apiTag
             }
             if completeURL != nil {
-                obj.getDataFromUrl(completeURL, withApiTag: tag!, withQueryParam: queryParam, bodyParams: bodyParams, typeOfRequest: requestType, typeOfResponse: .JSON, success: { (dict) in
+                obj.getDataFromUrl(completeURL, withApiTag: tag!, withQueryParam: queryParam, bodyParams: bodyParams, typeOfRequest: requestType, typeOfResponse: .JSON,cachePolicy:cachePolicy, success: { (dict) in
                     success(dict)
                     }, failure: { (error) in
                         failed(true, error)
@@ -302,7 +324,7 @@ public class TSGHelper: NSObject
      *************************************************************************************************************************************/
     //MARK:  NON-WebTool Methods
 
-    class func hitRequestForAPI(path:String, withQueryParam queryParam:[String:String]?=nil, bodyParam:NSDictionary?=nil,typeOfRequest:RequestType, typeOFResponse:ResponseMethod, withApiTag apiTag:String?=nil, success:AnyObject->Void, failure:NSError -> Void){
+    class func hitRequestForAPI(path:String, withQueryParam queryParam:[String:String]?=nil, bodyParam:NSDictionary?=nil,typeOfRequest:RequestType, typeOFResponse:ResponseMethod, withApiTag apiTag:String?=nil,cachePolicy:NSURLRequestCachePolicy?=nil, success:AnyObject->Void, failure:NSError -> Void){
         
         var completeURL:String!
         
@@ -321,7 +343,7 @@ public class TSGHelper: NSObject
             actionID = "0"
         }
        
-        TSGHelper.sharedInstance.getDataFromUrl(completeURL,withApiTag: actionID!, withQueryParam: queryParam, bodyParams: bodyParam, typeOfRequest: typeOfRequest, typeOfResponse: typeOFResponse, success: { (object) in
+        TSGHelper.sharedInstance.getDataFromUrl(completeURL,withApiTag: actionID!, withQueryParam: queryParam, bodyParams: bodyParam, typeOfRequest: typeOfRequest, typeOfResponse: typeOFResponse,cachePolicy:cachePolicy, success: { (object) in
             success(object)
             
         }) { (error) in
@@ -341,7 +363,7 @@ public class TSGHelper: NSObject
     
     //MARK: Common Methods
 
-    internal func getDataFromUrl( url:String, withApiTag apiTag:String, withQueryParam queryParamDict:[String:AnyObject]?=nil, bodyParams:NSDictionary?=nil,typeOfRequest:RequestType, typeOfResponse:ResponseMethod, success: AnyObject -> Void,failure: NSError -> Void)
+    internal func getDataFromUrl( url:String, withApiTag apiTag:String, withQueryParam queryParamDict:[String:AnyObject]?=nil, bodyParams:NSDictionary?=nil,typeOfRequest:RequestType, typeOfResponse:ResponseMethod,cachePolicy:NSURLRequestCachePolicy?=nil, success: AnyObject -> Void,failure: NSError -> Void)
     {
         self.serviceCount = self.serviceCount + 1
         
@@ -358,20 +380,20 @@ public class TSGHelper: NSObject
         {
         case RequestType.GET:
             
-            self.req =  self.manager.request(.GET,url, parameters: bodyParams as? [String : AnyObject], queryParameters: queryParamDict as? [String:String], encoding: self.encodingType)
+            self.req =  self.manager.request(.GET,url, parameters: bodyParams as? [String : AnyObject], queryParameters: queryParamDict as? [String:String], encoding: self.encodingType,cachePolicy:cachePolicy)
             
             
         case RequestType.POST:
             
-            self.req =  self.manager.request(.POST,url, parameters: bodyParams as? [String : AnyObject], queryParameters:queryParamDict as? [String:String],  encoding: self.encodingType)
+            self.req =  self.manager.request(.POST,url, parameters: bodyParams as? [String : AnyObject], queryParameters:queryParamDict as? [String:String],  encoding: self.encodingType,cachePolicy:cachePolicy)
             
         case RequestType.PUT:
             
-            self.req = self.manager.request(.PUT,url, parameters: bodyParams as? [String : AnyObject], encoding: self.encodingType)
+            self.req = self.manager.request(.PUT,url, parameters: bodyParams as? [String : AnyObject], encoding: self.encodingType,cachePolicy:cachePolicy)
             
         case RequestType.DELETE:
             
-            self.req =  self.manager.request(.DELETE, url, parameters: bodyParams as? [String : AnyObject], encoding: self.encodingType)
+            self.req =  self.manager.request(.DELETE, url, parameters: bodyParams as? [String : AnyObject], encoding: self.encodingType,cachePolicy:cachePolicy)
         }
         
         let currentTime = NSDate.timeIntervalSinceReferenceDate()

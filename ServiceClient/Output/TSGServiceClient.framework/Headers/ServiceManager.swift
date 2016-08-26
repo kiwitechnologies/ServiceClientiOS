@@ -16,6 +16,27 @@ public class ServiceManager {
      ********************************************************************************************************************/
 
     /**
+     *	@functionName	: setTimeInterval
+     *	@parameters		: timeInterval : Set timeInterval.
+     *	@description	: It would be used to set time interval for which service would wait to get compelte response
+     */
+    
+    public class func setTimeOutInterval(timeInterval:Double){
+        TSGHelper.setTimeInterval(timeInterval)
+    }
+
+    
+    /**
+     *	@functionName	: setConfiguration
+     *	@parameters		: enable : Set allow BackGround.
+     *	@description	: It would be used to set response code for which user wants response in apis
+     */
+    
+    public class func setBackGroundConfiguration(allowBackground:Bool, bundleID:String?=nil){
+        //TSGHelper.setBGSetting(allowBackground, bundleID: bundleID!)
+    }
+    
+    /**
      *	@functionName	: enableLog
      *	@parameters		: enable : Set log.
      *	@description	: It would be used to set response code for which user wants response in apis
@@ -95,14 +116,18 @@ public class ServiceManager {
      *	@description	: It would be used to download any Data
      */
     
-    public class func downloadWith(path:String, param:NSDictionary?=nil,requestType:RequestType, downloadType:DownloadType = DownloadType.PARALLEL, withApiTag apiTag:String?=nil,prority:Bool, progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
+    public class func downloadWith(path:String, param:NSDictionary?=nil,requestType:RequestType, downloadType:DownloadType = DownloadType.PARALLEL, withApiTag apiTag:String?=nil,prority:Bool, downloadingPath:String?=nil,fileName:String?=nil, progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
 
-        TSGHelper.downloadFile(path, param: param,requestType: requestType,downloadType: downloadType,withApiTag: apiTag, priority:prority,  progressValue: { (percentage) in
+        print(downloadingPath)
+        TSGHelper.downloadFile(path, param: param, requestType: requestType, downloadType: downloadType, withApiTag: apiTag, priority: prority, downloadingPath: downloadingPath,fileName: fileName, progressValue: { (percentage) in
             progress(percentage: percentage)
+
             }, success: { (response) in
                 success(response: response)
-        }) { (NSError) in
-            failure(NSError)
+
+            }) { (NSError) in
+                failure(NSError)
+
         }
     }
     
@@ -116,18 +141,18 @@ public class ServiceManager {
      *	@description	: It would be used to download any Data
      */
     
-    public class func hitRequestForAPI(path:String, withQueryParam queryParam:[String:String]?=nil, bodyParam:NSDictionary?=nil,typeOfRequest:RequestType, typeOFResponse:ResponseMethod, withApiTag apiTag:String?=nil, success:AnyObject->Void, failure:NSError -> Void){
+    public class func hitRequestForAPI(path:String, withQueryParam queryParam:[String:String]?=nil, bodyParam:NSDictionary?=nil,typeOfRequest:RequestType, typeOFResponse:ResponseMethod, withApiTag apiTag:String?=nil,cachePolicy:NSURLRequestCachePolicy?=nil, success:AnyObject->Void, failure:NSError -> Void){
         
-        TSGHelper.hitRequestForAPI(path, withQueryParam: queryParam, bodyParam: bodyParam, typeOfRequest: typeOfRequest, typeOFResponse: typeOFResponse, withApiTag: apiTag, success: { (object) in
+        TSGHelper.hitRequestForAPI(path, withQueryParam: queryParam, bodyParam: bodyParam, typeOfRequest: typeOfRequest, typeOFResponse: typeOFResponse, withApiTag: apiTag,cachePolicy:cachePolicy, success: { (object) in
             success(object)
             }) { (error) in
                 failure(error)
         }
     }
     
-    public class func uploadWithPath(path: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH,uploadType:UploadType = UploadType.PARALLEL,prority:Bool, progress: (percent: Float) -> Void, Success:(response:AnyObject) -> Void, Failure:ErrorType->Void){
+    public class func uploadWithPath(path: String,bodyParams:NSDictionary, dataKeyName:String,mimeType:MimeType,imageQuality:ImageQuality?=ImageQuality.HIGH,uploadType:UploadType = UploadType.PARALLEL,prority:Bool,requestType:RequestType, progress: (percent: Float) -> Void, Success:(response:AnyObject) -> Void, Failure:ErrorType->Void){
         
-        TSGHelper.uploadWith(path, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality: imageQuality,uploadType:uploadType,priority:true, progress: { (percent) in
+        TSGHelper.uploadWith(path, bodyParams: bodyParams, dataKeyName: dataKeyName, mimeType: mimeType,imageQuality: imageQuality,uploadType:uploadType,requestType:requestType, priority:true, progress: { (percent) in
             progress(percent: percent)
             
             }, success: { (response) in

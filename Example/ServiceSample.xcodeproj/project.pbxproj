@@ -44,6 +44,7 @@
 		D6225DC01CFDAE3F00119145 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
 		D6225DC11CFDAE3F00119145 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ServiceSample/Info.plist; sourceTree = SOURCE_ROOT; };
 		D6225DC21CFDAE3F00119145 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ServiceSample/ViewController.swift; sourceTree = SOURCE_ROOT; };
+		D67C42A11D6C3FCA007FB456 /* Extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Extra.h; path = ServiceSample/Extra.h; sourceTree = SOURCE_ROOT; };
 		D6988C641CB6787E00CE0526 /* ServiceSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ServiceSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -105,6 +106,7 @@
 				D687D8A01CFDB66500F985E2 /* Resources */,
 				D6225DBC1CFDAE3F00119145 /* Base.lproj */,
 				D6225DC11CFDAE3F00119145 /* Info.plist */,
+				D67C42A11D6C3FCA007FB456 /* Extra.h */,
 			);
 			name = ServiceSample;
 			path = LoginSample;
@@ -143,6 +145,14 @@
 				TargetAttributes = {
 					D6988C631CB6787E00CE0526 = {
 						CreatedOnToolsVersion = 7.3;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};

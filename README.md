@@ -2,6 +2,9 @@ ServiceClient-Framework
 =============
 
 ## Features
+- Version 1.2
+- [x] Request Caching
+
 - Version 1.1
 - [x] Sequential and Parallel Downloading
 - [x] Image Caching

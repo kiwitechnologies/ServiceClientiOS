@@ -186,11 +186,11 @@ public class Manager {
         parameters: [String: AnyObject]? = nil,
         queryParameters: [String: String]? = nil,
         encoding: ParameterEncoding = .URL,
+        cachePolicy:NSURLRequestCachePolicy?=nil,
         headers: [String: String]? = nil)
         -> Request
     {
-        let mutableURLRequest = URLRequest(method, URLString, queryParameter: queryParameters, headers: headers)//URLRequest(method, URLString, headers: headers)
-        
+        let mutableURLRequest = URLRequest(method, URLString, queryParameter: queryParameters,cachePolicies:cachePolicy, headers: headers)
         if TSGHelper.sharedInstance.enableLog {
 
            print("Complete Request \(mutableURLRequest)")

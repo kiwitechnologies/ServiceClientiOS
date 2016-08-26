@@ -11,7 +11,7 @@ import Foundation
 extension TSGHelper{
     
     //MARK: A common method to download file
-    public class func downloadFile(path:String, param:NSDictionary?=nil,requestType:RequestType ,downloadType:DownloadType = DownloadType.PARALLEL, withApiTag apiTag:String?=nil,priority:Bool, progressValue:(percentage:Float)->Void, success:(response:AnyObject) -> Void, failure:NSError->Void)
+    public class func downloadFile(path:String, param:NSDictionary?=nil,requestType:RequestType ,downloadType:DownloadType = DownloadType.PARALLEL, withApiTag apiTag:String?=nil,priority:Bool, downloadingPath:String?=nil,fileName:String?=nil, progressValue:(percentage:Float)->Void, success:(response:AnyObject) -> Void, failure:NSError->Void)
     {
         
         let obj = TSGHelper.sharedInstance
@@ -39,7 +39,7 @@ extension TSGHelper{
                 
                 obj.download(path, param: param, requestType: requestType,downloadType:.SEQUENTIAL, withApiTag: objTag, progressValue: { (percentage) in
                     progressValue(percentage: percentage)
-                    }, success: { (response) in
+                    },fileName:fileName, downloadingPath: downloadingPath, success: { (response) in
                         success(response: response)
                     }, failure: { (error) in
                         failure(error)
@@ -50,12 +50,15 @@ extension TSGHelper{
                 let firstArrayObject:RequestModel = obj.sequentialDownloadRequest[0] as! RequestModel
                 
                 if firstArrayObject.isRunning == false{
-                    obj.download(path, param: param, requestType: requestType,downloadType:.SEQUENTIAL, withApiTag: objTag, progressValue: { (percentage) in
+                    obj.download(path, param: param, requestType: requestType, downloadType: .SEQUENTIAL, withApiTag: objTag, progressValue: { (percentage) -> Void? in
                         progressValue(percentage: percentage)
-                        }, success: { (response) in
+
+                        },fileName:fileName, downloadingPath: downloadingPath, success: { (response) -> Void? in
                             success(response: response)
-                        }, failure: { (error) in
+
+                        }, failure: { (error) -> Void? in
                             failure(error)
+
                     })
                 }
             }
@@ -65,7 +68,7 @@ extension TSGHelper{
         {
             obj.download(path, param: param, requestType: requestType,downloadType:.PARALLEL,  withApiTag: objTag, progressValue: { (percentage) in
                 progressValue(percentage: percentage)
-                }, success: { (response) in
+                },fileName:fileName, downloadingPath: downloadingPath, success: { (response) in
                     success(response: response)
                 }, failure: { (error) in
                     failure(error)
@@ -73,7 +76,7 @@ extension TSGHelper{
         }
     }
     
-    func download(path:String, param:NSDictionary?=nil,requestType:RequestType,downloadType:DownloadType, withApiTag apiTag:String, progressValue:(percentage:Float)->Void?, success:(response:AnyObject) -> Void?,  failure:NSError->Void?){
+    func download(path:String, param:NSDictionary?=nil,requestType:RequestType,downloadType:DownloadType, withApiTag apiTag:String, progressValue:(percentage:Float)->Void?,downloadingPath:String?=nil,fileName:String?=nil, success:(response:AnyObject) -> Void?,  failure:NSError->Void?){
         
         self.success = success
         self.progress = progressValue
@@ -111,16 +114,63 @@ extension TSGHelper{
         
         var firstArrayObject:RequestModel!
         
+        let documentsPath = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0])
+        
+        var downloadPath:NSURL?// = documentsPath.URLByAppendingPathComponent("downloads123/DownloadsArticles")
+        
+        if downloadingPath != nil {
+            downloadPath = documentsPath.URLByAppendingPathComponent(downloadingPath!)
+            
+            var isDirectory: ObjCBool = false
+            
+            if NSFileManager.defaultManager().fileExistsAtPath(downloadPath!.path!, isDirectory: &isDirectory) {
+                if(!isDirectory){
+                    do {
+                        try NSFileManager.defaultManager().createDirectoryAtPath(downloadPath!.path!, withIntermediateDirectories: true, attributes: nil)
+                    }catch  {
+                        NSLog("Unable to create directory ")
+                    }
+                }
+            }else{
+                do {
+                    try NSFileManager.defaultManager().createDirectoryAtPath(downloadPath!.path!, withIntermediateDirectories: true, attributes: nil)
+                }catch  {
+                    NSLog("Unable to create directory ")
+                }
+                
+            }
+
+        }
+        
         if downloadType == .SEQUENTIAL {
             firstArrayObject = obj.sequentialDownloadRequest[0] as! RequestModel
         }
         
         obj.req =  obj.manager.download(requestMethod, completeURL,parameters:param as? [String : AnyObject],
             destination: { (temporaryURL, response) in
-                let directoryURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
-                let pathComponent = response.suggestedFilename
+                var pathComponent:String!
+                print("************************************")
+                print(downloadPath)
+                print("************************************")
+
                 
-                localPath = directoryURL.URLByAppendingPathComponent(pathComponent!)
+                if fileName == nil {
+                    pathComponent = response.suggestedFilename
+
+                }
+                else {
+                    pathComponent = fileName
+                }
+                
+                if downloadPath == nil {
+                    let directoryURL = NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask)[0]
+                    localPath = directoryURL.URLByAppendingPathComponent(pathComponent!)
+                    return localPath!
+                } else {
+                    downloadPath = downloadPath!.URLByAppendingPathComponent(pathComponent!)
+
+                }
+                localPath = downloadPath
                 return localPath!
         })
             .progress { bytesRead, totalBytesRead, totalBytesExpectedToRead in
@@ -186,11 +236,19 @@ extension TSGHelper{
             
             if response != nil {
                 if downloadType == .SEQUENTIAL {
+                    if localPath == nil {
+                        failure(error!)
+                    }else {
                     firstArrayObject.successBlock(response: localPath!)
                     self.success = firstArrayObject.successBlock
+                    }
                 }
                 else {
+                    if localPath == nil {
+                        failure(error!)
+                    }else {
                     success(response: localPath!)
+                    }
                 }
             }
             if error != nil {

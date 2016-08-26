@@ -18,6 +18,26 @@ public class TSGServiceManager {
 ********************************************************************************************************************/
 
     /**
+     *	@functionName	: setTimeInterval
+     *	@parameters		: timeInterval : Set timeInterval.
+     *	@description	: It would be used to set time interval for which service would wait to get compelte response
+     */
+    
+    public class func setTimeOutInterval(timeInterval:Double){
+        TSGHelper.setTimeInterval(timeInterval)
+    }
+    
+    
+    /**
+     *	@functionName	: setConfiguration
+     *	@parameters		: enable : Set allow BackGround.
+     *	@description	: It would be used to set response code for which user wants response in apis
+     */
+    
+    public class func setBackGroundConfiguration(allowBackground:Bool, bundleID:String?=nil){
+       // TSGHelper.setBGSetting(allowBackground, bundleID: bundleID!)
+    }
+    /**
      *	@functionName	: enableLog
      *	@parameters		: enable : Set log.
      *	@description	: It would be used to set response code for which user wants response in apis
@@ -103,9 +123,9 @@ public class TSGServiceManager {
      */
     
 
-    public class func performAction(actionID:String?=nil,withQueryParam queryParamDict:[String:AnyObject]?=nil, withBodyParams bodyDict:[String:AnyObject]?=nil,withPathParams pathParamDict:[String:AnyObject]?=nil ,withTag apiTag:String?=nil, onSuccess success:(AnyObject)->(), onFailure failed:(Bool, NSError)->()){
+    public class func performAction(actionID:String?=nil,withQueryParam queryParamDict:[String:AnyObject]?=nil, withBodyParams bodyDict:[String:AnyObject]?=nil,withPathParams pathParamDict:[String:AnyObject]?=nil ,withTag apiTag:String?=nil,cachePolicy:NSURLRequestCachePolicy?=nil, onSuccess success:(AnyObject)->(), onFailure failed:(Bool, NSError)->()){
 
-        TSGHelper.requestedApi(actionID!,withQueryParam: queryParamDict, withBodyParam: bodyDict,withPathParams: pathParamDict, withTag:apiTag,  onSuccess: { (dictionary) in
+        TSGHelper.requestedApi(actionID!,withQueryParam: queryParamDict, withBodyParam: bodyDict,withPathParams: pathParamDict, withTag:apiTag,cachePolicy:cachePolicy,  onSuccess: { (dictionary) in
             success(dictionary)
             }) { (bool, error) in
             failed(bool,error)
@@ -129,9 +149,9 @@ public class TSGServiceManager {
      *	@description	: It would be used to download any Data
      */
     
-    public class func downloadData(endPoint:String, param:NSDictionary?=nil,requestType:RequestType, downloadType:DownloadType = DownloadType.PARALLEL,withTag apiTag:String?=nil,priority:Bool,progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
+    public class func downloadData(endPoint:String, param:NSDictionary?=nil,requestType:RequestType, downloadType:DownloadType = DownloadType.PARALLEL,withTag apiTag:String?=nil,priority:Bool, downloadingPath:String?=nil,fileName:String?=nil,progress:(percentage: Float)->Void, success:(response:AnyObject)->Void, failure:NSError-> Void){
         
-        TSGHelper.downloadFile(endPoint, param: param,requestType: requestType,downloadType:downloadType,priority: priority, progressValue: { (percentage) in
+        TSGHelper.downloadFile(endPoint, param: param,requestType: requestType,downloadType:downloadType,priority: priority, downloadingPath: downloadingPath,fileName: fileName,progressValue: { (percentage) in
             progress(percentage: percentage)
             }, success: { (response) in
                 success(response: response)
@@ -147,9 +167,9 @@ public class TSGServiceManager {
      *	@description	: It would be used to upload the data
      */
     
-    public class func uploadData(actionID:String, mimeType:MimeType,queryParam:NSDictionary?=nil,bodyParams:NSDictionary,dataKeyName:String,imageQuality:ImageQuality,withTag apiTag:String?=nil,uploadType:UploadType = UploadType.PARALLEL,prority:Bool, progress: (percentage: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void) {
-      
-        TSGHelper.uploadFileWith(actionID, bodyParams: bodyParams,dataKeyName:dataKeyName,mimeType:mimeType,imageQuality:imageQuality,withApiTag:apiTag,uploadType: uploadType,priority: prority,  progress: { (percent) in
+    public class func uploadData(actionID:String, mimeType:MimeType,queryParam:NSDictionary?=nil,bodyParams:NSDictionary,dataKeyName:String,imageQuality:ImageQuality,withTag apiTag:String?=nil,uploadType:UploadType = UploadType.PARALLEL,requestType:RequestType,prority:Bool, progress: (percentage: Float) -> Void, success:(response:AnyObject) -> Void, failure:ErrorType->Void) {
+        
+        TSGHelper.uploadFileWith(actionID, bodyParams: bodyParams,dataKeyName:dataKeyName,mimeType:mimeType,imageQuality:imageQuality,withApiTag:apiTag,uploadType: uploadType,priority: prority,requestType:requestType,  progress: { (percent) in
 
             progress(percentage: percent)
             }, success: { (response) in
