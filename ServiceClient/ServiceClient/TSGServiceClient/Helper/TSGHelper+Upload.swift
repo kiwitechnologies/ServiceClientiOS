@@ -215,6 +215,9 @@ extension TSGHelper {
             firstArrayObject = obj.sequentialUploadRequest[0] as! RequestModel
         }
         
+
+      //AYUSH requestTAG:apiTag, apiTime:currentAPITime,
+        
         obj.manager.upload(
             requestMethod,
             completeURL,

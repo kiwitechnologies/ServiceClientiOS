@@ -2,6 +2,9 @@ ServiceClient-Framework
 =============
 
 ## Features
+- Version 2.0
+- [x] XCODE 8 Support
+
 - Version 1.2
 - [x] Request Caching
 

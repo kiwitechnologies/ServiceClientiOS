@@ -380,6 +380,7 @@ public class TSGHelper: NSObject
         {
         case RequestType.GET:
             
+          
             self.req =  self.manager.request(.GET,url, parameters: bodyParams as? [String : AnyObject], queryParameters: queryParamDict as? [String:String], encoding: self.encodingType,cachePolicy:cachePolicy)
             
             
