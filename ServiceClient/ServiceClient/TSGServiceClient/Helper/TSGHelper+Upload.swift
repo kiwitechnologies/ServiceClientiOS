@@ -25,18 +25,18 @@ extension TSGHelper {
             var completeURL:String!
             
             if TSGHelper.sharedInstance.appRuningMode == .DEVELOPMENT  {
-                completeURL = (object as! API).dev_baseURL! + (object as! API).actionName!
+                completeURL = (object as! TSGAPI).dev_baseURL! + (object as! TSGAPI).actionName!
             } else if TSGHelper.sharedInstance.appRuningMode == .TESTING {
-                completeURL = (object as! API).qa_baseURL! + (object as! API).actionName!
+                completeURL = (object as! TSGAPI).qa_baseURL! + (object as! TSGAPI).actionName!
                 
             } else if TSGHelper.sharedInstance.appRuningMode == .STAGING {
-                completeURL = (object as! API).stage_baseURL! + (object as! API).actionName!
+                completeURL = (object as! TSGAPI).stage_baseURL! + (object as! TSGAPI).actionName!
                 
             } else if TSGHelper.sharedInstance.appRuningMode == .PRODUCTION {
-                completeURL = (object as! API).prod_baseURL! + (object as! API).actionName!
+                completeURL = (object as! TSGAPI).prod_baseURL! + (object as! TSGAPI).actionName!
             }
             else if TSGHelper.sharedInstance.appRuningMode == .DUMMY {
-                completeURL = (object as! API).dummy_server_URL!
+                completeURL = (object as! TSGAPI).dummy_server_URL!
             }
             
             var actionID:String!

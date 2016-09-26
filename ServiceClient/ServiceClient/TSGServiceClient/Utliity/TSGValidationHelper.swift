@@ -10,11 +10,11 @@ import Foundation
 
 public class TSGValidationHelper: NSObject {
     
-    class func checkIfItsRequired(obj:Key){
+    class func checkIfItsRequired(obj:TSGKey){
         requiredKeys?.addObject(obj.keyName!)
     }
 
-    class func checkMinimumLenghth(obj:Key,dataType:DataType, withUserDict dict:NSDictionary,queryDict:NSDictionary?=nil, parameterType:ParameterType) {
+    class func checkMinimumLenghth(obj:TSGKey,dataType:DataType, withUserDict dict:NSDictionary,queryDict:NSDictionary?=nil, parameterType:ParameterType) {
         
         let minimumValue = obj.minimumLength
         let maximumValue = obj.maximumLength
@@ -129,7 +129,7 @@ public class TSGValidationHelper: NSObject {
         }
     }
     
-    class func checkMaximumLenght(obj:Key,dataType:DataType, withUserDict dict:NSDictionary, parameterType:ParameterType){
+    class func checkMaximumLenght(obj:TSGKey,dataType:DataType, withUserDict dict:NSDictionary, parameterType:ParameterType){
         
         let minimumValue = obj.minimumLength
         let maximumValue = obj.maximumLength
@@ -223,7 +223,7 @@ public class TSGValidationHelper: NSObject {
         
     }
 
-  class func checkFileSize(obj:Key, withData data:NSData?=nil) {
+  class func checkFileSize(obj:TSGKey, withData data:NSData?=nil) {
         
         if data == nil {return}
         if data!.length > obj.size?.integerValue || data!.length  < 0 {
@@ -233,7 +233,7 @@ public class TSGValidationHelper: NSObject {
         
     }
     
-   class func checkFormats(obj:Key, withUserDict dict:NSDictionary) {
+   class func checkFormats(obj:TSGKey, withUserDict dict:NSDictionary) {
     
 
         switch dict.valueForKey(obj.keyName! as String) {

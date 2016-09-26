@@ -76,21 +76,17 @@
 
 // Returns the managed object model for the application.
 // If the model doesn't already exist, it is created from the application's model.
-- (NSManagedObjectModel *)managedObjectModel
-{
+- (NSManagedObjectModel *)managedObjectModel {
+    
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
     
-    NSBundle *abc = [NSBundle bundleWithIdentifier:@"com.Framework.ServiceClient"];
-    NSURL *modelURL = [abc URLForResource:@"TSGAPIDetails" withExtension:@"momd"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"TSGAPIDetails" ofType:@"momd"];
+    NSURL *momURL = [NSURL fileURLWithPath:path];
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
     
-    if (modelURL != nil)
-    {
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;
-    }
-    return [[NSManagedObjectModel alloc] init];
 }
 
 // Returns the persistent store coordinator for the application.

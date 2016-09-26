@@ -48,12 +48,12 @@
 		2AA4507A1D1AA4B400056BD8 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4503C1D1AA4B400056BD8 /* Validation.swift */; };
 		2AA4507B1D1AA4B400056BD8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4503F1D1AA4B400056BD8 /* Constants.swift */; };
 		2AA4507D1D1AA4B400056BD8 /* TSGServiceClientCoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450411D1AA4B400056BD8 /* TSGServiceClientCoreDataHelper.m */; };
-		2AA4507E1D1AA4B400056BD8 /* API+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450431D1AA4B400056BD8 /* API+CoreDataProperties.swift */; };
-		2AA4507F1D1AA4B400056BD8 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450441D1AA4B400056BD8 /* API.swift */; };
-		2AA450801D1AA4B400056BD8 /* Key+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450451D1AA4B400056BD8 /* Key+CoreDataProperties.swift */; };
-		2AA450811D1AA4B400056BD8 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450461D1AA4B400056BD8 /* Key.swift */; };
-		2AA450821D1AA4B400056BD8 /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450471D1AA4B400056BD8 /* Project+CoreDataProperties.swift */; };
-		2AA450831D1AA4B400056BD8 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450481D1AA4B400056BD8 /* Project.swift */; };
+		2AA4507E1D1AA4B400056BD8 /* TSGAPI+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450431D1AA4B400056BD8 /* TSGAPI+CoreDataProperties.swift */; };
+		2AA4507F1D1AA4B400056BD8 /* TSGAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450441D1AA4B400056BD8 /* TSGAPI.swift */; };
+		2AA450801D1AA4B400056BD8 /* TSGKey+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450451D1AA4B400056BD8 /* TSGKey+CoreDataProperties.swift */; };
+		2AA450811D1AA4B400056BD8 /* TSGKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450461D1AA4B400056BD8 /* TSGKey.swift */; };
+		2AA450821D1AA4B400056BD8 /* TSGProject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450471D1AA4B400056BD8 /* TSGProject+CoreDataProperties.swift */; };
+		2AA450831D1AA4B400056BD8 /* TSGProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450481D1AA4B400056BD8 /* TSGProject.swift */; };
 		2AA450841D1AA4B400056BD8 /* TSGAPIDetails.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450491D1AA4B400056BD8 /* TSGAPIDetails.xcdatamodeld */; };
 		2AA450861D1AA4B400056BD8 /* JSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4504E1D1AA4B400056BD8 /* JSONModel.m */; };
 		2AA450881D1AA4B400056BD8 /* JSONModelClassProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450501D1AA4B400056BD8 /* JSONModelClassProperty.m */; };
@@ -70,14 +70,16 @@
 		2AA450971D1AA4B400056BD8 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450611D1AA4B400056BD8 /* ServiceManager.swift */; };
 		2AA450981D1AA4B400056BD8 /* TSGHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450621D1AA4B400056BD8 /* TSGHelper.swift */; };
 		2AA450991D1AA4B400056BD8 /* String+Validations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450641D1AA4B400056BD8 /* String+Validations.swift */; };
-		2AA4509A1D1AA4B400056BD8 /* StringConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450651D1AA4B400056BD8 /* StringConstants.swift */; };
 		2AA4509B1D1AA4B400056BD8 /* TSGEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450661D1AA4B400056BD8 /* TSGEnum.swift */; };
 		2AA4509C1D1AA4B400056BD8 /* TSGUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450671D1AA4B400056BD8 /* TSGUtility.swift */; };
 		2AA4509D1D1AA4B400056BD8 /* TSGValidationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450681D1AA4B400056BD8 /* TSGValidationHelper.swift */; };
 		2AA4509E1D1AA4B400056BD8 /* TSGValidationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA450691D1AA4B400056BD8 /* TSGValidationManager.swift */; };
 		2AA451171D1AA9D700056BD8 /* ServiceManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = 2AA450611D1AA4B400056BD8 /* ServiceManager.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		2AC544451D2E31E600FB8A82 /* TSGServiceManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = 2AA450601D1AA4B400056BD8 /* TSGServiceManager.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		2AEC76B81D94EF0900CA8DE1 /* TSGInternetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEC76B71D94EF0900CA8DE1 /* TSGInternetManager.swift */; };
+		2AEC76B91D94F17300CA8DE1 /* TSGInternetManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = 2AEC76B71D94EF0900CA8DE1 /* TSGInternetManager.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		D61082EA1D33BC8500EC804F /* TSGEnum.swift in Headers */ = {isa = PBXBuildFile; fileRef = 2AA450661D1AA4B400056BD8 /* TSGEnum.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6D677111D990285008AF7F1 /* TSGStringConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D677101D990285008AF7F1 /* TSGStringConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,12 +111,12 @@
 		2AA4503F1D1AA4B400056BD8 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2AA450401D1AA4B400056BD8 /* TSGServiceClientCoreDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSGServiceClientCoreDataHelper.h; sourceTree = "<group>"; };
 		2AA450411D1AA4B400056BD8 /* TSGServiceClientCoreDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSGServiceClientCoreDataHelper.m; sourceTree = "<group>"; };
-		2AA450431D1AA4B400056BD8 /* API+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "API+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		2AA450441D1AA4B400056BD8 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
-		2AA450451D1AA4B400056BD8 /* Key+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Key+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		2AA450461D1AA4B400056BD8 /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
-		2AA450471D1AA4B400056BD8 /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		2AA450481D1AA4B400056BD8 /* Project.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		2AA450431D1AA4B400056BD8 /* TSGAPI+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TSGAPI+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2AA450441D1AA4B400056BD8 /* TSGAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGAPI.swift; sourceTree = "<group>"; };
+		2AA450451D1AA4B400056BD8 /* TSGKey+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TSGKey+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2AA450461D1AA4B400056BD8 /* TSGKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGKey.swift; sourceTree = "<group>"; };
+		2AA450471D1AA4B400056BD8 /* TSGProject+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TSGProject+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2AA450481D1AA4B400056BD8 /* TSGProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGProject.swift; sourceTree = "<group>"; };
 		2AA4504A1D1AA4B400056BD8 /* TSGAPIDetails.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TSGAPIDetails.xcdatamodel; sourceTree = "<group>"; };
 		2AA4504D1D1AA4B400056BD8 /* JSONModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONModel.h; sourceTree = "<group>"; };
 		2AA4504E1D1AA4B400056BD8 /* JSONModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONModel.m; sourceTree = "<group>"; };
@@ -137,15 +139,16 @@
 		2AA450611D1AA4B400056BD8 /* ServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		2AA450621D1AA4B400056BD8 /* TSGHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGHelper.swift; sourceTree = "<group>"; };
 		2AA450641D1AA4B400056BD8 /* String+Validations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Validations.swift"; sourceTree = "<group>"; };
-		2AA450651D1AA4B400056BD8 /* StringConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringConstants.swift; sourceTree = "<group>"; };
 		2AA450661D1AA4B400056BD8 /* TSGEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGEnum.swift; sourceTree = "<group>"; };
 		2AA450671D1AA4B400056BD8 /* TSGUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGUtility.swift; sourceTree = "<group>"; };
 		2AA450681D1AA4B400056BD8 /* TSGValidationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGValidationHelper.swift; sourceTree = "<group>"; };
 		2AA450691D1AA4B400056BD8 /* TSGValidationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGValidationManager.swift; sourceTree = "<group>"; };
+		2AEC76B71D94EF0900CA8DE1 /* TSGInternetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGInternetManager.swift; sourceTree = "<group>"; };
 		D618B6311CB7B87E0044D96D /* TSGServiceClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TSGServiceClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D618B6341CB7B87E0044D96D /* ServiceClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServiceClient.h; sourceTree = "<group>"; };
 		D618B6361CB7B87E0044D96D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D61DDA531CFCB9AC00FFA18F /* TSGServiceClient-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TSGServiceClient-Bridging-Header.h"; sourceTree = "<group>"; };
+		D6D677101D990285008AF7F1 /* TSGStringConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSGStringConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +184,7 @@
 				2AA450591D1AA4B400056BD8 /* Helper */,
 				2AA450611D1AA4B400056BD8 /* ServiceManager.swift */,
 				2AA450601D1AA4B400056BD8 /* TSGServiceManager.swift */,
+				2AEC76B71D94EF0900CA8DE1 /* TSGInternetManager.swift */,
 				2AA450621D1AA4B400056BD8 /* TSGHelper.swift */,
 				2AA450631D1AA4B400056BD8 /* Utliity */,
 			);
@@ -245,12 +249,12 @@
 		2AA450421D1AA4B400056BD8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2AA450431D1AA4B400056BD8 /* API+CoreDataProperties.swift */,
-				2AA450441D1AA4B400056BD8 /* API.swift */,
-				2AA450451D1AA4B400056BD8 /* Key+CoreDataProperties.swift */,
-				2AA450461D1AA4B400056BD8 /* Key.swift */,
-				2AA450471D1AA4B400056BD8 /* Project+CoreDataProperties.swift */,
-				2AA450481D1AA4B400056BD8 /* Project.swift */,
+				2AA450431D1AA4B400056BD8 /* TSGAPI+CoreDataProperties.swift */,
+				2AA450441D1AA4B400056BD8 /* TSGAPI.swift */,
+				2AA450451D1AA4B400056BD8 /* TSGKey+CoreDataProperties.swift */,
+				2AA450461D1AA4B400056BD8 /* TSGKey.swift */,
+				2AA450471D1AA4B400056BD8 /* TSGProject+CoreDataProperties.swift */,
+				2AA450481D1AA4B400056BD8 /* TSGProject.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -305,8 +309,8 @@
 		2AA450631D1AA4B400056BD8 /* Utliity */ = {
 			isa = PBXGroup;
 			children = (
+				D6D677101D990285008AF7F1 /* TSGStringConstants.swift */,
 				2AA450641D1AA4B400056BD8 /* String+Validations.swift */,
-				2AA450651D1AA4B400056BD8 /* StringConstants.swift */,
 				2AA450661D1AA4B400056BD8 /* TSGEnum.swift */,
 				2AA450671D1AA4B400056BD8 /* TSGUtility.swift */,
 				2AA450681D1AA4B400056BD8 /* TSGValidationHelper.swift */,
@@ -351,6 +355,7 @@
 			files = (
 				2AA451171D1AA9D700056BD8 /* ServiceManager.swift in Headers */,
 				2AC544451D2E31E600FB8A82 /* TSGServiceManager.swift in Headers */,
+				2AEC76B91D94F17300CA8DE1 /* TSGInternetManager.swift in Headers */,
 				D61082EA1D33BC8500EC804F /* TSGEnum.swift in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -451,7 +456,7 @@
 				2AA4509C1D1AA4B400056BD8 /* TSGUtility.swift in Sources */,
 				2AA450911D1AA4B400056BD8 /* TSGErrorManager.swift in Sources */,
 				2AA450711D1AA4B400056BD8 /* ParameterEncoding.swift in Sources */,
-				2AA450831D1AA4B400056BD8 /* Project.swift in Sources */,
+				2AA450831D1AA4B400056BD8 /* TSGProject.swift in Sources */,
 				2AA450961D1AA4B400056BD8 /* TSGServiceManager.swift in Sources */,
 				2AA450781D1AA4B400056BD8 /* Timeline.swift in Sources */,
 				2AA450901D1AA4B400056BD8 /* RequestModel.swift in Sources */,
@@ -460,20 +465,21 @@
 				2AA450951D1AA4B400056BD8 /* TSGHelper+Upload.swift in Sources */,
 				2AA450761D1AA4B400056BD8 /* ServerTrustPolicy.swift in Sources */,
 				2AA4506B1D1AA4B400056BD8 /* Download.swift in Sources */,
-				2AA4507E1D1AA4B400056BD8 /* API+CoreDataProperties.swift in Sources */,
+				2AA4507E1D1AA4B400056BD8 /* TSGAPI+CoreDataProperties.swift in Sources */,
 				2A5A2C3F1D8BCEEA003793F5 /* ImageCache.swift in Sources */,
 				2AA450971D1AA4B400056BD8 /* ServiceManager.swift in Sources */,
 				2A5A2C441D8BCEEA003793F5 /* UIImage+AlamofireImage.swift in Sources */,
 				2AA450751D1AA4B400056BD8 /* Result.swift in Sources */,
-				2AA450821D1AA4B400056BD8 /* Project+CoreDataProperties.swift in Sources */,
+				2AA450821D1AA4B400056BD8 /* TSGProject+CoreDataProperties.swift in Sources */,
 				2AA4507A1D1AA4B400056BD8 /* Validation.swift in Sources */,
 				2AA450921D1AA4B400056BD8 /* TSGErrorValuesHolder.swift in Sources */,
 				2AA4506D1D1AA4B400056BD8 /* Manager.swift in Sources */,
 				2AA4506F1D1AA4B400056BD8 /* NetworkReachabilityManager.swift in Sources */,
+				D6D677111D990285008AF7F1 /* TSGStringConstants.swift in Sources */,
 				2AA4509E1D1AA4B400056BD8 /* TSGValidationManager.swift in Sources */,
 				2AA4509D1D1AA4B400056BD8 /* TSGValidationHelper.swift in Sources */,
 				2AA450981D1AA4B400056BD8 /* TSGHelper.swift in Sources */,
-				2AA4507F1D1AA4B400056BD8 /* API.swift in Sources */,
+				2AA4507F1D1AA4B400056BD8 /* TSGAPI.swift in Sources */,
 				2A5A2C401D8BCEEA003793F5 /* ImageDownloader.swift in Sources */,
 				2A5A2C411D8BCEEA003793F5 /* ImageFilter.swift in Sources */,
 				2AA450741D1AA4B400056BD8 /* ResponseSerialization.swift in Sources */,
@@ -481,19 +487,19 @@
 				2AA450791D1AA4B400056BD8 /* Upload.swift in Sources */,
 				2AA450991D1AA4B400056BD8 /* String+Validations.swift in Sources */,
 				2AA4509B1D1AA4B400056BD8 /* TSGEnum.swift in Sources */,
+				2AEC76B81D94EF0900CA8DE1 /* TSGInternetManager.swift in Sources */,
 				2AA450721D1AA4B400056BD8 /* Request.swift in Sources */,
 				2AA450881D1AA4B400056BD8 /* JSONModelClassProperty.m in Sources */,
 				2A5A2C3E1D8BCEEA003793F5 /* Image.swift in Sources */,
 				2AA4508F1D1AA4B400056BD8 /* JSONValueTransformer.m in Sources */,
-				2AA450811D1AA4B400056BD8 /* Key.swift in Sources */,
+				2AA450811D1AA4B400056BD8 /* TSGKey.swift in Sources */,
 				2AA4508D1D1AA4B400056BD8 /* JSONKeyMapper.m in Sources */,
 				2AA4506E1D1AA4B400056BD8 /* MultipartFormData.swift in Sources */,
 				2A5A2C431D8BCEEA003793F5 /* UIButton+AlamofireImage.swift in Sources */,
-				2AA450801D1AA4B400056BD8 /* Key+CoreDataProperties.swift in Sources */,
+				2AA450801D1AA4B400056BD8 /* TSGKey+CoreDataProperties.swift in Sources */,
 				2A5A2C421D8BCEEA003793F5 /* Request+AlamofireImage.swift in Sources */,
 				2A5A2C451D8BCEEA003793F5 /* UIImageView+AlamofireImage.swift in Sources */,
 				2AA450941D1AA4B400056BD8 /* TSGHelper+Download.swift in Sources */,
-				2AA4509A1D1AA4B400056BD8 /* StringConstants.swift in Sources */,
 				2AA450861D1AA4B400056BD8 /* JSONModel.m in Sources */,
 				2AA450771D1AA4B400056BD8 /* Stream.swift in Sources */,
 				2AA4507B1D1AA4B400056BD8 /* Constants.swift in Sources */,
@@ -613,7 +619,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BITCODE_GENERATION_MODE = marker;
+				BITCODE_GENERATION_MODE = bitcode;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;

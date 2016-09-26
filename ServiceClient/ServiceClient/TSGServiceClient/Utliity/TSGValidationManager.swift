@@ -37,17 +37,17 @@ public class TSGValidationManager {
         errorMessage = ""
         TSGValidationManager.sharedInstance.validationPassed = true
         
-        if let apiObj =  API.getApiForAction(actionID) {
+        if let apiObj =  TSGAPI.getApiForAction(actionID) {
             var paramKeys:NSSet!
             var headerKeys:NSSet!
             var queryParamKeys:NSSet!
 
             switch apiObj {
                 
-            case is API:
-                paramKeys = (apiObj as! API).parameters!
-                headerKeys = (apiObj as! API).headers!
-                queryParamKeys = (apiObj as! API).queryParameters
+            case is TSGAPI:
+                paramKeys = (apiObj as! TSGAPI).parameters!
+                headerKeys = (apiObj as! TSGAPI).headers!
+                queryParamKeys = (apiObj as! TSGAPI).queryParameters
 //                if (apiObj as! API).params_parameters == 1 {
 //                    completeURL = TSGUtility.createPathParamURL(completeURL, pathParamDict: pathParamDict!)
 //                }
@@ -56,7 +56,7 @@ public class TSGValidationManager {
                 
             default:
                 errorMessage = "\(actionID) is not found"
-                TSGValidationManager.sharedInstance.tsgErrorManger!.missingactionKeyMessages((apiObj as! API).actionName!, errorMsg:errorMessage)
+                TSGValidationManager.sharedInstance.tsgErrorManger!.missingactionKeyMessages((apiObj as! TSGAPI).actionName!, errorMsg:errorMessage)
                 TSGValidationManager.sharedInstance.validationPassed = false
                 
             }
@@ -65,13 +65,13 @@ public class TSGValidationManager {
                 
                 for item in paramKeys! {
                     
-                    let keyProperty = item as! Key
+                    let keyProperty = item as! TSGKey
                     
                     let isRequired = keyProperty.required
                     var isFoundRequiredKey:Bool = false
                     
                     for key in allUserKeys {
-                        let apiParams = item as! Key
+                        let apiParams = item as! TSGKey
                         
                         if apiParams.keyName == key as? String {
                             isFoundRequiredKey = true
@@ -94,13 +94,13 @@ public class TSGValidationManager {
                 
                 for item in queryParamKeys! {
                     
-                    let keyProperty = item as! Key
+                    let keyProperty = item as! TSGKey
                     
                     let isRequired = keyProperty.required
                     var isFoundRequiredKey:Bool = false
                     
                     for key in allUserQueryKeys {
-                        let apiParams = item as! Key
+                        let apiParams = item as! TSGKey
                         
                         if apiParams.keyName == key as? String {
                             isFoundRequiredKey = true
@@ -154,7 +154,7 @@ public class TSGValidationManager {
         
         for key in headers {
             
-            let apiParams = key as! Key
+            let apiParams = key as! TSGKey
             
             if headerDict?.valueForKey(apiParams.keyName!) == nil {
                 
@@ -183,7 +183,7 @@ public class TSGValidationManager {
         }
     }
     
-    func requiredValidation(dataType:Int, apiParams:Key,dict:NSDictionary,queryDict:NSDictionary?=nil, withData data:NSData?=nil, parameterType:ParameterType) -> Void {
+    func requiredValidation(dataType:Int, apiParams:TSGKey,dict:NSDictionary,queryDict:NSDictionary?=nil, withData data:NSData?=nil, parameterType:ParameterType) -> Void {
         
         switch dataType {
         case DataType.FILE.hashValue:

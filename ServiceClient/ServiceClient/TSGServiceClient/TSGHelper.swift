@@ -12,7 +12,7 @@ import UIKit
 public class TSGHelper: NSObject
 {
     var appVersion:String?
-    var projectOBJ:Project?
+    var projectOBJ:TSGProject?
     var req:Request?
     var apiHeaderDict:NSMutableDictionary!
     
@@ -157,18 +157,18 @@ public class TSGHelper: NSObject
                 break
                 case .PRODUCTION:
                 
-                if let projectID = Project.getProjectDetail(pid) {
+                if let projectID = TSGProject.getProjectDetail(pid) {
                     getAPIVersion({ (dic) in
                         
                         if (dict.valueForKey("result") as! String).rangeOfString("Success") != nil {
-                            self.projectOBJ = projectID as? Project
+                            self.projectOBJ = projectID as? TSGProject
                             self.appVersion = self.projectOBJ!.versionNumber!
                         } else {
                             self.saveProjectID(mutDict)
                             
                         }
                         }, failure: { (_) in
-                            self.projectOBJ = projectID as? Project
+                            self.projectOBJ = projectID as? TSGProject
                             self.appVersion = self.projectOBJ!.versionNumber!
                     })
                     
@@ -185,13 +185,13 @@ public class TSGHelper: NSObject
  
     
     internal func saveProjectID(dict:NSMutableDictionary) {
-        Project.saveProjectInfo(dict)
+        TSGProject.saveProjectInfo(dict)
     }
     
     internal func getAPIVersion( sucess:(dic:NSDictionary)->(), failure:(error:NSError)-> ()){
         
         let obj = TSGHelper.sharedInstance
-        projectOBJ = Project.getProjectDetail(pid) as? Project
+        projectOBJ = TSGProject.getProjectDetail(pid) as? TSGProject
         var dict:NSDictionary!
         
         let string = projectOBJ?.projectID
@@ -235,7 +235,7 @@ public class TSGHelper: NSObject
 
             }
             
-            let apiObj:API = apiName as! API
+            let apiObj:TSGAPI = apiName as! TSGAPI
             var requestType:RequestType!
             
             for category in RequestType.allValues{
