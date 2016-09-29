@@ -122,5 +122,3 @@
 //            print("Some error")
 //
 //        }
-
-//http://blog.csdn.net/cool_bear_xx/article/details/52587104

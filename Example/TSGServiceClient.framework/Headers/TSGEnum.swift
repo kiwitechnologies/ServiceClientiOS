@@ -60,16 +60,6 @@ public enum StingFormatType:Int {
     case EMAIL
 }
 
-public enum NetworkStatus:Int {
-    
-    case Unknown
-    case NotReachable
-    case EthernetOrWiFi
-    case WWAN
-}
-
-
-
 public enum AppRuningModeType:Int {
     case PRODUCTION
     case STAGING
