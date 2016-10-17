@@ -92,9 +92,9 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 # endif
 #endif
 #if defined(__has_feature) && __has_feature(modules)
-@import CoreData;
 @import Foundation;
 @import ObjectiveC;
+@import CoreData;
 @import UIKit;
 @import CoreGraphics;
 #endif
@@ -103,60 +103,6 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
-@class NSManagedObjectContext;
-@class NSSet;
-@class NSEntityDescription;
-
-SWIFT_CLASS("_TtC16TSGServiceClient3API")
-@interface API : NSManagedObject
-+ (NSSet * _Nonnull)allProjectAPI:(id _Nonnull)dictArray context:(NSManagedObjectContext * _Nonnull)context;
-+ (id _Null_unspecified)getApiForAction:(NSString * _Nonnull)actionID;
-- (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
-@end
-
-@class NSNumber;
-@class Project;
-
-@interface API (SWIFT_EXTENSION(TSGServiceClient))
-@property (nonatomic, copy) NSString * _Nullable dev_baseURL;
-@property (nonatomic, copy) NSString * _Nullable prod_baseURL;
-@property (nonatomic, copy) NSString * _Nullable qa_baseURL;
-@property (nonatomic, copy) NSString * _Nullable stage_baseURL;
-@property (nonatomic, copy) NSString * _Nullable dummy_server_URL;
-@property (nonatomic, strong) NSNumber * _Nullable actionType;
-@property (nonatomic, copy) NSString * _Nullable actionName;
-@property (nonatomic, copy) NSString * _Nullable actionID;
-@property (nonatomic, strong) NSNumber * _Nullable params_parameters;
-@property (nonatomic, strong) Project * _Nullable project;
-@property (nonatomic, strong) NSSet * _Nullable parameters;
-@property (nonatomic, strong) NSSet * _Nullable headers;
-@property (nonatomic, strong) NSSet * _Nullable queryParameters;
-@end
-
-
-SWIFT_CLASS("_TtC16TSGServiceClient3Key")
-@interface Key : NSManagedObject
-+ (NSSet * _Nonnull)allParameters:(id _Null_unspecified)arrayDict context:(NSManagedObjectContext * _Nonnull)context;
-+ (NSSet * _Nonnull)allQueryParams:(id _Null_unspecified)arrQueryParams context:(NSManagedObjectContext * _Nonnull)context;
-+ (NSSet * _Nonnull)allHeaders:(id _Null_unspecified)arrHeaders context:(NSManagedObjectContext * _Nonnull)context;
-- (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-@interface Key (SWIFT_EXTENSION(TSGServiceClient))
-@property (nonatomic, strong) NSNumber * _Nullable format;
-@property (nonatomic, strong) NSNumber * _Nullable minimumLength;
-@property (nonatomic, strong) NSNumber * _Nullable maximumLength;
-@property (nonatomic, strong) NSNumber * _Nullable size;
-@property (nonatomic, strong) NSNumber * _Nullable dataType;
-@property (nonatomic, strong) NSNumber * _Nullable required;
-@property (nonatomic, copy) NSString * _Nullable keyName;
-@property (nonatomic, copy) NSString * _Nullable keyValues;
-@property (nonatomic, strong) API * _Nullable parameterAPI;
-@property (nonatomic, strong) API * _Nullable headerAPI;
-@property (nonatomic, strong) API * _Nullable queriesAPI;
-@end
-
 
 @interface NSURL (SWIFT_EXTENSION(TSGServiceClient))
 @property (nonatomic, readonly, copy) NSString * _Nonnull URLString;
@@ -167,6 +113,11 @@ SWIFT_CLASS("_TtC16TSGServiceClient3Key")
 @property (nonatomic, readonly, copy) NSString * _Nonnull URLString;
 @end
 
+
+@interface NSURLRequest (SWIFT_EXTENSION(TSGServiceClient))
+@property (nonatomic, readonly, copy) NSString * _Nonnull URLString;
+@end
+
 @class NSMutableURLRequest;
 
 @interface NSURLRequest (SWIFT_EXTENSION(TSGServiceClient))
@@ -174,33 +125,7 @@ SWIFT_CLASS("_TtC16TSGServiceClient3Key")
 @end
 
 
-@interface NSURLRequest (SWIFT_EXTENSION(TSGServiceClient))
-@property (nonatomic, readonly, copy) NSString * _Nonnull URLString;
-@end
-
-
 @interface NSURLSession (SWIFT_EXTENSION(TSGServiceClient))
-@end
-
-@class NSMutableDictionary;
-
-SWIFT_CLASS("_TtC16TSGServiceClient7Project")
-@interface Project : NSManagedObject
-+ (void)saveProjectInfo:(NSMutableDictionary * _Nonnull)dictionary;
-+ (BOOL)checkIfProjectIdExist:(NSString * _Nonnull)actionName;
-+ (void)deleteProject;
-+ (id _Null_unspecified)getProjectDetail:(NSString * _Nullable)projectID;
-- (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
-@end
-
-@class NSDate;
-
-@interface Project (SWIFT_EXTENSION(TSGServiceClient))
-@property (nonatomic, copy) NSString * _Nullable projectID;
-@property (nonatomic, strong) NSDate * _Nullable lastmodifiedDate;
-@property (nonatomic, strong) NSSet * _Nullable requiredAPI;
-@property (nonatomic, copy) NSString * _Nullable versionNumber;
-@property (nonatomic, copy) NSString * _Nullable apiVersion;
 @end
 
 @class NSDictionary;
@@ -233,7 +158,7 @@ SWIFT_CLASS("_TtC16TSGServiceClient12RequestModel")
 
 /// Responsible for handling all delegate callbacks for the underlying session.
 SWIFT_CLASS("_TtCC16TSGServiceClient7Manager15SessionDelegate")
-@interface SessionDelegate : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate>
+@interface SessionDelegate : NSObject <NSURLSessionTaskDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate>
 - (TaskDelegate * _Nullable)objectForKeyedSubscript:(NSURLSessionTask * _Nonnull)task;
 - (void)setObject:(TaskDelegate * _Nullable)newValue forKeyedSubscript:(NSURLSessionTask * _Nonnull)task;
 
@@ -520,7 +445,38 @@ SWIFT_CLASS("_TtCC16TSGServiceClient7Manager15SessionDelegate")
 - (void)URLSession:(NSURLSession * _Nonnull)session streamTask:(NSURLSessionStreamTask * _Nonnull)streamTask didBecomeInputStream:(NSInputStream * _Nonnull)inputStream outputStream:(NSOutputStream * _Nonnull)outputStream;
 @end
 
+@class NSManagedObjectContext;
+@class NSSet;
+@class NSEntityDescription;
+
+SWIFT_CLASS("_TtC16TSGServiceClient6TSGAPI")
+@interface TSGAPI : NSManagedObject
++ (NSSet * _Nonnull)allProjectAPI:(id _Nonnull)dictArray context:(NSManagedObjectContext * _Nonnull)context;
++ (id _Null_unspecified)getApiForAction:(NSString * _Nonnull)actionID;
+- (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NSNumber;
+@class TSGProject;
+
+@interface TSGAPI (SWIFT_EXTENSION(TSGServiceClient))
+@property (nonatomic, copy) NSString * _Nullable dev_baseURL;
+@property (nonatomic, copy) NSString * _Nullable prod_baseURL;
+@property (nonatomic, copy) NSString * _Nullable qa_baseURL;
+@property (nonatomic, copy) NSString * _Nullable stage_baseURL;
+@property (nonatomic, copy) NSString * _Nullable dummy_server_URL;
+@property (nonatomic, strong) NSNumber * _Nullable actionType;
+@property (nonatomic, copy) NSString * _Nullable actionName;
+@property (nonatomic, copy) NSString * _Nullable actionID;
+@property (nonatomic, strong) NSNumber * _Nullable params_parameters;
+@property (nonatomic, strong) TSGProject * _Nullable project;
+@property (nonatomic, strong) NSSet * _Nullable parameters;
+@property (nonatomic, strong) NSSet * _Nullable headers;
+@property (nonatomic, strong) NSSet * _Nullable queryParameters;
+@end
+
 @class TSGErrorValuesHolder;
+@class NSMutableDictionary;
 @class JSONModelError;
 @class NSCoder;
 
@@ -561,7 +517,7 @@ SWIFT_CLASS("_TtC16TSGServiceClient20TSGErrorValuesHolder")
 SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 @interface TSGHelper : NSObject
 @property (nonatomic, copy) NSString * _Nullable appVersion;
-@property (nonatomic, strong) Project * _Nullable projectOBJ;
+@property (nonatomic, strong) TSGProject * _Nullable projectOBJ;
 @property (nonatomic, strong) NSMutableDictionary * _Null_unspecified apiHeaderDict;
 @property (nonatomic, strong) NSMutableArray * _Nonnull normalActionRequest;
 @property (nonatomic, strong) NSMutableArray * _Nonnull sequentialDownloadRequest;
@@ -619,6 +575,59 @@ SWIFT_CLASS("_TtC16TSGServiceClient9TSGHelper")
 @end
 
 
+SWIFT_CLASS("_TtC16TSGServiceClient18TSGInternetManager")
+@interface TSGInternetManager : NSObject
++ (TSGInternetManager * _Nonnull)sharedInstance;
++ (void)monitorNetworkStatus;
++ (BOOL)isInternetAvailable;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC16TSGServiceClient6TSGKey")
+@interface TSGKey : NSManagedObject
++ (NSSet * _Nonnull)allParameters:(id _Null_unspecified)arrayDict context:(NSManagedObjectContext * _Nonnull)context;
++ (NSSet * _Nonnull)allQueryParams:(id _Null_unspecified)arrQueryParams context:(NSManagedObjectContext * _Nonnull)context;
++ (NSSet * _Nonnull)allHeaders:(id _Null_unspecified)arrHeaders context:(NSManagedObjectContext * _Nonnull)context;
+- (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface TSGKey (SWIFT_EXTENSION(TSGServiceClient))
+@property (nonatomic, strong) NSNumber * _Nullable format;
+@property (nonatomic, strong) NSNumber * _Nullable minimumLength;
+@property (nonatomic, strong) NSNumber * _Nullable maximumLength;
+@property (nonatomic, strong) NSNumber * _Nullable size;
+@property (nonatomic, strong) NSNumber * _Nullable dataType;
+@property (nonatomic, strong) NSNumber * _Nullable required;
+@property (nonatomic, copy) NSString * _Nullable keyName;
+@property (nonatomic, copy) NSString * _Nullable keyValues;
+@property (nonatomic, strong) TSGAPI * _Nullable parameterAPI;
+@property (nonatomic, strong) TSGAPI * _Nullable headerAPI;
+@property (nonatomic, strong) TSGAPI * _Nullable queriesAPI;
+@end
+
+
+SWIFT_CLASS("_TtC16TSGServiceClient10TSGProject")
+@interface TSGProject : NSManagedObject
++ (void)saveProjectInfo:(NSMutableDictionary * _Nonnull)dictionary;
++ (BOOL)checkIfProjectIdExist:(NSString * _Nonnull)actionName;
++ (void)deleteProject;
++ (id _Null_unspecified)getProjectDetail:(NSString * _Nullable)projectID;
+- (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NSDate;
+
+@interface TSGProject (SWIFT_EXTENSION(TSGServiceClient))
+@property (nonatomic, copy) NSString * _Nullable projectID;
+@property (nonatomic, strong) NSDate * _Nullable lastmodifiedDate;
+@property (nonatomic, strong) NSSet * _Nullable requiredAPI;
+@property (nonatomic, copy) NSString * _Nullable versionNumber;
+@property (nonatomic, copy) NSString * _Nullable apiVersion;
+@end
+
+
 SWIFT_CLASS("_TtC16TSGServiceClient10TSGUtility")
 @interface TSGUtility : NSObject
 @property (nonatomic, strong) TSGErrorManager * _Nullable tsgErrorManger;
@@ -629,9 +638,9 @@ SWIFT_CLASS("_TtC16TSGServiceClient10TSGUtility")
 
 SWIFT_CLASS("_TtC16TSGServiceClient19TSGValidationHelper")
 @interface TSGValidationHelper : NSObject
-+ (void)checkIfItsRequired:(Key * _Nonnull)obj;
-+ (void)checkFileSize:(Key * _Nonnull)obj withData:(NSData * _Nullable)data;
-+ (void)checkFormats:(Key * _Nonnull)obj withUserDict:(NSDictionary * _Nonnull)dict;
++ (void)checkIfItsRequired:(TSGKey * _Nonnull)obj;
++ (void)checkFileSize:(TSGKey * _Nonnull)obj withData:(NSData * _Nullable)data;
++ (void)checkFormats:(TSGKey * _Nonnull)obj withUserDict:(NSDictionary * _Nonnull)dict;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -657,6 +666,31 @@ SWIFT_CLASS("_TtC16TSGServiceClient19TSGValidationHelper")
 /// \returns  A new image object, or <code>nil
 /// </code> if the filter failed for any reason.
 - (UIImage * _Nullable)af_imageWithAppliedCoreImageFilter:(NSString * _Nonnull)filterName filterParameters:(NSDictionary<NSString *, id> * _Nullable)filterParameters;
+@end
+
+
+@interface UIImage (SWIFT_EXTENSION(TSGServiceClient))
+
+/// Returns a new version of the image with the corners rounded to the specified radius.
+///
+/// \param radius The radius to use when rounding the new image.
+///
+/// \param divideRadiusByImageScale Whether to divide the radius by the image scale. Set to <code>true
+/// </code> when the
+/// image has the same resolution for all screen scales such as @1x, @2x and
+/// @3x (i.e. single image from web server). Set to <code>false
+/// </code> for images loaded
+/// from an asset catalog with varying resolutions for each screen scale.
+/// <code>false
+/// </code> by default.
+///
+/// \returns  A new image object.
+- (UIImage * _Nonnull)af_imageWithRoundedCornerRadius:(CGFloat)radius divideRadiusByImageScale:(BOOL)divideRadiusByImageScale;
+
+/// Returns a new version of the image rounded into a circle.
+///
+/// \returns  A new image object.
+- (UIImage * _Nonnull)af_imageRoundedIntoCircle;
 @end
 
 
@@ -693,31 +727,6 @@ SWIFT_CLASS("_TtC16TSGServiceClient19TSGValidationHelper")
 /// </code> object, or <code>nil
 /// </code> if the method failed.
 + (UIImage * _Nullable)af_threadSafeImageWithData:(NSData * _Nonnull)data scale:(CGFloat)scale;
-@end
-
-
-@interface UIImage (SWIFT_EXTENSION(TSGServiceClient))
-
-/// Returns a new version of the image with the corners rounded to the specified radius.
-///
-/// \param radius The radius to use when rounding the new image.
-///
-/// \param divideRadiusByImageScale Whether to divide the radius by the image scale. Set to <code>true
-/// </code> when the
-/// image has the same resolution for all screen scales such as @1x, @2x and
-/// @3x (i.e. single image from web server). Set to <code>false
-/// </code> for images loaded
-/// from an asset catalog with varying resolutions for each screen scale.
-/// <code>false
-/// </code> by default.
-///
-/// \returns  A new image object.
-- (UIImage * _Nonnull)af_imageWithRoundedCornerRadius:(CGFloat)radius divideRadiusByImageScale:(BOOL)divideRadiusByImageScale;
-
-/// Returns a new version of the image rounded into a circle.
-///
-/// \returns  A new image object.
-- (UIImage * _Nonnull)af_imageRoundedIntoCircle;
 @end
 
 
